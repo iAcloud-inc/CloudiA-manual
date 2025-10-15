@@ -1,0 +1,28 @@
+# macOS system files
+.DS_Store
+
+# IDE and editor folders
+.idea/
+.vscode/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+# Build artifacts
+build/
+dist/
+site/
+docs/_build/
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
