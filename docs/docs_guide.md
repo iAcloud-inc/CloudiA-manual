@@ -57,14 +57,14 @@
 
 ---
 
-## 7) 이미지 캡처 
+## 7) 이미지 캡처
 
-- chrome custom device 추가 (1440x900) 
+- chrome custom device 추가 (1440x900)
 - chrome extension 'FireShot' 추가
-  - https://chromewebstore.google.com/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg 
-- Web debug tool > Toggle device toolbar 클릭 및 custom device로 변경 
-- 원하는 페이지에서 FireShot 실행 > 현재 화면 캡처 
-- Git Repo `/docs/assets/img/{Module}/파일명.확장자` 업로드 
+    - https://chromewebstore.google.com/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg
+- Web debug tool > Toggle device toolbar 클릭 및 custom device로 변경
+- 원하는 페이지에서 FireShot 실행 > 현재 화면 캡처
+- Git Repo `/docs/assets/img/{Module}/파일명.확장자` 업로드
 
 ---
 
