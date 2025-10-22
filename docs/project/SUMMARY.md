@@ -2,7 +2,7 @@
 
 # Project
 
-* [프로젝트 홈](project-home/README.md)
+* [프로젝트 홈](project-home/project-home.md)
 
 * [가상머신](vm/README.md)
   * [인스턴스](vm/instance/instance.md)
