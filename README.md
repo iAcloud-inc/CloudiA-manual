@@ -13,51 +13,51 @@ CloudiA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 환
 통합된 이러한 기능을 통해 CloudiA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
 ## 관리자 가이드
-- [대시보드](docs/관리자/대시보드/대시보드.md)
+- [대시보드](docs/administrator/dashboard/dashboard)
 - **모니터링**
-  - [이벤트(관리자)](docs/관리자/모니터링%28관리자%29/이벤트%28관리자%29/이벤트%28관리자%29.md)
+  - [이벤트(관리자)](docs/administrator/모니터링%28관리자%29/이벤트%28관리자%29/이벤트%28관리자%29.md)
 - **물리머신**
-  - [물리머신](docs/관리자/물리머신/물리머신.md)
-  - [노드](docs/관리자/물리머신/노드/노드.md)
-  - [노드그룹](docs/관리자/물리머신/노드그룹/노드그룹.md)
+  - [물리머신](docs/administrator/host-machine/물리머신.md)
+  - [노드](docs/administrator/host-machine/machine/machine)
+  - [노드그룹](docs/administrator/host-machine/machine-group/machine-group)
 - **접근관리**
-  - [권한](docs/관리자/접근관리/권한/권한.md)
-  - [멤버](docs/관리자/접근관리/멤버/멤버.md)
-  - [역할](docs/관리자/접근관리/역할/역할.md)
+  - [권한](docs/administrator/access-management/permission/permission)
+  - [멤버](docs/administrator/access-management/member/member)
+  - [역할](docs/administrator/access-management/role/role)
 - **프로젝트**
-  - [프로젝트 관리](docs/관리자/프로젝트/프로젝트관리/프로젝트관리.md)
-  - [공용 이미지 관리](docs/관리자/프로젝트/공용이미지관리/공용이미지관리.md)
+  - [프로젝트 관리](docs/administrator/project/project-management/project-management)
+  - [공용 이미지 관리](docs/administrator/project/image/image)
 - **환경설정**
-  - [사용자 연동](docs/관리자/환경설정/사용자연동/사용자연동.md)
-  - [알림 설정](docs/관리자/환경설정/알림설정/알림설정.md)
-  - [정책 설정](docs/관리자/환경설정/정책설정/정책설정.md)
+  - [사용자 연동](docs/administrator/setting/ldap/ldap)
+  - [알림 설정](docs/administrator/setting/알림설정/알림설정.md)
+  - [정책 설정](docs/administrator/setting/policy-setting/policy-setting)
 
 ## 사용자 가이드
-- [프로젝트 홈](docs/사용자/프로젝트홈/프로젝트홈.md)
+- [프로젝트 홈](docs/project/project-home/project-home)
 - **가상머신**
-  - [인스턴스](docs/사용자/가상머신/인스턴스/인스턴스.md)
-  - [오토스케일링 그룹](docs/사용자/가상머신/오토스케일링그룹/오토스케일링그룹.md)
-  - [선호도 그룹](docs/사용자/가상머신/선호도그룹/선호도그룹.md)
-  - [시작 템플릿](docs/사용자/가상머신/시작템플릿/시작템플릿.md)
+  - [인스턴스](docs/project/vm/instance/instance)
+  - [오토스케일링 그룹](docs/project/vm/auto-scaling/auto-scaling)
+  - [선호도 그룹](docs/project/vm/affinity-group/affinity-group)
+  - [시작 템플릿](docs/project/vm/launch-template/launch-template)
 - **네트워크**
-  - [VPC](docs/사용자/네트워크/VPC/VPC.md)
-  - [로드 밸런서](docs/사용자/네트워크/로드밸런서/로드밸런서.md)
-  - [서브넷](docs/사용자/네트워크/서브넷/서브넷.md)
-  - [외부 IP](docs/사용자/네트워크/외부IP/외부IP.md)
-  - [타겟 그룹](docs/사용자/네트워크/타겟그룹/타겟그룹.md)
-  - [포트 포워딩](docs/사용자/네트워크/포트포워딩/포트포워딩.md)
-  - [플로팅 IP](docs/사용자/네트워크/플로팅IP/플로팅IP.md)
+  - [VPC](docs/project/network/vpc/vpc)
+  - [로드 밸런서](docs/project/network/load-balancer/load-balancer)
+  - [서브넷](docs/project/network/subnet/subnet)
+  - [외부 IP](docs/project/network/public-ip/public-ip)
+  - [타겟 그룹](docs/project/network/target-group/target-group)
+  - [포트 포워딩](docs/project/network/port-forwarding/port-forwarding)
+  - [플로팅 IP](docs/project/network/floating-ip/floating-ip)
 - **네트워크 보안**
-  - [보안 그룹](docs/사용자/네트워크보안/보안그룹/보안그룹.md)
-  - [네트워크 접근 제어](docs/사용자/네트워크보안/네트워크접근제어/네트워크접근제어.md)
+  - [보안 그룹](docs/project/security/security-group/security-group)
+  - [네트워크 접근 제어](docs/project/security/nacl/nacl)
 - **스토리지**
-  - [블록](docs/사용자/스토리지/블록/블록.md)
-  - [이미지](docs/사용자/스토리지/이미지/이미지.md)
-  - [스냅샷](docs/사용자/스토리지/스냅샷/스냅샷.md)
-  - [파일 시스템](docs/사용자/스토리지/파일시스템/파일시스템.md)
+  - [블록](docs/project/storage/block/block)
+  - [이미지](docs/project/storage/image/image)
+  - [스냅샷](docs/project/storage/snapshot/snapshot)
+  - [파일 시스템](docs/project/storage/file-system/file-system)
 - **모니터링**
-  - [이벤트(사용자)](docs/사용자/모니터링%28사용자%29/이벤트%28사용자%29/이벤트%28사용자%29.md)
+  - [이벤트(사용자)](docs/project/모니터링%28사용자%29/이벤트%28사용자%29/이벤트%28사용자%29.md)
 - **쿠버네티스**
-  - [쿠버네티스](docs/사용자/쿠버네티스/쿠버네티스.md)
-  - [클러스터](docs/사용자/쿠버네티스/클러스터/클러스터.md)
+  - [쿠버네티스](docs/project/kubernetes/쿠버네티스.md)
+  - [클러스터](docs/project/kubernetes/cluster/cluster)
 
