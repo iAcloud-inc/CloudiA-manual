@@ -1,7 +1,9 @@
 <!-- /project/SUMMARY.md -->
 
 # Project
+* [CloudiA 개요](overview/overview.md)
 
+* [CloudiA 용어](glossary/glossary.md)
 
 * [프로젝트 홈](project-home/project-home.md)
 
