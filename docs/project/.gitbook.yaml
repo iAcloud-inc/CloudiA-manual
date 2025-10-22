@@ -1,0 +1,4 @@
+# docs-user/.gitbook.yaml (또는 docs-admin/.gitbook.yaml)
+root: ./
+structure:
+  summary: SUMMARY.md
