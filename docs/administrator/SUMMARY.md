@@ -1,9 +1,9 @@
 <!-- /administrator/SUMMARY.md -->
 
 # Administrator
-* [개요](overview/overview.md)
+* [CloudiA 개요](overview/overview.md)
 
-* [용어](glossary/glossary.md)
+* [CloudiA 용어](glossary/glossary.md)
 
 * [대시보드](dashboard/dashboard.md)
 
