@@ -2,7 +2,7 @@
 
 # Administrator
 
-* [대시보드](dashboard/README.md)
+* [대시보드](dashboard/dashboard.md)
 
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)
