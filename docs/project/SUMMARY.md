@@ -1,6 +1,8 @@
 <!-- /project/SUMMARY.md -->
 
 # Project
+* [개요](overview/overview.md)
+* [용어](glossary/glossary.md)
 
 * [프로젝트 홈](project-home/project-home.md)
 
