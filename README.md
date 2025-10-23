@@ -1,126 +1,64 @@
-# 문서 컨벤션 가이드 (Markdown)
+# CloudiA 매뉴얼
 
-이 문서는 저장소 내 모든 Markdown(.md) 문서에 적용되는 작성 규칙을 정의합니다.
+# CloudiA 소개
 
----
+CloudiA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 환경을 구축할 수 있도록 하는 엔터프라이즈급 IaaS 솔루션입니다. Linux 커널 기반 가상화 기술과 오픈 표준을 활용하여 AI 컴퓨팅을 포함한 다양한 워크로드를 최적화하며, 효율적인 AI 서비스 배포를 위한 GPU/NPU 가상화를 제공합니다.
 
-## 1) 폴더 구조
+## 주요 기능
+- 소프트웨어 정의 네트워킹(SDN): 고급 SDN 기술로 네트워크 유연성과 자동화를 향상합니다.
+- 고성능 스토리지: 까다로운 워크로드를 처리할 수 있는 효율적이고 확장 가능한 스토리지 솔루션을 제공합니다.
+- AI 워크로드 최적화: 인공지능·머신러닝 워크로드에 최적화된 환경을 제공합니다.
+- GPU/NPU 가상화: 하드웨어 가속 컴퓨팅을 통해 효율적인 AI 서비스 배포를 지원합니다.
 
-- 공용 이미지: `/assets/img`
-- 모듈별: `/docs/{module}/{module}.md`
-- 템플릿: `/docs/_templates/`
----
+통합된 이러한 기능을 통해 CloudiA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
-## 2) 파일명 & 제목
+## 관리자 가이드
 
-- 파일명: `모듈.md` (예: `대시보드.md`, `물리머신.md`)
-- 문서의 최상단 제목 H1은 파일명과 의미가 일치하도록 작성
-- 문서당 H1은 **한 번만** 사용
-
-```
-# 대시보드
-```
-
----
-
-## 3) 제목(Heading) 규칙
-
-- 깊이: H1(`#`) → H2(`##`) → H3(`###`) → H4(`####`)
-- 단계 건너뛰기 금지(H2 다음 H4 바로 사용 X)
-
-예)
-```
-## 개요
-### 배경
-### 범위
-## 설정
-### 사전 준비
-### 절차
-```
+- [대시보드](docs/administrator/dashboard/dashboard.md)
+- **물리머신**
+  - [노드](docs/administrator/host-machine/machine/machine.md)
+  - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
+- **프로젝트**
+  - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
+  - [공용 이미지 관리](docs/administrator/project/image/image.md)
+- **접근관리**
+  - [멤버](docs/administrator/access-management/member/member.md)
+  - [역할](docs/administrator/access-management/role/role.md)
+  - [권한](docs/administrator/access-management/permission/permission.md)
+- **모니터링**
+  - [이벤트](docs/administrator/monitoring/event/event.md)
+- **환경설정**
+  - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
+  - [알람 설정](docs/administrator/setting/alarm-setting/alarm-setting.md)
+  - [사용자 연동](docs/administrator/setting/ldap/ldap.md)
 
 ---
 
-## 5) 문체 & 용어
+## 사용자 가이드
 
-- 존댓말, 짧고 명확한 문장
-- UI 라벨은 굵게(**예: 저장**)로 표기
-- 고유명/모듈명 일관 사용 (예: 제품명 **CloudiA**)
-- 금지: 팀 내부 약어, 구현/코드 세부사항 과다 노출
-
----
-
-## 6) 링크
-
-- **상대 경로** 원칙 (레포 외부 링크 X)
-- 문장 중 링크는 자연스럽게:  
-  `자세한 내용은 [접근관리](../접근관리/역할.md)를 참고하세요.`
-
----
-
-## 7) 이미지 캡처
-
-- chrome custom device 추가 (1440x900)
-- chrome extension 'FireShot' 추가
-    - https://chromewebstore.google.com/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg
-- Web debug tool > Toggle device toolbar 클릭 및 custom device로 변경
-- 원하는 페이지에서 FireShot 실행 > 현재 화면 캡처
-- Git Repo `/docs/assets/img/{Module}/파일명.확장자` 업로드
-
----
-
-## 8) 이미지 삽입
-
-- 경로: `/assets/img/{module}/파일명.확장자`
-- 구문:
-
-```md
-![역할_목록_화면_예시)](../assets/img/접근관리/역할리스트.png)
-```
-![역할_목록_화면_예시)](../assets/img/접근관리/역할리스트.png)
-
----
-
-## 9) 표
-
-```md
-| 항목 | 설명 | 필수 |
-|---|---|---|
-| 이름 | 역할 표시명 | 예 |
-```
-
-## 10) 리스트 & 절차
-
-- 절차는 번호 리스트 사용
-- 각 단계는 **행동 동사**로 시작
-
-```md
-1. **편집**을 클릭합니다.
-2. SMTP 정보를 입력합니다.
-3. **저장**을 눌러 적용합니다.
-```
-
----
-
-## 11) 템플릿
-
-`/docs/_templates/guide-template.md` 예시:
-
-```md
-# {문서 제목}
-
-## 개요
-- 목적 
-- 선행 조건
-
-## 빠른 시작
-1.
-2.
-3.
-
-## 상세 절차
-### 단계 1
-### 단계 2[guide-template.md](docs/_templates/guide-template.md)
-
-## 변경 이력
-- 2025-10-14: 최초 작성
-```
+- [프로젝트 홈](docs/project/project-home/project-home.md)
+- **가상머신**
+  - [인스턴스](docs/project/vm/instance/instance.md)
+  - [시작 템플릿](docs/project/vm/launch-template/launch-template.md)
+  - [오토 스케일링 그룹](docs/project/vm/auto-scaling/auto-scaling.md)
+  - [선호도 그룹](docs/project/vm/affinity-group/affinity-group.md)
+- **네트워크**
+  - [VPC](docs/project/network/vpc/vpc.md)
+  - [서브넷](docs/project/network/subnet/subnet.md)
+  - [외부 IP](docs/project/network/public-ip/public-ip.md)
+  - [플로팅 IP](docs/project/network/floating-ip/floating-ip.md)
+  - [포트 포워딩](docs/project/network/port-forwarding/port-forwarding.md)
+  - [로드 밸런서](docs/project/network/load-balancer/load-balancer.md)
+  - [타겟 그룹](docs/project/network/target-group/target-group.md)
+- **네트워크 보안**
+  - [네트워크 접근 제어](docs/project/security/nacl/nacl.md)
+  - [보안그룹](docs/project/security/security-group/security-group.md)
+- **스토리지**
+  - [이미지](docs/project/storage/image/image.md)
+  - [블록](docs/project/storage/block/block.md)
+  - [파일 시스템](docs/project/storage/file-system/file-system.md)
+  - [스냅샷](docs/project/storage/snapshot/snapshot.md)
+- **쿠버네티스**
+  - [클러스터](docs/project/kubernetes/cluster/cluster.md)
+- **모니터링**
+  - [이벤트](docs/project/monitoring/event/event.md)
