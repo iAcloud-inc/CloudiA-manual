@@ -3,8 +3,6 @@
 # Administrator
 * [CloudiA 개요](overview/overview.md)
 
-* [CloudiA 용어](glossary/glossary.md)
-
 * [대시보드](dashboard/dashboard.md)
 
 * [물리 머신](host-machine/README.md)
