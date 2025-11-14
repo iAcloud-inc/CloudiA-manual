@@ -1,7 +1,7 @@
 <!-- /administrator/SUMMARY.md -->
 
 # Administrator
-* [CloudiA 개요](overview/overview.md)
+* [Cloud:iA 개요](overview/overview.md)
 
 * [대시보드](dashboard/dashboard.md)
 
