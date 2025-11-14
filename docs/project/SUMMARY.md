@@ -1,7 +1,7 @@
 <!-- /project/SUMMARY.md -->
 
 # Project
-* [CloudiA 개요](overview/overview.md)
+* [Cloud:iA 개요](overview/overview.md)
 
 * [프로젝트 관리](project-management/project-management.md)
 
