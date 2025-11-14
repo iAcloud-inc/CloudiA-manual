@@ -35,7 +35,7 @@ CloudiA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 환
 ---
 
 ## 사용자 가이드
-
+- [프로젝트 관리](docs/project/project-management/project-management.md)
 - [프로젝트 홈](docs/project/project-home/project-home.md)
 - **가상머신**
   - [인스턴스](docs/project/vm/instance/instance.md)

@@ -3,6 +3,8 @@
 # Project
 * [CloudiA 개요](overview/overview.md)
 
+* [프로젝트 관리](project-management/project-management.md)
+
 * [프로젝트 홈](project-home/project-home.md)
 
 * [가상머신](vm/README.md)
