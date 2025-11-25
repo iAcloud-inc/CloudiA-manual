@@ -11,6 +11,7 @@
   * [인스턴스](vm/instance/instance.md)
   * [시작 템플릿](vm/launch-template/launch-template.md)
   * [오토 스케일링 그룹](vm/auto-scaling/auto-scaling.md)
+  * [SSH 키](vm/ssh-key/ssh-key.md)
   * [선호도 그룹](vm/affinity-group/affinity-group.md)
 
 * [네트워크](network/README.md)
