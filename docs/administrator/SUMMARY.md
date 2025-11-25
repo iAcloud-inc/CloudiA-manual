@@ -3,7 +3,9 @@
 # Administrator
 * [Cloud:iA 개요](overview/overview.md)
 
-* [대시보드](dashboard/dashboard.md)
+* 대시보드
+  * [전체 대시보드](dashboard/total-dashboard/total-dashboard.md)
+  * [컴퓨트 대시보드](dashboard/compute-dashboard/compute-dashboard.md)
 
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)
