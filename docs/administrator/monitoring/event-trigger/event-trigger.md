@@ -70,8 +70,8 @@
   - `=`: 동일 (일부 조건 유형은 `=`만 가능)
 - **값:**  
   - CPU/메모리: 0~100 (%)  
-  - 호스트 상태: Connect / Disconnect  
-  - 이벤트 레벨: INFO/WARN/ERROR/CRITICAL  
+  - 호스트 상태: `Connect`/`Disconnect`  
+  - 이벤트 레벨: `INFO`/`WARN`/`ERROR`/`CRITICAL`  
   - 이벤트 코드: 특정 이벤트 ID
 - **쿨다운 타임:**  
   재알림 간격(초). 쿨다운 동안 동일 조건 재발생 시 추가 알림 무시.
