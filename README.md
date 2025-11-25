@@ -14,7 +14,9 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 ## 관리자 가이드
 
-- [대시보드](docs/administrator/dashboard/dashboard.md)
+- **대시보드**
+  - [전체 대시보드](docs/administrator/dashboard/total-dashboard/total-dashboard.md)
+  - [컴퓨트 대시보드](docs/administrator/dashboard/compute-dashboard/compute-dashboard.md)
 - **물리머신**
   - [노드](docs/administrator/host-machine/machine/machine.md)
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
@@ -41,6 +43,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [인스턴스](docs/project/vm/instance/instance.md)
   - [시작 템플릿](docs/project/vm/launch-template/launch-template.md)
   - [오토 스케일링 그룹](docs/project/vm/auto-scaling/auto-scaling.md)
+  - [SSH 키](docs/project/vm/ssh-key/ssh-key.md)
   - [선호도 그룹](docs/project/vm/affinity-group/affinity-group.md)
 - **네트워크**
   - [VPC](docs/project/network/vpc/vpc.md)
