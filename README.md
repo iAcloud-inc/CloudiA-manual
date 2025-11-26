@@ -14,13 +14,15 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 ## 관리자 가이드
 
-- [대시보드](docs/administrator/dashboard/dashboard.md)
+- **대시보드**
+  - [전체 대시보드](docs/administrator/dashboard/total-dashboard/total-dashboard.md)
+  - [컴퓨트 대시보드](docs/administrator/dashboard/compute-dashboard/compute-dashboard.md)
 - **물리머신**
   - [노드](docs/administrator/host-machine/machine/machine.md)
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
 - **네트워크**
   - [방화벽](docs/administrator/network/firewall/firewall.md)
-  - [보안그룹 템플릿](docs/administrator/network/security-group-template/security-group-template.md)
+  - [보안그룹 템플릿](docs/administrator/network/security-group/security-group)
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
   - [공용 이미지 관리](docs/administrator/project/image/image.md)
@@ -28,8 +30,12 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [멤버](docs/administrator/access-management/member/member.md)
   - [역할](docs/administrator/access-management/role/role.md)
   - [권한](docs/administrator/access-management/permission/permission.md)
+  - [세션](docs/administrator/access-management/session/session.md)
 - **모니터링**
   - [이벤트](docs/administrator/monitoring/event/event.md)
+  - [감사 로그](docs/administrator/monitoring/audit-log/audit-log.md)
+  - [이벤트 트리거](docs/administrator/monitoring/event-trigger/event-trigger.md)
+
 - **환경설정**
   - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
   - [알람 설정](docs/administrator/setting/alarm-setting/alarm-setting.md)
@@ -45,6 +51,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [시작 템플릿](docs/project/vm/launch-template/launch-template.md)
   - [오토 스케일링 그룹](docs/project/vm/auto-scaling/auto-scaling.md)
   - [선호도 그룹](docs/project/vm/affinity-group/affinity-group.md)
+  - [SSH 키](docs/project/vm/ssh-key/ssh-key.md)
 - **네트워크**
   - [VPC](docs/project/network/vpc/vpc.md)
   - [서브넷](docs/project/network/subnet/subnet.md)
