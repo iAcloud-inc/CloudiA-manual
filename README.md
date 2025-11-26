@@ -30,8 +30,12 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [멤버](docs/administrator/access-management/member/member.md)
   - [역할](docs/administrator/access-management/role/role.md)
   - [권한](docs/administrator/access-management/permission/permission.md)
+  - [세션](docs/administrator/access-management/session/session.md)
 - **모니터링**
   - [이벤트](docs/administrator/monitoring/event/event.md)
+  - [감사 로그](docs/administrator/monitoring/audit-log/audit-log.md)
+  - [이벤트 트리거](docs/administrator/monitoring/event-trigger/event-trigger.md)
+
 - **환경설정**
   - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
   - [알람 설정](docs/administrator/setting/alarm-setting/alarm-setting.md)
@@ -46,8 +50,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [인스턴스](docs/project/vm/instance/instance.md)
   - [시작 템플릿](docs/project/vm/launch-template/launch-template.md)
   - [오토 스케일링 그룹](docs/project/vm/auto-scaling/auto-scaling.md)
-  - [SSH 키](docs/project/vm/ssh-key/ssh-key.md)
   - [선호도 그룹](docs/project/vm/affinity-group/affinity-group.md)
+  - [SSH 키](docs/project/vm/ssh-key/ssh-key.md)
 - **네트워크**
   - [VPC](docs/project/network/vpc/vpc.md)
   - [서브넷](docs/project/network/subnet/subnet.md)
