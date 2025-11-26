@@ -22,7 +22,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
 - **네트워크**
   - [방화벽](docs/administrator/network/firewall/firewall.md)
-  - [보안그룹 템플릿](docs/administrator/network/security-group/security-group)
+  - [보안그룹 템플릿](docs/administrator/network/security-group-template/security-group-template)
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
   - [공용 이미지 관리](docs/administrator/project/image/image.md)
