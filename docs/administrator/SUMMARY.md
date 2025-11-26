@@ -13,7 +13,7 @@
 
 * [네트워크](network/README.md)
   * [방화벽](network/firewall/firewall.md)
-  * [보안그룹 템플릿](network/security-group/security-group.md)
+  * [보안그룹 템플릿](network/security-group-template/security-group-template)
 
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)
