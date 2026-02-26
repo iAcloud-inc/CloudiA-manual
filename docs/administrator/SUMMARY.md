@@ -10,6 +10,7 @@
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
+  * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
 
 * [네트워크](network/README.md)
   * [방화벽](network/firewall/firewall.md)
