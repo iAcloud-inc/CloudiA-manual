@@ -26,3 +26,7 @@ docs/_build/
 # Environment files
 .env
 .env.*
+
+# AI 
+.kiro
+docs/steering/

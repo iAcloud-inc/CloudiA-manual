@@ -10,14 +10,18 @@
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
+  * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
 
 * [네트워크](network/README.md)
   * [방화벽](network/firewall/firewall.md)
   * [보안그룹 템플릿](network/security-group-template/security-group-template)
 
+* [스토리지](storage/README.md)
+  * [스토리지 도메인](storage/storage-domain/storage-domain.md)
+  * [공용 이미지 관리](storage/public-image/public-image.md)
+
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)
-  * [공용 이미지 관리](project/image/image.md)
 
 * [접근 관리](access-management/README.md)
   * [멤버](access-management/member/member.md)

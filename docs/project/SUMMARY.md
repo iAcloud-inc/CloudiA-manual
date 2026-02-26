@@ -36,5 +36,8 @@
 * [쿠버네티스](kubernetes/README.md)
   * [클러스터](kubernetes/cluster/cluster.md)
 
+* [스케줄러](scheduler/README.md)
+  * [일정](scheduler/schedule/schedule.md)
+
 * [모니터링](monitoring/README.md)
   * [이벤트](monitoring/event/event.md)
