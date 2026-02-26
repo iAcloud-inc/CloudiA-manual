@@ -1,193 +1,145 @@
 # 사용자 연동
 
-Cloud:iA와 LDAP/AD 등 외부 디렉터리와의 연동을 관리합니다. 
+## LDAP Provider 목록
 
-## 사용자 연동 목록
+### 기본 정보
+- 페이지 크기: `10` (로컬 페이지네이션)
+- 선택 방식: 단일 선택
+- 컬럼
+  - 이름(상세 이동)
+  - ID
+  - 활성화 상태
+  - 연결 URL
 
-###  주요 작업
-- `생성`: 새 LDAP 제공자를 등록합니다.
-- `편집`: 선택한 제공자의 설정을 변경합니다.
-- `삭제`: 선택한 제공자를 제거합니다.
-- `활성화` / `비활성`: 선택 제공자의 연동을 켜거나 끕니다.
-- `더보기 ▾`
-   - `모든 사용자 동기화`: LDAP 전체 사용자를 한 번에 동기화합니다.
-   - `변경된 사용자 동기화`: 최근 변경분만 동기화합니다.
-   - `연동 해제`: 해당 LDAP의 연결을 일시 해제합니다(Edit Mode가 ‘Unsynced’일 때만 의미가 있음).
-   - `가져온 사용자 삭제`: 해당 LDAP로부터 이미 가져온 사용자 계정을 일괄 삭제합니다.
+### 상단 액션
+- 생성
+- 편집
+- 삭제
+- 활성화
+- 비활성화
+- 더보기
+  - 모든 사용자 동기화
+  - 변경된 사용자 동기화
+  - 연동 해제
+  - 가져온 사용자 삭제
 
-### 테이블 컬럼
-| 컬럼         | 설명                             |
-|------------|--------------------------------|
-| **이름**     | LDAP 제공자 표시명입니다.               |
-| **ID**     | LDAP 제공자의 내부 고유 ID(UUID)로 읽기 전용입니다. |
-| **활성화**    | 활성/비활성 여부를 표시합니다.              |
-| **연결 URL** | 연결된 LDAP 호스트:포트 정보입니다.         |
+### 상태 제약
+- 활성화 버튼: 선택 Provider가 `inactive(false)`일 때 활성
+- 비활성화 버튼: 선택 Provider가 `active(true)`일 때 활성
 
-### 행 선택 시 주의 사항
-- `더보기 ▾` 의 `가져온 사용자 삭제`는 복구할 수 없으므로 신중히 실행합니다.
+### 실행형 모달
+- 삭제 모달: `사용자 연동 삭제`
+- 실행 모달(동기화/연동해제/가져온 사용자 삭제)
+  - 타이틀: `사용자 연동`
+  - 확인 버튼: `실행`
 
+## LDAP Provider 생성/편집
 
-## 사용자 연동 생성
+### 경로 및 권한
+- 생성: `/administrator/setting/ldap/create` (`userfederation-edit`)
+- 편집: `/administrator/setting/ldap/update?prdid={providerId}` (`userfederation-edit`)
 
-### 화면 개요
+### 저장 활성 조건
+- General Options 유효
+- Connection Settings 유효 + 연결 테스트 성공
+- Authentication Settings 유효 + 인증 테스트 성공
+- Searching Required Settings 유효
 
-1) **일반 옵션** → 2) **연결 및 인증 설정** → 3) **LDAP 검색 및 업데이트** → 4) **동기화 설정** → 5) **고급 설정**  
-   하단에는 `취소` / `생성` 버튼이 있으며, 중간 단계에서 `연결 테스트`, `인증 테스트` 버튼이 제공됩니다.
+### 섹션 1. General Options
+- 이름* (최대 20)
+- Vendor* (`ad`, `other`)
 
-###  주요 작업
+### 섹션 2. Connection and Authentication
+Connection 항목
+- Connection URL*
+- Enable StartTLS
+- Use Truststore SPI (`always/never`)
+- Connection Pooling
+- Connection Timeout(ms)
+- 연결 테스트 버튼(`testConnection` / 성공 후 `reenter`)
 
-- `연결 테스트`: **연결 URL**, **StartTLS 활성화** 등 필수 항목을 입력한 뒤 LDAP 서버와의 연결 가능 여부를 확인합니다.
-- `인증 테스트`: 연결 테스트 성공 후, **바인드 DN/자격 증명**으로 인증이 성공하는지 확인합니다.
-- `생성`: 모든 필수 입력이 유효할 때 활성화됩니다.
-- `취소`: 편집 내용을 저장하지 않고 생성 페이지를 종료합니다.
+Authentication 항목
+- Bind Type* (`simple/none`)
+- Bind DN*
+- Bind Credentials*
+- 인증 테스트 버튼(`testAuthentication` / 성공 후 `reenter`)
 
-## 일반 옵션
+테스트 상태 규칙
+- 연결 테스트 성공 상태(`isTestConnection=true`)여야 상위 폼 유효
+- 인증 테스트 성공 상태(`isTestAuthentication=true`)여야 상위 폼 유효
+- `재입력(reenter)` 클릭 시 테스트 성공 상태를 해제하고 필드를 수정할 수 있음
 
-- **이름**: LDAP 제공자 표시명입니다. 목록 화면과 상세 상단에 노출됩니다.
-- **공급업체**: LDAP 공급업체 유형을 선택합니다. (예: `Active Directory`, `Other` 등)
+### 섹션 3. LDAP Searching and Updating
+필수 항목
+- Edit Mode
+- Users DN*
+- Username LDAP Attribute*
+- RDN LDAP Attribute*
+- UUID LDAP Attribute*
+- User Object Classes*
 
-### 입력 필드 유효성 
+선택 항목
+- User LDAP Filter
+- Search Scope (`ONE_LEVEL/SUBTREE`)
+- Read Timeout(ms)
+- Pagination 토글
+- Referral (`disabled/ignore/follow`)
 
-| 필드 | 허용 값/길이                                 | 비고 |
-|---|-----------------------------------------|------------------------------------------|
-| **이름** | 최대 20자, 영문 대/소문자·숫자·하이픈(`-`), 언더스코어(`_`) | **필수** |
+### 섹션 4. Synchronization Settings
+- Import Users
+- Sync Registrations
+- Batch Size
+- Periodic Full Sync + Full Sync Period(초)
+- Periodic Changed Users Sync + Changed Users Sync Period(초)
+- 주기 토글을 끄면 Period 값은 `-1`로 저장
 
+### 섹션 5. Advanced Settings
+- LDAPv3 Password Modify
+- Validate Password Policy
+- Trust Email
+- Connection Trace
 
-## 연결 및 인증 설정
-
-- **연결 URL**: LDAP 접속 주소입니다. `ldap://호스트:포트` 또는 `ldaps://호스트:포트` 형식을 사용합니다.
-- **StartTLS 활성화**: 평문 LDAP(`ldap://`) 연결을 TLS로 연결할 때 사용합니다.
-- **Truststore SPI 사용**: TLS 인증서 신뢰 저장소 사용 여부를 지정합니다.
-- **연결 풀링**: LDAP 연결 재사용을 활성화/비활성화합니다.
-- **연결 시간 초과**: LDAP 소켓 연결 타임아웃입니다(밀리초). 
-- **바인드 유형**: `none`(익명) 또는 `simple`(DN+비밀번호) 중 선택합니다.
-- **바인드 DN**: LDAP에 바인드할 계정의 DN입니다.
-- **바인드 자격 증명**: 바인드 DN 계정의 비밀번호입니다.
-
-### 입력 필드 유효성
-
-| 필드 | 허용 값/형식         | 비고 |
-|---|-----------------|---|
-| **연결 URL** | `ldap://host:port` 또는 `ldaps://host:port` | **필수** |
-| **StartTLS 활성화** | 토글(켜짐/꺼짐)       | |
-| **Truststore SPI 사용** | Always,  Never  | TLS 인증서 검증 시 사용 |
-| **연결 풀링** | 토글(켜짐/꺼짐)       |  |
-| **연결 시간 초과** | 정수 ≥ 0 (ms)     |  |
-| **바인드 유형** | `none` / `simple` | **필수** |
-| **바인드 DN** | DN 문자열          | **필수** |
-| **바인드 자격 증명** | 비밀번호 문자열        | **필수** |
-
-
-## LDAP 검색 및 업데이트
-
-- **편집 모드**: LDAP과 Cloud:iA 간 동기화 모드를 지정합니다. (`READ_ONLY` / `WRITABLE` / `UNSYNCED`)
-- **사용자 DN**: 사용자 검색의 기준이 되는 Base DN입니다. (예: `ou=users,o=iAcloud,dc=192,dc=168,dc=177,dc=10`)
-- **사용자명 LDAP 속성**: Cloud:iA `username`에 매핑할 LDAP 속성(예: `uid`).
-- **RDN LDAP 속성**: 사용자 객체의 RDN으로 사용할 속성(예: `cn`, `uid`).
-- **UUID LDAP 속성**: 사용자 객체의 고유 식별자 속성(예: `entryUUID`, `objectGUID`).
-- **사용자 객체 클래스**: 사용자 객체에 요구되는 objectClass 목록(예: `inetOrgPerson`).
-- **사용자 LDAP 필터**: 추가 필터(선택). 예: `(uid=*)`
-- **검색 범위**: `One Level` / `Subtree` 중 선택.
-- **읽기 시간 초과**: LDAP 조회 타임아웃(밀리초).
-- **페이지네이션**: 대량 사용자 조회 시 페이지 처리 사용 여부.
-- **참조**: LDAP Referral 처리 사용 여부.
-
-### 입력 필드 유효성 
-
-| 필드 | 허용 값/형식                               | 비고 |
-|---|---------------------------------------|---|
-| **편집 모드** | `READ_ONLY` / `WRITABLE` / `UNSYNCED` | **필수** |
-| **사용자 DN** | DN 문자열                                |**필수** |
-| **사용자명 LDAP 속성** | 속성명 문자열                               |**필수** |
-| **RDN LDAP 속성** | 속성명 문자열                               |**필수** |
-| **UUID LDAP 속성** | 속성명 문자열                               |**필수** |
-| **사용자 객체 클래스** | `inetOrgPerson`                       |**필수** |
-| **사용자 LDAP 필터** | LDAP 필터 구문 “'('로 시작하고 ')'로 끝나야 합니다.   |선택 |
-| **검색 범위** | `One Level` / `Subtree`               | 선택 |
-| **읽기 시간 초과** | 정수 ≥ 0 (ms)                           |선택 |
-| **페이지네이션** | `사용` / `사용 안 함`, 많은 사용자 동기화 시 권장      | 선택 |
-| **참조** | 토글(켜짐/꺼짐) ,일반적으로 꺼짐 권장    | 선택 |
+## LDAP Provider 상세
 
 
-## 동기화 설정
 
-- **사용자 가져오기**: LDAP 사용자를 Cloud:iA에 생성/저장할지 여부(ON 권장).
-- **등록 동기화**: Cloud:iA에서 생성한 사용자를 LDAP에도 생성할지 여부.
-- **배치 크기**: 동기화 시 한 트랜잭션에서 처리할 사용자 수.
-- **주기적 전체 동기화**: 모든 사용자를 주기적으로 동기화.
-- **주기적 변경된 사용자 동기화**: 변경/신규 사용자만 주기적으로 동기화.
+### 상세 영역
+- General Options
+- Connection and Authentication Settings
+- LDAP Searching and Updating
+- Synchronization Settings
+- Advanced Settings
 
-### 입력 필드 유효성 
+### 표시 포맷
+- LDAP boolean 문자열(`'true'/'false'`)은 `ON/OFF`로 표시
+- Sync period가 `-1`이면 `OFF`로 표시
 
-| 필드 | 허용 값/형식                 | 비고          |
-|---|-------------------------|-------------|
-| **사용자 가져오기** | 토글(켜짐/꺼짐), ON 권장        |선택  |
-| **등록 동기화** | 토글(켜짐/꺼짐)               | 선택  |
-| **배치 크기** | 환경에 맞게 조정               |  선택 |
-| **주기적 전체 동기화** | 토글(켜짐/꺼짐) ,-1 인경우 동기화 X|  선택 |
-| **주기적 변경된 사용자 동기화** | 토글(켜짐/꺼짐)  ,-1 인경우 동기화 X  |  선택 |
+## LDAP Mapper
 
-## 고급 설정
+### Mapper 목록
+- 위치: Provider 상세 하단
+- 페이지 크기: `5` (로컬 페이지네이션)
+- 컬럼
+  - 이름(상세 이동)
+  - ID
+  - User Model Attribute
+  - LDAP Attribute
+  - Attribute Default Value
+- 액션: 생성/편집/삭제
 
-- **LDAPv3 암호 수정 확장 작업 활성화**: LDAPv3 Password Modify 확장 사용 여부.
-- **암호 정책 검증**: Cloud:iA 비밀번호 정책을 LDAP 비밀번호 변경에도 적용.
-- **이메일 신뢰**: LDAP 이메일을 검증됨으로 간주.
-- **연결 추적**: LDAP 요청 시간/상태를 로깅.
+### Mapper 생성, 편집, 상세
 
-### 입력 필드 유효성
+### Mapper 입력 항목
+- 이름(고정값, 비활성)
+- Mapper Type(고정값, 비활성)
+- User Model Attribute(`mobileNumber/username/email`)
+- LDAP Attribute
+- Read Only 토글
+- Always Read Value From LDAP 토글
+- Is Mandatory In LDAP 토글
+- Attribute Default Value
+- Force Default Value 토글
+- Is Binary Attribute 토글
 
-| 필드 | 허용 값/형식                 |  비고 |
-|---|-------------------------|---|
-| **LDAPv3 암호 수정 확장 작업 활성화** | 토글(켜짐/꺼짐)               |  선택|
-| **암호 정책 검증** | 토글(켜짐/꺼짐),정책 충돌 가능      |  선택|
-| **이메일 신뢰** | 토글(켜짐/꺼짐)               |  선택 |
-| **연결 추적** | 토글(켜짐/꺼짐)  , 문제 해결 시 사용 |  선택 |
-
-
-## 생성 버튼 활성 조건
-
-- **필수 입력**(별표 `*`)이 모두 유효하고, `연결 테스트`와 `인증 테스트`가 성공한 경우 `생성` 버튼이 활성화됩니다.
-
-
-## 매퍼(목록/상세/생성·편집)
-
-Cloud:iA 사용자 속성과 LDAP 속성을 연결하는 규칙을 **매퍼**라고 부릅니다. 매퍼는 사용자 동기화/조회 시 프로필 필드에 직접 영향을 줍니다.
-
-### 매퍼 목록
-
-####  주요 작업
-- `매퍼 생성`: 새 매핑 규칙을 추가합니다.
-- `매퍼 편집`: 선택한 매핑 규칙을 편집합니다.
-- `매퍼 삭제`: 선택한 매핑 규칙을 제거합니다.
-
-#### 테이블 컬럼
-| 컬럼                 | 설명                                                             |
-|--------------------|----------------------------------------------------------------|
-| **이름**             | 매퍼 표시명,  ldap-telephone-to-mobile 로 고정                         |
-| **ID**             | 내부 고유 ID(UUID)로 읽기 전용입니다.                                      |
-| **매퍼 유형**          | 매퍼 타입, user-attribute-ldap-mapper 으로 고정                        |
-| **사용자 모델 속성**      | 연결할 Cloud:iA 사용자 프로필 필드(`username`, `email`, `mobileNumber` 등) |
-| **LDAP 속성**        | 대응되는 LDAP 속성명(예: `uid`, `mail`, `telephoneNumber`)             |
-| **읽기 전용**          | LDAP→Cloud:iA 단방향 여부                                           |
-| **항상 LDAP에서 값 읽기** | 조회 시 항상 LDAP 최신값 사용                                            |
-| **LDAP에서 필수 여부**   | 해당 LDAP 속성이 반드시 존재해야 함                                         |
-| **속성 기본값**         | 기본값                                                            |
-| **기본값 강제 여부**      | 기본값 강제 여부                                                      |
-| **이진 속성 여부**       | 바이너리 데이터 여부                                                    |
-> ⚠️ **주의:** 매퍼 변경은 사용자 프로필 동기화에 **즉시 영향**을 줍니다. 운영 중 필드 매핑을 바꿀 경우 기존 데이터와 충돌이 없는지 **사전 점검** 후 적용하세요.
-### 매퍼 상세
-
-#### 테이블 컬럼
-| 컬럼                 | 설명                                                            |
-|--------------------|---------------------------------------------------------------|
-| **이름**             | 매퍼 표시명,  ldap-telephone-to-mobile 로 고정                        |
-| **ID**             | 내부 고유 ID(UUID)로 읽기 전용입니다.                                     |
-| **매퍼 유형**          | 매퍼 타입, user-attribute-ldap-mapper 으로 고정                       |
-| **사용자 모델 속성**      | 연결할 Cloud:iA 사용자 프로필 필드(`username`, `email`, `mobileNumber` 등) |
-| **LDAP 속성**        | 대응되는 LDAP 속성명(예: `uid`, `mail`, `telephoneNumber`)            |
-| **읽기 전용**          | LDAP→Cloud:iA 단방향 여부                                           |
-| **항상 LDAP에서 값 읽기** | 조회 시 항상 LDAP 최신값 사용                                           |
-| **LDAP에서 필수 여부**   | 해당 LDAP 속성이 반드시 존재해야 함                                        |
-| **속성 기본값**         | 기본값                                                           |
-| **기본값 강제 여부**      | 기본값 강제 여부                                                     |
-| **이진 속성 여부**       | 바이너리 데이터 여부   
+### 저장 조건
+- 편집 모드는 기존 값 대비 변경사항이 있을 때만 저장 가능합니다.

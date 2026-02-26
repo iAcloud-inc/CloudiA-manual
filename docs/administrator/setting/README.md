@@ -3,3 +3,10 @@
 - [정책 설정](policy-setting/policy-setting.md)
 - [알림 설정](alarm-setting/alarm-setting.md)
 - [사용자 연동](ldap/ldap.md)
+
+## 빠른 비교
+| 메뉴 | 핵심 목적 | 대표 제약 |
+|---|---|---|
+| 정책 설정 | 인증/보안 기준(비밀번호, 잠금, OTP, 세션) 관리 | 변경사항 + 유효성 충족 시에만 저장 |
+| 알림 설정 | SMTP 및 웹훅 연동 설정 관리 | SMTP 미설정 시 테스트/초기화 비활성 |
+| 사용자 연동 | LDAP Provider/Mapper 및 동기화 관리 | 연결 테스트 + 인증 테스트 성공 후 저장 |
