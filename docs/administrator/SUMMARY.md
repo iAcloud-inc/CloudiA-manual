@@ -20,6 +20,7 @@
 * [스토리지](storage/README.md)
   * [스토리지 도메인](storage/storage-domain/storage-domain.md)
   * [공용 이미지 관리](storage/public-image/public-image.md)
+  * [ISO](storage/iso/iso.md)
 
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)
