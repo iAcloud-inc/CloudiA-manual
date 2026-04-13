@@ -24,8 +24,11 @@
   - 가져온 사용자 삭제
 
 ### 상태 제약
+- 편집: 1건 선택 시 활성
+- 삭제: 1건 선택 시 활성
 - 활성화 버튼: 선택 Provider가 `inactive(false)`일 때 활성
 - 비활성화 버튼: 선택 Provider가 `active(true)`일 때 활성
+- 더보기 액션은 1건 선택 시 활성화됩니다.
 
 ### 실행형 모달
 - 삭제 모달: `사용자 연동 삭제`
@@ -44,6 +47,7 @@
 - Connection Settings 유효 + 연결 테스트 성공
 - Authentication Settings 유효 + 인증 테스트 성공
 - Searching Required Settings 유효
+- Synchronization / Advanced Settings는 별도 유효성 없이 현재 입력값을 반영합니다.
 
 ### 섹션 1. General Options
 - 이름* (최대 20)
@@ -67,7 +71,8 @@ Authentication 항목
 테스트 상태 규칙
 - 연결 테스트 성공 상태(`isTestConnection=true`)여야 상위 폼 유효
 - 인증 테스트 성공 상태(`isTestAuthentication=true`)여야 상위 폼 유효
-- `재입력(reenter)` 클릭 시 테스트 성공 상태를 해제하고 필드를 수정할 수 있음
+- `재입력(reenter)` 클릭 시 테스트 성공 상태를 해제하고 필드를 다시 수정할 수 있습니다.
+- 편집 화면은 기존 저장값을 로드한 뒤 연결/인증 테스트 완료 상태로 시작합니다.
 
 ### 섹션 3. LDAP Searching and Updating
 필수 항목
@@ -82,7 +87,7 @@ Authentication 항목
 - User LDAP Filter
 - Search Scope (`ONE_LEVEL/SUBTREE`)
 - Read Timeout(ms)
-- Pagination 토글
+- Pagination 토글(`enabled/disabled`)
 - Referral (`disabled/ignore/follow`)
 
 ### 섹션 4. Synchronization Settings
@@ -101,8 +106,6 @@ Authentication 항목
 
 ## LDAP Provider 상세
 
-
-
 ### 상세 영역
 - General Options
 - Connection and Authentication Settings
@@ -113,6 +116,7 @@ Authentication 항목
 ### 표시 포맷
 - LDAP boolean 문자열(`'true'/'false'`)은 `ON/OFF`로 표시
 - Sync period가 `-1`이면 `OFF`로 표시
+- Bind Credentials 값도 상세 정보 영역에 표시됩니다.
 
 ## LDAP Mapper
 
@@ -126,6 +130,7 @@ Authentication 항목
   - LDAP Attribute
   - Attribute Default Value
 - 액션: 생성/편집/삭제
+- Mapper 목록은 단일 선택 + 로컬 페이지네이션(`5건`)으로 동작합니다.
 
 ### Mapper 생성, 편집, 상세
 
@@ -140,6 +145,13 @@ Authentication 항목
 - Attribute Default Value
 - Force Default Value 토글
 - Is Binary Attribute 토글
+- 생성 화면 기본값
+  - 이름: `ldap-telephone-to-mobile`
+  - Mapper Type: `user-attribute-ldap-mapper`
+  - User Model Attribute: `mobileNumber`
+  - LDAP Attribute: `telephoneNumber`
+  - Attribute Default Value: `0100000000`
 
 ### 저장 조건
+- 생성 모드는 별도 유효성 검사 없이 저장 가능합니다.
 - 편집 모드는 기존 값 대비 변경사항이 있을 때만 저장 가능합니다.
