@@ -13,7 +13,7 @@
   * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
 
 * [네트워크](network/README.md)
-  * [외부 IP 풀](network/ip-pool/ip-pool.md)
+  * [외부 IP 풀](network/external-ip-pool/external-ip-pool)
   * [방화벽](network/firewall/firewall.md)
   * [보안그룹 템플릿](network/security-group-template/security-group-template.md)
 
