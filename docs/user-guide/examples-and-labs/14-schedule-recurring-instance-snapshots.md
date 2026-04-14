@@ -27,15 +27,15 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 일정 이름 | `example-sched-snapshot-001` |
+| 이름 | `example-sched-snapshot-001` |
 | 설명 | `scheduled snapshot every 5 minutes` |
-| Cron 분 | `*/5` |
-| Cron 시 | `*` |
-| Cron 일 | `*` |
-| Cron 월 | `*` |
-| Cron 요일 | `*` |
-| 서비스 | `스냅샷 생성` |
-| 대상 인스턴스 | `example-instance-snapshot-001` |
+| 분 | `*/5` |
+| 시 | `*` |
+| 일 | `*` |
+| 월 | `*` |
+| 요일 | `*` |
+| 서비스 선택 | `스냅샷 생성` |
+| 인스턴스 선택 | `example-instance-snapshot-001` |
 
 ### 확인
 - 생성 요청이 성공하고 목록으로 이동합니다.
