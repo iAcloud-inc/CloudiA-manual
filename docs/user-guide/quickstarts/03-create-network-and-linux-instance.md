@@ -3,7 +3,7 @@
 이 문서는 프로젝트 사용자 관점에서 VPC/서브넷 생성 후 Linux 인스턴스를 생성하고 실행하는 절차를 안내합니다.
 
 ## 사전 준비
-- [프로젝트 생성하기](./02-프로젝트-생성하기.md) 완료
+- [프로젝트 생성하기](./02-create-project.md) 완료
 - `test-member` 계정이 `test-project`의 `project-owner`
 - 외부 IP 쿼터 1 이상
 - Linux 이미지 준비
