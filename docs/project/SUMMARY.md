@@ -17,11 +17,12 @@
 * [네트워크](network/README.md)
   * [VPC](network/vpc/vpc.md)
   * [서브넷](network/subnet/subnet.md)
-  * [외부 IP](network/public-ip/public-ip.md)
+  * [외부 IP](network/external-ip/external-ip)
   * [플로팅 IP](network/floating-ip/floating-ip.md)
   * [포트 포워딩](network/port-forwarding/port-forwarding.md)
   * [로드 밸런서](network/load-balancer/load-balancer.md)
   * [타겟 그룹](network/target-group/target-group.md)
+  * [내부 DNS](network/private-dns/private-dns.md)
 
 * [네트워크 보안](security/README.md)
   * [네트워크 접근 제어](security/nacl/nacl.md)
