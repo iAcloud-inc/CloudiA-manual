@@ -7,10 +7,7 @@
   - 예: vCPU 10 이상, RAM 20GB 이상
 - VPC, 서브넷 준비
   - 클러스터와 레지스트리에 사용할 서브넷 1개
-- `ca.crt`, `ca.key` 파일 준비
-  - (참고) 테스트용 self-signed CA 생성 예시
-    - openssl genrsa -out ca.key 4096
-    - openssl req -x509 -new -nodes -key ca.key -days 3650 -subj "/CN=kubernetes-ca" -out ca.crt
+- `ca.crt`, `ca.key` 파일 준비 ([참고](https://teams.microsoft.com/l/message/19:0decee3a-5a1e-4989-9593-9d851528f665_a0e71533-8bb1-4adb-a2ad-046796346d90@unq.gbl.spaces/1776147400302?context=%7B%22contextType%22%3A%22chat%22%7D))
 
 ## 개요
 1. [레지스트리 준비](#step-1)
