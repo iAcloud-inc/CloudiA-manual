@@ -6,7 +6,7 @@
 - CloudiA 웹 콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - [쿠버네티스 클러스터 구성하기](../quickstarts/06-configure-kubernetes-cluster.md) 완료
-- [파일시스템(NFS)으로 인스턴스 간 공유 볼륨 구성](./17-share-volumes-between-instances-with-nfs.md) 완료
+- 스토리지 클래스로 사용할 NFS 파일시스템이 사전에 준비되어 있어야 함
 
 ## 개요
 1. [스토리지 클래스 생성](#step-1)
