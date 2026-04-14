@@ -4,8 +4,8 @@
 
 ## 사전 준비
 - 프로젝트 리소스 여유
-  - 예: vCPU 6 이상, RAM 12GB 이상
-- VPC/서브넷 준비
+  - 예: vCPU 10 이상, RAM 20GB 이상
+- VPC, 서브넷 준비
   - 클러스터와 레지스트리에 사용할 서브넷 1개
 - `ca.crt`, `ca.key` 파일 준비
 
@@ -31,8 +31,8 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| VPC | `example-vpc-no-registry` |
-| 서브넷 | `example-subnet-public` |
+| VPC | `example-vpc` |
+| 서브넷 | `example-subnet` |
 
 ### 확인
 - 레지스트리 생성 중 메시지가 표시됩니다.
@@ -50,18 +50,18 @@
 4. `생성` 버튼을 클릭합니다.
 
 ### 입력 예시
-| 항목 | 값 |
-|---|---|
-| 클러스터 이름 | `create-cluster-001` |
-| VPC | `example-vpc-no-registry` |
-| 서브넷 | `example-subnet-public` |
-| 인스턴스 타입 | `t2.medium` |
-| Kubernetes 버전 | `1.33` |
-| 컨트롤 플레인 개수 | `3` |
-| 사용자 이름 | `cloudia` |
-| 비밀번호 | `cloudia` |
-| CA 인증서 | `ca.crt` |
-| 개인 키 | `ca.key` |
+| 항목 | 값                     |
+|---|-----------------------|
+| 클러스터 이름 | `example-cluster-001` |
+| VPC | `example-vpc`         |
+| 서브넷 | `example-subnet`      |
+| 인스턴스 타입 | `t2.medium`           |
+| Kubernetes 버전 | `1.35`                |
+| 컨트롤 플레인 개수 | `3`                   |
+| 사용자 이름 | `cloudia`             |
+| 비밀번호 | `cloudia`             |
+| CA 인증서 | `ca.crt`              |
+| 개인 키 | `ca.key`              |
 
 ### 확인
 - 클러스터가 목록에 `생성 중` 상태로 표시됩니다.
@@ -90,13 +90,13 @@
 5. `생성` 버튼을 클릭합니다.
 
 ### 입력 예시
-| 항목 | 값 |
-|---|---|
-| 대상 클러스터 | `create-cluster-001` |
-| 워커 노드 개수 | `1` |
-| 인스턴스 타입 | `t2.medium` |
-| 사용자 이름 | `testuser` |
-| 비밀번호 | `Test1234!` |
+| 항목 | 값                     |
+|---|-----------------------|
+| 대상 클러스터 | `example-cluster-001` |
+| 워커 노드 개수 | `2`                   |
+| 인스턴스 타입 | `t2.medium`           |
+| 사용자 이름 | `cloudia`             |
+| 비밀번호 | `cloudia`             |
 
 ### 확인
 - 컴퓨트 탭 노드 목록에 신규 워커 노드가 추가됩니다.
