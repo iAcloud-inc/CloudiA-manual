@@ -4,7 +4,7 @@
 
 ## 사전 준비
 - [프로젝트 생성하기](./02-create-project.md) 완료
-- `test-member` 계정이 `test-project`의 `project-owner`
+- `example-member` 계정이 `example-project`의 `project-owner`
 - 외부 IP 쿼터 1 이상
 - Linux 이미지 준비
   - 예: `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2`
@@ -27,12 +27,12 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 이름 | `test-vpc` |
+| 이름 | `example-vpc` |
 | CIDR | `10.0.0.0/16` |
 | 설명 | `vpc create test` |
 
 ### 확인
-- `test-vpc`가 목록에 표시됩니다.
+- `example-vpc`가 목록에 표시됩니다.
 - 기본 보안그룹이 자동 생성됩니다.
 - 외부 IP(VPC 용도)가 자동 할당됩니다.
 
@@ -48,15 +48,15 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 이름 | `test-subnet` |
-| VPC | `test-vpc` |
+| 이름 | `example-subnet` |
+| VPC | `example-vpc` |
 | CIDR | `10.0.2.0/24` |
 | 타입 | `퍼블릭 서브넷` |
 | DNS 서버 | `8.8.8.8` |
 | 설명 | `public subnet for test` |
 
 ### 확인
-- `test-subnet`이 목록에 표시됩니다.
+- `example-subnet`이 목록에 표시됩니다.
 - CIDR, 타입, DNS 값이 입력값과 일치합니다.
 
 <a id="step-3"></a>
@@ -72,14 +72,14 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 이름 | `test-instance-001` |
+| 이름 | `example-instance-001` |
 | 인스턴스 타입 | `t2.medium` |
 | 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2` |
 | 이미지 디스크 크기 | `10 GB` |
-| VPC | `test-vpc` |
-| 서브넷 | `test-subnet` |
+| VPC | `example-vpc` |
+| 서브넷 | `example-subnet` |
 | IP 주소 | `자동 할당` |
-| 보안그룹 | `test-vpc-default-sg` |
+| 보안그룹 | `example-vpc-default-sg` |
 | 사용자 이름 | `testuser` |
 | 비밀번호 | `Test1234!` |
 
@@ -92,7 +92,7 @@
 **수행 계정/화면:** `project-owner 계정` / `프로젝트 페이지`
 
 ### 절차
-1. 인스턴스 목록에서 `test-instance-001`을 선택합니다.
+1. 인스턴스 목록에서 `example-instance-001`을 선택합니다.
 2. 상태가 `종료됨`인지 확인합니다.
 3. `실행` 버튼을 클릭하고 확인 모달에서 실행을 확정합니다.
 

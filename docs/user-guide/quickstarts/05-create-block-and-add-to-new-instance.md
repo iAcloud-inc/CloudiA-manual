@@ -28,12 +28,12 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 이름 | `test-block-device-001` |
+| 이름 | `example-block-device-001` |
 | 스토리지 도메인 | `NFS-SD` |
 | 크기 | `10 GiB` |
 
 ### 확인
-- 블록 목록에 `test-block-device-001`이 표시됩니다.
+- 블록 목록에 `example-block-device-001`이 표시됩니다.
 - `부팅가능여부`가 `불가능`으로 표시됩니다.
 - `연결된 인스턴스` 값이 `-`로 표시됩니다.
 
@@ -46,24 +46,24 @@
 2. `생성` 버튼을 클릭합니다.
 3. 인스턴스 기본 정보(이름/타입/이미지/네트워크/계정)를 입력합니다.
 4. `고급 설정 > 스토리지 추가 > 블록`에서 `추가` 버튼을 클릭합니다.
-5. `test-block-device-001`을 선택해 블록 목록에 추가합니다.
+5. `example-block-device-001`을 선택해 블록 목록에 추가합니다.
 6. `생성` 버튼을 클릭합니다.
 7. 생성 완료 후 인스턴스를 실행합니다.
 
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 인스턴스 이름 | `test-instance-storage-001` |
+| 인스턴스 이름 | `example-instance-storage-001` |
 | 인스턴스 타입 | `t2.medium` |
 | 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2` |
 | 이미지 디스크 크기 | `10 GB` |
-| VPC | `test-vpc` |
-| 서브넷 | `test-subnet` |
+| VPC | `example-vpc` |
+| 서브넷 | `example-subnet` |
 | IP 주소 | `자동 할당` |
-| 보안그룹 | `test-vpc-default-sg` |
+| 보안그룹 | `example-vpc-default-sg` |
 | 사용자 이름 | `testuser` |
 | 비밀번호 | `Test1234!` |
-| 추가 블록 | `test-block-device-001` (1개) |
+| 추가 블록 | `example-block-device-001` (1개) |
 
 ### 확인
 - 인스턴스 생성 후 상태가 `생성 중 → 종료됨`으로 전환됩니다.

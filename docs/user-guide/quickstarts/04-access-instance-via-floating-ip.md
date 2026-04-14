@@ -26,12 +26,12 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 이름 | `fip-bind-001` |
-| VPC | `test-vpc` |
+| 이름 | `example-fip-001` |
+| VPC | `example-vpc` |
 | 외부 IP | `자동 할당` |
 | 리소스 연결 | `적용` |
 | 대상 유형 | `인스턴스` |
-| 인스턴스 | `test-instance-001` |
+| 인스턴스 | `example-instance-001` |
 | 내부 IP | `10.0.2.x` |
 
 ### 확인
@@ -52,7 +52,7 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 대상 보안그룹 | `test-vpc-default-sg` |
+| 대상 보안그룹 | `example-vpc-default-sg` |
 | 프로토콜 | `TCP` |
 | IP/CIDR | `0.0.0.0/0` |
 | 포트 | `22` |

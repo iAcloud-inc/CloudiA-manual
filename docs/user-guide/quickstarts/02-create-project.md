@@ -24,15 +24,15 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 프로젝트 이름 | `test-project` |
-| 설명 | `test-project-description` |
+| 프로젝트 이름 | `example-project` |
+| 설명 | `example-project-description` |
 | vCPU | `256` |
 | 메모리 | `500 GB` |
 | 디스크 | `1 TB` |
 | 외부 IP | `20` |
 
 ### 확인
-- 프로젝트 목록에 `test-project`가 표시됩니다.
+- 프로젝트 목록에 `example-project`가 표시됩니다.
 - 할당량이 `사용량 / 할당량` 형식으로 표시됩니다.
 
 <a id="step-2"></a>
@@ -41,7 +41,7 @@
 
 ### 절차
 1. `접근관리 > 멤버`로 이동합니다.
-2. `test-member` 상세 화면으로 진입합니다.
+2. `example-member` 상세 화면으로 진입합니다.
 3. 하단 `프로젝트 역할` 영역에서 `편집`을 클릭합니다.
 4. `역할 추가`를 클릭합니다.
 5. 프로젝트/역할을 선택한 후 `저장`합니다.
@@ -49,11 +49,11 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 대상 멤버 | `test-member` |
-| 대상 프로젝트 | `test-project` |
+| 대상 멤버 | `example-member` |
+| 대상 프로젝트 | `example-project` |
 | 부여 역할 | `project-owner` |
 
 ### 확인
 - 저장 성공 토스트가 표시됩니다.
-- 프로젝트 역할 목록에 `test-project / project-owner`가 추가됩니다.
+- 프로젝트 역할 목록에 `example-project / project-owner`가 추가됩니다.
 

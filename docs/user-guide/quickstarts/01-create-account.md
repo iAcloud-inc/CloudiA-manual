@@ -24,14 +24,14 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 이름 | `test-member` |
-| 이메일 | `test-member@example.com` |
+| 이름 | `example-member` |
+| 이메일 | `example-member@example.com` |
 | 비밀번호 | `iAcloud100!` |
 | 비밀번호 확인 | `iAcloud100!` |
 | 관리자 여부 | `사용 안 함` |
 
 ### 확인
-- 멤버 목록에 `test-member`가 표시됩니다.
+- 멤버 목록에 `example-member`가 표시됩니다.
 - 타입이 관리자 계정이 아닌 프로젝트 멤버로 표시됩니다.
 - 에러 팝업/토스트가 발생하지 않습니다.
 
