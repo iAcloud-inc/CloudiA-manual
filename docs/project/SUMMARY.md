@@ -25,7 +25,7 @@
   * [내부 DNS](network/private-dns/private-dns.md)
 
 * [네트워크 보안](security/README.md)
-  * [네트워크 접근 제어](security/nacl/nacl.md)
+  * [Network ACL](security/nacl/nacl.md)
   * [보안그룹](security/security-group/security-group.md)
 
 * [스토리지](storage/README.md)
