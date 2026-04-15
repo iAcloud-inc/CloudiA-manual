@@ -38,11 +38,12 @@
 > 이름 클릭으로 상세 화면에 진입할 수 없는 상태는 `생성 중`, `삭제 중`, `에러`입니다.
 
 ### 주요 작업
+
 - `생성`: 새 인스턴스를 만듭니다. 생성 버튼은 항상 표시됩니다.
 - `편집`: 선택한 **1개** 인스턴스를 수정합니다. `종료됨`, `정지됨`, `실행 중` 상태에서 사용할 수 있으며, `ISO 파일` 설치 유형의 인스턴스는 `실행 중`일 때 편집할 수 없습니다.
 - `삭제`: 선택한 **1개** 인스턴스에 대해 삭제 확인 창을 엽니다.
-    - 목록 버튼은 `생성 중`, `실행 중`, `삭제 중`, `부팅 중`, `재부팅 중`, `종료 중` 상태에서는 비활성화됩니다.
-    - 삭제 확인 창이 열리더라도, 실제 삭제는 **수동 생성 인스턴스**이고 **연결된 인스턴스 스냅샷이 0개**일 때만 실행할 수 있습니다.
+  - 목록 버튼은 `생성 중`, `실행 중`, `삭제 중`, `부팅 중`, `재부팅 중`, `종료 중` 상태에서는 비활성화됩니다.
+  - 삭제 확인 창이 열리더라도, 실제 삭제는 **수동 생성 인스턴스**이고 **연결된 인스턴스 스냅샷이 0개**일 때만 실행할 수 있습니다.
 - `실행`: 전원이 꺼진 인스턴스를 켭니다. `종료됨`, `정지됨` 상태이면서 **수동 생성** 인스턴스일 때 활성화됩니다.
 - `종료`: 실행 중인 인스턴스를 정상 종료합니다. `실행 중`, `일시 중지` 상태이면서 **수동 생성** 인스턴스일 때 활성화됩니다.
 - `재부팅`: 실행 중인 인스턴스를 다시 시작합니다. `실행 중` 상태이면서 **수동 생성** 인스턴스일 때 활성화됩니다. `SEV-ES` 보안 유형 인스턴스는 재부팅할 수 없습니다.
@@ -315,18 +316,25 @@
 다중 NIC를 사용할 때 통신이 되지 않으면, 다음 항목을 확인하십시오.
 
 1. **인터페이스별 IP와 라우팅**
-  - `ip addr`
-  - `ip route`
-  - `ip route show table all`
+
+- `ip addr`
+- `ip route`
+- `ip route show table all`
+
 2. **정책 기반 라우팅(PBR)**
-  - `ip rule`
-  - 소스 IP별로 별도 라우팅 테이블이 필요한지 확인
+
+- `ip rule`
+- 소스 IP별로 별도 라우팅 테이블이 필요한지 확인
+
 3. **`rp_filter` 설정**
-  - `sysctl net.ipv4.conf.all.rp_filter`
-  - `sysctl net.ipv4.conf.default.rp_filter`
+
+- `sysctl net.ipv4.conf.all.rp_filter`
+- `sysctl net.ipv4.conf.default.rp_filter`
+
 4. **기본 게이트웨이 중복 여부**
-  - 여러 NIC에 기본 게이트웨이를 동시에 두지 않는지 확인
-  - 필요 없는 NIC는 `never-default` 또는 더 높은 route metric을 사용해 기본 경로에서 제외
+
+- 여러 NIC에 기본 게이트웨이를 동시에 두지 않는지 확인
+- 필요 없는 NIC는 `never-default` 또는 더 높은 route metric을 사용해 기본 경로에서 제외
 
 > 권장 문구
 >
@@ -609,43 +617,147 @@ sudo systemctl status qemu-guest-agent
 
 #### Windows 게스트
 
-1. 인스턴스에 `virtio-win` 설치 매체를 연결합니다.
-2. Windows에서 **File Explorer > This PC**로 이동합니다.
-3. `virtio-win` 매체의 `guest-agent` 폴더를 엽니다.
+CloudiA는 Windows VM에 대해 `virtio-win.iso` 드라이버 미디어를 CD-ROM에 자동으로 연결합니다. Windows 게스트에서는 이 미디어를 사용해 QEMU Guest Agent와 VirtIO 드라이버를 설치합니다.
+
+1. Windows에서 **File Explorer > This PC**로 이동합니다.
+2. CD-ROM에 연결된 `virtio-win.iso` 미디어를 확인합니다.
+3. `guest-agent` 폴더를 엽니다.
 4. 게스트 OS 비트 수에 따라 다음 설치 파일을 실행합니다.
   - 32비트: `qemu-ga-i386.msi`
   - 64비트: `qemu-ga-x86_64.msi`
 5. 설치 후 **Computer Management > Services**에서 `QEMU Guest Agent` 서비스가 `Running` 상태인지 확인합니다.
 
+#### Windows VirtIO 드라이버 설치 안내
+
+Windows 게스트에서 VirtIO 장치를 정상적으로 사용하려면 `virtio-win.iso`에 포함된 드라이버를 설치해야 합니다. 가장 간단한 방법은 ISO 루트의 `virtio-win-guest-tools`를 실행해 주요 드라이버를 한 번에 설치하는 것입니다. 특정 장치만 직접 설치해야 하는 경우에는 장치 관리자 또는 Windows 설치/드라이버 선택 화면에서 해당 드라이버 폴더를 지정합니다.
+
+| 구분                     | 파일/경로                        | 설명                            |
+| ------------------------ | -------------------------------- | ------------------------------- |
+| **통합 설치 파일**       | `virtio-win-guest-tools`         | VirtIO 드라이버 통합 설치       |
+| **네트워크 드라이버**    | `NetKVM\<os-version>\amd64`      | VirtIO 네트워크 어댑터 드라이버 |
+| **VirtIO-SCSI 드라이버** | `vioscsi\<os-version>\amd64`     | VirtIO-SCSI 디스크 드라이버     |
+| **VirtIO-BLK 드라이버**  | `viostor\<os-version>\amd64`     | VirtIO Block 디스크 드라이버    |
+| **QEMU Guest Agent**     | `guest-agent\qemu-ga-x86_64.msi` | 게스트 에이전트 별도 설치 파일  |
+
+자주 사용하는 경로 예시는 다음과 같습니다.
+
+| 용도                                         | 예시 경로            |
+| -------------------------------------------- | -------------------- |
+| **Windows 11 네트워크 드라이버**             | `NetKVM\w11\amd64`   |
+| **Windows Server 2022 네트워크 드라이버**    | `NetKVM\2k22\amd64`  |
+| **Windows 11 VirtIO-SCSI 드라이버**          | `vioscsi\w11\amd64`  |
+| **Windows Server 2022 VirtIO-SCSI 드라이버** | `vioscsi\2k22\amd64` |
+
+> 참고
+>
+> - 네트워크 드라이버는 `NetKVM`을 사용합니다.
+> - 스토리지 드라이버는 디스크 버스 타입에 따라 `vioscsi` 또는 `viostor`를 사용합니다.
+> - `QEMU Guest Agent`는 드라이버와 별도로 설치하는 것이 안전합니다.
+
+#### Windows 11 초기 설정 중 네트워크 연결 문제 해결
+
+Windows 11 설치 중 네트워크 드라이버가 아직 설치되지 않아 진행이 막히는 경우에는 다음 절차로 로컬 계정 기반 설치를 계속할 수 있습니다.
+
+1. 네트워크 연결 화면에서 **Shift + F10**을 눌러 명령 프롬프트(CMD)를 엽니다.
+2. 다음 명령어를 입력하고 Enter를 누릅니다.
+
+```cmd
+OOBE\BYPASSNRO
+```
+
+3. VM이 자동으로 재부팅됩니다.
+4. 설치 과정을 다시 진행하면 네트워크 연결 화면에 **인터넷에 연결되어 있지 않음** 옵션이 표시됩니다.
+5. 해당 옵션을 선택합니다. 
+6. **제한된 설치로 계속**을 선택해 로컬 계정으로 Windows에 진입합니다. 
+7. Windows 진입 후 장치 관리자 또는 `virtio-win-guest-tools`를 사용해 `virtio-win.iso`의 VirtIO 드라이버를 설치합니다.
+
+#### Windows 11 디스크 복제 가능 상태 만들기
+
+Windows 11 템플릿 또는 골든 이미지 생성 전에는 BitLocker 자동 암호화 여부를 확인하고, 필요하면 암호화를 해제한 뒤 Sysprep을 수행하는 것이 좋습니다.
+
+1. 현재 BitLocker 상태를 확인합니다.
+
+```cmd
+manage-bde -status
+```
+
+2. 자동 Device Encryption 재활성화를 방지합니다.
+
+```cmd
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v PreventDeviceEncryption /t REG_DWORD /d 1 /f
+```
+
+3. OS 디스크의 BitLocker를 해제합니다.
+
+```cmd
+manage-bde -off C:
+```
+
+4. 데이터 디스크가 별도로 암호화된 경우에는 해당 볼륨도 해제합니다.
+
+```cmd
+manage-bde -off D:
+manage-bde -off E:
+```
+
+5. 복호화가 완료되었는지 확인합니다.
+
+```cmd
+manage-bde -status C:
+manage-bde -status D:
+manage-bde -status E:
+```
+
+6. 자동 암호화 방지 설정이 적용되었는지 확인합니다.
+
+```cmd
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v PreventDeviceEncryption
+```
+
+7. Sysprep을 실행해 복제 가능한 템플릿 상태로 정리합니다.
+
+```cmd
+cd \Windows\System32\Sysprep
+sysprep.exe /generalize
+```
+
+> 참고
+>
+> - `manage-bde -off`는 BitLocker 보호를 일시 중지하는 것이 아니라 실제 복호화를 시작합니다.
+> - 복호화 완료 전에는 스냅샷 또는 이미지 캡처를 진행하지 마십시오.
+> - `/generalize`는 SID, 장치 고유 상태, 하드웨어 종속 정보를 정리합니다. 
+
 ---
 
 ## 추가 블록 디스크와 파일 시스템 연결 확인
 
-추가 블록 디스크나 파일 시스템을 연결한 뒤에는 **CloudiA에 연결되었다는 사실**과 **게스트 OS에서 실제 사용 가능한 상태**를 모두 확인해야 합니다.
+추가 블록 디스크나 파일 시스템을 연결한 뒤에는 **CloudiA에서 연결된 상태**와 **게스트 OS에서 실제 사용 가능한 상태**를 모두 확인해야 합니다.
 
 ### 추가 블록 디스크 확인
 
 #### Linux 게스트
 
-1. 디스크가 인식되었는지 확인합니다.
+1. 인스턴스 상세 화면에서 추가 블록 디스크의 **장치 레이블**을 확인합니다.
+2. 게스트 OS에서 다음 명령어를 실행합니다.
 
 ```bash
-lsblk
-sudo fdisk -l
+lsblk -o NAME,SERIAL
 ```
 
-2. 파일 시스템과 UUID를 확인합니다.
+3. 출력 결과에서 각 디스크의 `SERIAL` 값을 확인합니다.
+4. **부트 디스크의 serial**과 CloudiA 상세 화면의 **부트 디스크 장치 레이블 숫자(ID)** 가 같은지 확인합니다.
+5. 추가 블록 디스크도 같은 방식으로 `SERIAL` 값과 장치 레이블 숫자(ID)를 비교합니다.
 
-```bash
-sudo blkid
-```
+| 단계 | 확인 명령 또는 항목                   | 기대 결과                                                    |
+| ---- | ------------------------------------- | ------------------------------------------------------------ |
+| 1    | 인스턴스 상세 화면의 디스크 정보 확인 | 디스크별 장치 레이블 숫자(ID)를 확인할 수 있음               |
+| 2    | `lsblk -o NAME,SERIAL`                | 디스크 목록과 `SERIAL` 값이 함께 표시됨                      |
+| 3    | 부트 디스크의 `SERIAL` 값 확인        | 부트 디스크의 장치 레이블 숫자(ID)와 동일한 serial이 표시됨  |
+| 4    | 추가 블록 디스크의 `SERIAL` 값 확인   | 각 추가 블록 디스크도 장치 레이블 숫자(ID)와 대응되는 serial로 식별 가능 |
 
-3. 마운트 상태를 확인합니다.
-
-```bash
-findmnt
-df -hT
-```
+> 참고
+>
+> 디스크가 여러 개 연결된 경우에는 장치 이름(`/dev/vdb`, `/dev/vdc` 등)만으로 식별하지 말고, **`SERIAL` 값과 CloudiA 상세 화면의 장치 레이블 숫자(ID)** 를 함께 비교하십시오.
 
 #### Windows 게스트
 
@@ -662,43 +774,87 @@ Get-Volume
 
 ### 파일 시스템 연결 확인
 
-#### Linux 게스트 - 공통
-
-```bash
-findmnt
-df -hT
-mount | egrep 'nfs|virtiofs'
-```
-
-#### Linux 게스트 - NFS
-
-```bash
-showmount -e <nfs-server-ip>
-mount | grep nfs
-```
+파일 시스템은 유형에 따라 확인 방법이 다릅니다. 먼저 인스턴스 상세 페이지의 **연결된 리소스 > 파일 시스템**에서 연결 상태를 확인한 뒤, 게스트 OS에서 실제 마운트 상태를 점검합니다.
 
 #### Linux 게스트 - virtiofs
 
+1. 인스턴스 상세 페이지에서 **연결된 리소스 > 파일 시스템**을 클릭합니다.
+2. virtiofs 파일 시스템이 목록에 표시되는지 확인합니다.
+3. 게스트 OS에서 다음 명령어를 실행합니다.
+
 ```bash
-mount | grep virtiofs
-findmnt -t virtiofs
+mountpoint /mnt/virtiofs
 ```
 
-#### Windows 게스트
+4. 마운트 정보를 확인합니다.
 
-Windows 게스트에서 파일 시스템 연결 확인 방법은 **연결된 파일 시스템 유형(NFS 또는 virtiofs)과 게스트 드라이버 지원 여부**에 따라 다릅니다.
-
-- **virtiofs 사용 시**: Explorer 또는 PowerShell에서 공유 드라이브가 노출되는지 확인합니다.
-- **NFS 사용 시**: Windows NFS 클라이언트 구성 여부와 마운트 방법을 먼저 확인합니다.
-- 실제 확인 시에는 다음 예시를 사용할 수 있습니다.
-
-```powershell
-Get-PSDrive -PSProvider FileSystem
+```bash
+df -h /mnt/virtiofs
 ```
+
+5. 테스트 파일을 생성합니다.
+
+```bash
+sudo sh -c 'echo "Hello ---" > /mnt/virtiofs/test-file.txt'
+```
+
+6. 파일 내용을 확인합니다.
+
+```bash
+cat /mnt/virtiofs/test-file.txt
+```
+
+7. 파일 목록을 확인합니다.
+
+```bash
+ls -la /mnt/virtiofs/
+```
+
+| 단계 | 확인 명령 또는 항목                                          | 기대 결과                                   |
+| ---- | ------------------------------------------------------------ | ------------------------------------------- |
+| 1    | 인스턴스 상세 페이지 → **연결된 리소스 > 파일 시스템**       | virtiofs 파일 시스템이 목록에 표시됨        |
+| 2    | `mountpoint /mnt/virtiofs`                                   | `/mnt/virtiofs is a mountpoint` 메시지 출력 |
+| 3    | `df -h /mnt/virtiofs`                                        | 파일시스템 용량 정보가 표시됨               |
+| 4    | `sudo sh -c 'echo "Hello ---" > /mnt/virtiofs/test-file.txt'` | 파일 생성 성공                              |
+| 5    | `cat /mnt/virtiofs/test-file.txt`                            | `Hello ---` 내용이 출력됨                   |
+| 6    | `ls -la /mnt/virtiofs/`                                      | 생성한 파일이 목록에 표시됨                 |
 
 > 참고
 >
-> Windows 게스트의 파일 시스템 마운트 절차는 파일 시스템 유형과 사용 중인 드라이버/클라이언트에 따라 달라집니다. 실제 운영 절차는 파일 시스템 매뉴얼과 함께 확인하십시오.
+> virtiofs는 마운트 여부만 확인하지 말고, **읽기/쓰기 테스트까지 수행**하는 것이 좋습니다.
+
+#### Linux 게스트 - NFS
+
+1. 게스트 OS에서 `/etc/fstab` 내용을 확인합니다.
+
+```bash
+sudo cat /etc/fstab
+```
+
+2. 출력 내용에서 NFS 마운트 설정이 있는지 확인합니다.
+
+```text
+{NFS_IP}:/mnt/nfs /mnt/nfs nfs defaults,_netdev,nofail,soft,timeo=50,retrans=2 0 0
+```
+
+3. 인스턴스 상세 페이지에서 **연결된 리소스 > 파일 시스템**을 클릭합니다.
+4. NFS 파일 시스템이 목록에 표시되는지 확인합니다.
+
+| 단계 | 확인 명령 또는 항목                                    | 기대 결과                                                    |
+| ---- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| 1    | `sudo cat /etc/fstab`                                  | fstab 파일 내용이 출력됨                                     |
+| 2    | fstab 출력 내용에서 NFS 마운트 설정 확인               | `{NFS_IP}:/mnt/nfs /mnt/nfs nfs defaults,_netdev,nofail,soft,timeo=50,retrans=2 0 0` 형식의 항목이 존재함 |
+| 3    | 인스턴스 상세 페이지 → **연결된 리소스 > 파일 시스템** | NFS 파일시스템이 목록에 표시됨                               |
+
+> 참고
+>
+> 필요하면 아래 명령어로 실제 마운트 상태를 추가로 점검할 수 있습니다.
+>
+> ```bash
+> findmnt
+> df -hT
+> mount | grep nfs
+> ```
 
 ---
 
