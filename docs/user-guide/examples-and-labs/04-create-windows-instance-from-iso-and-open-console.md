@@ -3,7 +3,7 @@
 이 문서는 ISO 설치 유형으로 Windows 인스턴스를 생성하고 콘솔에서 설치 화면을 확인하는 실습입니다.
 
 ## 사전 준비
-- CloudiA 웹 콘솔 접근 가능
+- Cloud:iA 웹콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - 인스턴스에서 사용할 VPC와 서브넷이 사전에 생성되어 있어야 함
 - Windows ISO 이미지 업로드 완료
@@ -35,7 +35,7 @@
 | 부팅 디스크 크기 | `64 GB` |
 | VPC | `example-vpc` |
 | 서브넷 | `example-public-subnet-001` |
-| 보안그룹 | `example-vpcDefaultSG` |
+| 보안그룹 | `example-vpc-default-sg` |
 
 ### 확인
 - 인스턴스 생성 후 상태가 `종료됨`으로 표시됩니다.

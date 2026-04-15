@@ -33,7 +33,7 @@
 
 ### 확인
 - `example-vpc`가 목록에 표시됩니다.
-- 기본 보안그룹이 `example-vpc-default-sg`자동 생성됩니다.
+- 기본 보안그룹이 `example-vpc-default-sg`로 자동 생성됩니다.
 - 외부 IP(VPC 용도)가 자동 할당됩니다.
 
 <a id="step-2"></a>
@@ -74,8 +74,8 @@
 |---|-------------------------------------------|
 | 이름 | `example-instance-001`                    |
 | 인스턴스 타입 | `t2.medium`                               |
-| 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64` |
-| 이미지 디스크 크기 | `30 GB`                                   |
+| OS 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64` |
+| 디스크 크기 설정 | `30 GB`                                   |
 | VPC | `example-vpc`                             |
 | 서브넷 | `example-subnet`                          |
 | IP 주소 | `자동 할당`                                   |

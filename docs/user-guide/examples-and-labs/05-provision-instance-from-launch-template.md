@@ -3,7 +3,7 @@
 이 문서는 시작 템플릿을 생성하고 템플릿 기반으로 인스턴스를 빠르게 생성하는 실습입니다.
 
 ## 사전 준비
-- CloudiA 웹 콘솔 접근 가능
+- Cloud:iA 웹콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - 시작 템플릿 생성에 사용할 VPC/서브넷/보안그룹/이미지가 사전에 준비되어 있어야 함
 
@@ -28,11 +28,11 @@
 | 템플릿 이름 | `example-launch-template-001` |
 | 설명 | `example launch template for quick provisioning` |
 | 인스턴스 타입 | `t2.medium` |
-| 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2` |
+| OS 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2` |
 | VPC | `example-vpc` |
 | 서브넷 | `example-subnet-001` |
 | IP 주소 | `자동 할당`                                   |
-| 보안그룹 | `example-vpcDefaultSG` |
+| 보안그룹 | `example-vpc-default-sg` |
 | 사용자 이름 | `cloudia` |
 | 비밀번호 | `cloudia` |
 
