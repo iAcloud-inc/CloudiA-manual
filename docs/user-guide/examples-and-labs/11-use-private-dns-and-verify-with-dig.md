@@ -6,7 +6,7 @@
 - CloudiA 웹 콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - DNS 질의용 내부 인스턴스 1대 준비(`dig` 명령어 사용 가능)
-- [포트포워딩으로 인스턴스 연결하기](./10-connect-instance-via-port-forwarding.md) 또는 인스턴스/로드밸런서/플로팅IP 리소스 준비
+- [포트 포워딩으로 인스턴스 연결하기](./10-connect-instance-via-port-forwarding.md) 또는 인스턴스/로드 밸런서/플로팅 IP 리소스 준비
 
 ## 개요
 1. [내부 DNS 생성](#step-1)
@@ -53,7 +53,7 @@
 
 ### 확인
 - 레코드 목록에 `app-1.example-svc.internal`가 표시됩니다.
-- 전체 레코드 수가 증가합니다.
+- 레코드 수가 `3개`로 표시됩니다.
 
 <a id="step-3"></a>
 ## 3단계: dig로 해석 확인
