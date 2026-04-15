@@ -3,10 +3,10 @@
 이 문서는 타겟 그룹을 먼저 만들고 로드 밸런서를 연결한 뒤 트래픽 분산 결과를 확인하는 실습입니다.
 
 ## 사전 준비
-- CloudiA 웹 콘솔 접근 가능
+- Cloud:iA 웹콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - VM 2대(`example-vm-01`, `example-vm-02`)와 클라이언트 VM 1대(`example-vm-client`) 실행 중
-- [오토스케일링 그룹을 통한 인스턴스 관리](./08-manage-instances-with-auto-scaling-group.md) 또는 수동 타겟 그룹 생성 준비
+- [오토 스케일링 그룹을 통한 인스턴스 관리](./08-manage-instances-with-auto-scaling-group.md) 또는 수동 타겟 그룹 생성 준비
 - 인스턴스 보안그룹에서 `8080/tcp` 인바운드 허용
 
 ## 개요
