@@ -22,7 +22,7 @@
   * [로드 밸런서를 활용한 트래픽 분산하기 ](examples-and-labs/09-distribute-traffic-with-load-balancer.md)
   * [포트 포워딩으로 인스턴스 연결하기 ](examples-and-labs/10-connect-instance-via-port-forwarding.md)
   * [내부 DNS 활용하기 ](examples-and-labs/11-use-private-dns-and-verify-with-dig.md)
-  * [네트워크 접근 제어 커스터마이징하기 ](examples-and-labs/12-customize-nacl-and-bind-subnet.md)
+  * [Network ACL 커스터마이징하기 ](examples-and-labs/12-customize-nacl-and-bind-subnet.md)
   * [보안그룹을 통한 인스턴스 통신 정책 만들기](examples-and-labs/13-create-security-group-traffic-policy.md)
   * [스케줄러를 통한 주기적인 인스턴스 스냅샷 생성](examples-and-labs/14-schedule-recurring-instance-snapshots.md)
   * [인스턴스 스냅샷 롤백하기](examples-and-labs/15-rollback-instance-to-snapshot.md)
