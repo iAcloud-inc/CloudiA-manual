@@ -2,6 +2,8 @@
 
 # User Guide
 
+* [사용자 가이드](SUMMARY.md)
+
 * [빠른 시작 가이드](quickstarts/README.md)
   * [Cloud:iA 계정 생성하기](quickstarts/01-create-account.md)
   * [프로젝트 생성하기](quickstarts/02-create-project.md)
@@ -13,7 +15,7 @@
 * [예제 및 실습 가이드](examples-and-labs/README.md)
   * [역할 만들기 및 권한 부여](examples-and-labs/01-create-role-and-assign-permissions.md)
   * [알림 설정 및 이벤트 트리거](examples-and-labs/02-configure-alert-and-event-trigger.md)
-  * [인스턴스 마이그레이션하기 (콜드, 라이브 둘의 차이점 설명 포함)](examples-and-labs/03-migrate-instance-cold-and-live.md)
+  * [인스턴스 마이그레이션하기](examples-and-labs/03-migrate-instance-cold-and-live.md)
   * [윈도우 가상머신 ISO 생성 및 콘솔 확인](examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)
   * [시작 템플릿을 통한 빠른 인스턴스 구성하기](examples-and-labs/05-provision-instance-from-launch-template.md)
   * [선호도 그룹을 통한 가상머신 배치하기](examples-and-labs/06-place-instances-with-affinity-group.md)
@@ -22,7 +24,7 @@
   * [로드 밸런서를 활용한 트래픽 분산하기 ](examples-and-labs/09-distribute-traffic-with-load-balancer.md)
   * [포트 포워딩으로 인스턴스 연결하기 ](examples-and-labs/10-connect-instance-via-port-forwarding.md)
   * [내부 DNS 활용하기 ](examples-and-labs/11-use-private-dns-and-verify-with-dig.md)
-  * [Network ACL 커스터마이징하기 ](examples-and-labs/12-customize-nacl-and-bind-subnet.md)
+  * [네트워크 ACL 커스터마이징하기 ](examples-and-labs/12-customize-nacl-and-bind-subnet.md)
   * [보안그룹을 통한 인스턴스 통신 정책 만들기](examples-and-labs/13-create-security-group-traffic-policy.md)
   * [스케줄러를 통한 주기적인 인스턴스 스냅샷 생성](examples-and-labs/14-schedule-recurring-instance-snapshots.md)
   * [인스턴스 스냅샷 롤백하기](examples-and-labs/15-rollback-instance-to-snapshot.md)

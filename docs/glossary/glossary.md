@@ -40,7 +40,7 @@
 
 VPC, 서브넷, 보안그룹 등으로 구성된 논리적 연결 구조로 인스턴스 간 및 외부와의 통신을 제공합니다.
 
-### **Network ACL (NACL, Network Access Control List)**
+### **네트워크 ACL (NACL, Network Access Control List)**
 
 서브넷 단위에서 트래픽을 허용하거나 차단하는 보안 규칙 집합입니다.
 
