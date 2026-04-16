@@ -15,7 +15,7 @@
 * [예제 및 실습 가이드](examples-and-labs/README.md)
   * [역할 만들기 및 권한 부여](examples-and-labs/01-create-role-and-assign-permissions.md)
   * [알림 설정 및 이벤트 트리거](examples-and-labs/02-configure-alert-and-event-trigger.md)
-  * [인스턴스 마이그레이션하기 (콜드, 라이브 둘의 차이점 설명 포함)](examples-and-labs/03-migrate-instance-cold-and-live.md)
+  * [인스턴스 마이그레이션하기](examples-and-labs/03-migrate-instance-cold-and-live.md)
   * [윈도우 가상머신 ISO 생성 및 콘솔 확인](examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)
   * [시작 템플릿을 통한 빠른 인스턴스 구성하기](examples-and-labs/05-provision-instance-from-launch-template.md)
   * [선호도 그룹을 통한 가상머신 배치하기](examples-and-labs/06-place-instances-with-affinity-group.md)
