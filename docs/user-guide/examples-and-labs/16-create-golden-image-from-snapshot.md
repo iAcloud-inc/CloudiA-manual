@@ -24,7 +24,7 @@
 ### 입력 예시
 | 항목 | 값 |
 |---|---|
-| 스냅샷 | `example-snapshot-golden-001` |
+| 스냅샷 | `example-snapshot-001` |
 | 스토리지 도메인 | `NFS-SD` |
 | 이미지 이름 | `example-golden-image-001` |
 
@@ -62,8 +62,15 @@
 | 항목 | 값 |
 |---|---|
 | 인스턴스 이름 | `example-instance-from-golden-001` |
+| 인스턴스 타입 | `t2.medium`                               |
 | OS 이미지 | `example-golden-image-001` |
-| 사용자 이름 | `example-user` |
+| 디스크 크기 설정 | `30 GB`                                   |
+| VPC | `example-vpc`                             |
+| 서브넷 | `example-subnet`                          |
+| IP 주소 | `자동 할당`                                   |
+| 보안그룹 | `example-vpc-default-sg`                  |
+| 사용자 이름 | `cloudia`                                 |
+| 비밀번호 | `cloudia`                               |
 
 ### 확인
 - 인스턴스가 정상 생성되고 `실행 중`으로 전환됩니다.
