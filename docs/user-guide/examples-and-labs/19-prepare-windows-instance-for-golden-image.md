@@ -6,7 +6,7 @@
 - Cloud:iA 웹콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - Windows ISO로 설치한 인스턴스가 준비되어 있어야 함
-- 필요하면 `virtio-win.iso`를 준비하거나 연결 가능한 환경이어야 함
+- Windows VM에서는 `virtio-win.iso`가 CloudiA에 의해 자동으로 바인드됨
 - 관련 실습을 먼저 확인하면 진행이 쉬움
   - [윈도우 가상머신 ISO 생성 및 콘솔 확인](./04-create-windows-instance-from-iso-and-open-console.md)
   - [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](./16-create-golden-image-from-snapshot.md)

@@ -7,7 +7,7 @@
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - 인스턴스에서 사용할 VPC와 서브넷이 사전에 생성되어 있어야 함
 - Windows ISO 이미지 업로드 완료
-- 필요하면 `virtio-win.iso`를 준비하거나 연결 가능한 환경이어야 함
+- Windows VM에서는 `virtio-win.iso`가 CloudiA에 의해 자동으로 바인드됨
 
 ## 개요
 1. [ISO 설치 유형으로 인스턴스 생성](#step-1)
