@@ -2,6 +2,8 @@
 
 # User Guide
 
+* [사용자 가이드](SUMMARY.md)
+
 * [빠른 시작 가이드](quickstarts/README.md)
   * [Cloud:iA 계정 생성하기](quickstarts/01-create-account.md)
   * [프로젝트 생성하기](quickstarts/02-create-project.md)
