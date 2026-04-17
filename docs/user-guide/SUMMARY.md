@@ -31,3 +31,13 @@
   * [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](examples-and-labs/16-create-golden-image-from-snapshot.md)
   * [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기 ](examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
   * [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
+  * [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
+
+* [FAQ (자주 묻는 질문)](faq/faq.md)
+  * [가상머신 생성·실행·배치](faq/faq.md#faq-vm-placement)
+  * [스냅샷·복원](faq/faq.md#faq-snapshot-restore)
+  * [Windows / ISO 설치](faq/faq.md#faq-windows-iso)
+  * [스토리지·마운트](faq/faq.md#faq-storage-mount)
+  * [배치 정책·운영](faq/faq.md#faq-placement-operations)
+  * [프로젝트·정리](faq/faq.md#faq-project-cleanup)
+  * [마이그레이션](faq/faq.md#faq-migration)
