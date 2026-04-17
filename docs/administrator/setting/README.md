@@ -1,5 +1,7 @@
 # 환경설정
 
+환경설정 섹션에서는 인증 정책, 알림 채널, 사용자 연동과 같은 전역 설정을 관리합니다.
+
 - [정책 설정](policy-setting/policy-setting.md)
 - [알림 설정](alarm-setting/alarm-setting.md)
 - [사용자 연동](ldap/ldap.md)
