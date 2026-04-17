@@ -31,3 +31,4 @@
   * [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](examples-and-labs/16-create-golden-image-from-snapshot.md)
   * [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기 ](examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
   * [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
+  * [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
