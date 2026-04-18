@@ -32,6 +32,7 @@
   * [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기 ](examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
   * [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
   * [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
+  * [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](examples-and-labs/20-install-rocky-instance-from-iso.md)
 
 * [FAQ (자주 묻는 질문)](faq/faq.md)
   * [가상머신 생성·실행·배치](faq/faq.md#faq-vm-placement)
