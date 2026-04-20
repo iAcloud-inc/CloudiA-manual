@@ -25,9 +25,9 @@
 | 항목 | 값                            |
 |---|------------------------------|
 | 이름 | `example-member`             |
-| 이메일 | `example-member@example.com` |
 | 비밀번호 | `initialPassword@123`        |
 | 비밀번호 확인 | `initialPassword@123`                |
+| 이메일 | `example-member@example.com` |
 | 관리자 여부 | `사용 안 함`                     |
 
 ### 확인
