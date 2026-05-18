@@ -93,6 +93,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [시작하기 (Getting Started)](docs/user-guide/terraform-provider/getting-started.md)
   - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/data-sources.md)
   - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/troubleshooting.md)
+  - [리소스/데이터소스 카탈로그](docs/user-guide/terraform-provider/catalog/README.md) — 프로젝트 / 네트워크 / 컴퓨트 / 스토리지
 
 - **빠른 시작 가이드**
   - [빠른 시작 가이드 홈](docs/user-guide/quickstarts/README.md)

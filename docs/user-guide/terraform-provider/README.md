@@ -48,6 +48,16 @@
 
 이미 IaC에 익숙하다면 1번을 건너뛰고 2번부터 보셔도 됩니다.
 
+### 리소스 / 데이터소스 카탈로그
+
+각 리소스와 데이터소스의 최소 동작 예제만 모은 한국어 카탈로그입니다. 전체 schema는 영문 docs를 참고하세요.
+
+- [카탈로그 홈 (전체 리소스/데이터소스 인덱스)](catalog/README.md)
+- [프로젝트 & 권한](catalog/project.md)
+- [네트워크](catalog/network.md) — VPC, subnet, security group
+- [컴퓨트](catalog/compute.md) — instance, ssh_key, snapshot, affinity_group + 7 data sources
+- [스토리지](catalog/storage.md) — volume, image, file system + 3 data sources
+
 ## 관련 자료
 
 - Cloud:iA UI 기반 사용자 가이드: [user-guide/quickstarts](../quickstarts/README.md), [user-guide/examples-and-labs](../examples-and-labs/README.md)

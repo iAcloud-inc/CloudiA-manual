@@ -2,6 +2,21 @@
 
 > 본 문서는 사내 dev 클러스터(`192.168.160.10`) 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
+## 빠른 이동
+
+1. [왜 직접 빌드해야 하나요?](#why-build)
+2. [준비물](#prereqs)
+3. [OpenTofu CLI 설치](#install-cli)
+4. [Go 설치](#install-go)
+5. [Provider 소스 받기 + 빌드](#build)
+6. [dev_overrides 설정 (핵심)](#dev-overrides)
+7. [CA 인증서 받기](#ca-cert)
+8. [환경 변수 .env 파일](#env-file)
+9. [전체 검증 — 첫 plan](#verify)
+10. [자주 막히는 지점](#pitfalls)
+11. [Provider 업데이트](#update-provider)
+
+<a id="why-build"></a>
 ## 왜 직접 빌드해야 하나요?
 
 Cloud:iA Terraform Provider는 아직 Terraform / OpenTofu Registry에 **게시되지 않은 상태**입니다 (2026-05 기준). 그래서 `tofu init`이 자동으로 다운로드받지 못합니다.
@@ -14,6 +29,7 @@ Cloud:iA Terraform Provider는 아직 Terraform / OpenTofu Registry에 **게시�
 
 게시되면 이 절차는 사라지고 `tofu init` 한 번이면 끝납니다.
 
+<a id="prereqs"></a>
 ## 0. 준비물
 
 | 항목 | 최소 버전 | 확인 명령 | 설치 안내 |
@@ -24,6 +40,7 @@ Cloud:iA Terraform Provider는 아직 Terraform / OpenTofu Registry에 **게시�
 
 > Cloud:iA dev 클러스터(`192.168.160.10`)에 접근하려면 사내 네트워크 또는 VPN이 추가로 필요합니다. CA 인증서도 사내 운영자에게서 받아두세요.
 
+<a id="install-cli"></a>
 ## 1. OpenTofu CLI 설치
 
 ### macOS (Homebrew)
@@ -54,6 +71,7 @@ tofu version
 
 > Terraform CLI를 이미 쓰고 계신다면 그대로 써도 됩니다. 명령어만 `tofu` → `terraform`으로 바꿔 읽으세요.
 
+<a id="install-go"></a>
 ## 2. Go 설치
 
 [https://go.dev/dl/](https://go.dev/dl/) 에서 OS에 맞는 패키지를 받아 설치한 뒤:
@@ -73,6 +91,7 @@ go env GOPATH
 export PATH="$(go env GOPATH)/bin:$PATH"
 ```
 
+<a id="build"></a>
 ## 3. Provider 소스 받기 + 빌드
 
 ```bash
@@ -160,6 +179,7 @@ tofu plan
 
 > ⚠️ dev_overrides가 활성화된 동안에는 `tofu init`이 의미가 없고, `terraform.lock.hcl` 파일도 만들어지지 않습니다. 그래서 처음 시도할 때 `tofu init` 단계를 **건너뛰고** 바로 `tofu plan`을 실행하면 됩니다. registry 게시 후에는 다시 `tofu init`이 필요합니다.
 
+<a id="ca-cert"></a>
 ## 5. CA 인증서 받기 (사내 dev 환경 사용 시)
 
 사내 dev 클러스터(`192.168.160.10`)는 self-signed 인증서를 씁니다. 둘 중 하나를 선택하세요.
@@ -220,6 +240,7 @@ tofu plan       # 이제 plan/apply가 정상적으로 endpoint에 붙음
 
 > `.gitignore`에 `*.env`를 추가하세요. 그리고 절대 git에 커밋하지 마세요.
 
+<a id="verify"></a>
 ## 7. 전체 검증 — 첫 plan 돌려보기
 
 `/tmp/cloudia-test/main.tf`에 최소 예시를 적고 plan을 돌립니다 (실제로는 아무것도 안 만듭니다).
@@ -267,6 +288,7 @@ Changes to Outputs:
 
 여기까지 됐다면 설치 끝. [시작하기](getting-started.md)로 넘어가서 VPC와 인스턴스를 만들어 봅니다.
 
+<a id="pitfalls"></a>
 ## 자주 막히는 지점
 
 | 증상 | 원인 / 해결 |
@@ -279,6 +301,7 @@ Changes to Outputs:
 | `401 Unauthorized` | 환경 변수 잘못 설정. [문제 해결 §인증](troubleshooting.md#auth) 참고 |
 | `connection refused` 또는 timeout | endpoint 오타 또는 VPN 미연결 |
 
+<a id="update-provider"></a>
 ## 8. provider 업데이트 (소스 갱신 후)
 
 provider 코드가 바뀌었을 때:

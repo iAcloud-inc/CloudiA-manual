@@ -6,6 +6,21 @@
 
 Cloud:iA provider를 처음 도입할 때 가장 자주 마주치는 문제를 모았습니다. credential 설정은 [인증](authentication.md), 전체 흐름은 [시작하기](getting-started.md)를 먼저 참고하세요.
 
+## 증상으로 찾기
+
+| 증상 | 이동할 섹션 |
+|---|---|
+| `401 Unauthorized` / 첫 apply 인증 실패 | [인증 §401](#auth) |
+| `403 Forbidden` / 권한 부족 | [인증 §403](#auth) |
+| `Project context is required` / `project_id is empty` | [인증 §project context](#auth) |
+| `polling timed out after 600s` / 작업이 timeout으로 실패 | [비동기 polling](#async-polling) |
+| apply가 멈춘 듯 출력이 안 나옴 | [비동기 polling §apply hang](#async-polling) |
+| 여러 VPC 동시 생성 시 5xx / vRouter 누락 | [동시성](#concurrency) |
+| `x509: certificate signed by unknown authority` | [TLS](#tls) |
+| Import 시 `Resource ID is malformed` | [Import](#import) |
+| Import는 됐는데 plan에 drift가 잡힘 | [Import §drift](#import) |
+| 위 어느 것도 아닌 새로운 에러 | [버그 리포트](#bug-report) |
+
 <a id="auth"></a>
 ## 인증
 
@@ -62,6 +77,7 @@ TF_LOG=DEBUG tofu apply
 
 `cloudia: polling requestId=...` 라인을 보세요. 같은 `requestId`가 상태 변화 없이 반복된다면 백엔드가 stuck입니다 — request ID를 들고 운영팀에 에스컬레이션하세요.
 
+<a id="concurrency"></a>
 ## 동시성
 
 ### 여러 VPC를 한 번에 apply할 때 `cloudia_vpc` Create가 간헐적으로 실패
@@ -107,6 +123,7 @@ export CLOUDIA_TLS_INSECURE=true
 
 TLS 검증을 완전히 비활성화하므로 control plane 트래픽이 MITM에 노출됩니다. **운영 환경에서는 절대 쓰지 마세요.** 사내 dev 클러스터에서만, CA 등록이 어려운 일시적 상황(예: 임시 컨테이너 안)에서 임시로 사용하세요.
 
+<a id="import"></a>
 ## Import
 
 ### `Resource ID is malformed`
@@ -127,6 +144,7 @@ project-scoped 리소스는 슬래시 구분 import key를 씁니다. 형식은 
 
 백엔드가 HCL에 명시하지 않은 기본값을 반환했을 수 있습니다. 가져온 state를 `tofu show <addr>`로 보고 HCL과 비교한 뒤, 누락된 속성을 추가하거나 drift를 수용하세요. ForceNew 속성(예: instance의 `network_id`, `image_id`)은 `plan`으로 reconcile되지 않습니다 — 리소스를 다시 만들어야 합니다.
 
+<a id="bug-report"></a>
 ## 버그 리포트
 
 위 어느 항목에도 해당하지 않으면, 다음을 모아 provider 저장소의 issue tracker에 등록해 주세요.

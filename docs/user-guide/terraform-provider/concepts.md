@@ -1,6 +1,8 @@
 # 개념 정리 — IaC가 처음이라면
 
 > 본 문서는 Infrastructure as Code(IaC), Terraform / OpenTofu, HCL 같은 용어가 처음인 분들을 위한 입문용 정리입니다. 이미 익숙하시다면 [설치하기](install.md)로 건너뛰세요.
+>
+> Cloud:iA 자체 용어(VPC, 서브넷, 인스턴스, 스토리지 도메인 등)는 [Cloud:iA 용어집](../../glossary/glossary.md)에서 확인하세요.
 
 ## 1. Infrastructure as Code (IaC)란?
 

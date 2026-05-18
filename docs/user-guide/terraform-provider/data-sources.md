@@ -77,6 +77,98 @@ locals {
 }
 ```
 
+## 컬렉션 전용 data source 사용 예
+
+singular 짝이 없는 4종 + selector singular 1종을 어떻게 쓰는지 빠르게.
+
+### `cloudia_instance_disks` — 인스턴스에 붙은 모든 디스크
+
+```hcl
+data "cloudia_instance_disks" "demo" {
+  instance_id = cloudia_instance.demo.id
+}
+
+# 부팅 디스크 1개 뽑기
+output "boot_disk_size_gib" {
+  value = one([for d in data.cloudia_instance_disks.demo.items : d.size_gib if d.is_boot])
+}
+
+# 추가 데이터 볼륨 개수
+output "data_volume_count" {
+  value = length([for d in data.cloudia_instance_disks.demo.items : d if !d.is_boot])
+}
+```
+
+### `cloudia_instance_interface` — selector singular (1:1)
+
+`lookup_id` 또는 `is_default` 둘 중 하나만 (ExactlyOneOf). 기본 NIC의 IP를 노출하는 가장 흔한 패턴:
+
+```hcl
+data "cloudia_instance_interface" "primary" {
+  instance_id = cloudia_instance.demo.id
+  is_default  = true
+}
+
+output "primary_ipv4" {
+  value = data.cloudia_instance_interface.primary.ip_address
+}
+```
+
+### `cloudia_instance_snapshots` — 인스턴스 스냅샷 목록
+
+```hcl
+data "cloudia_instance_snapshots" "demo" {
+  instance_id = cloudia_instance.demo.id
+}
+
+# 가장 최근 스냅샷 1개의 ID
+locals {
+  latest_snapshot_id = element(
+    sort([for s in data.cloudia_instance_snapshots.demo.items : s.id]),
+    length(data.cloudia_instance_snapshots.demo.items) - 1,
+  )
+}
+```
+
+### `cloudia_secure_types` — 인스턴스 보안 등급 카탈로그
+
+`cloudia_instance.secure_type`에 넣을 값 후보를 조회.
+
+```hcl
+data "cloudia_secure_types" "all" {}
+
+output "available_secure_types" {
+  value = data.cloudia_secure_types.all.items[*].name
+}
+```
+
+### `cloudia_storage_domains` — 사용 가능한 스토리지 도메인
+
+`cloudia_volume.storage_domain_id`, `cloudia_image.storage_domain_id`에 넣을 값 후보.
+
+```hcl
+data "cloudia_storage_domains" "all" {}
+
+# LOCAL 타입만 필터링 (VIRTIOFS는 LOCAL/GFS2/NFS만 허용)
+locals {
+  local_sd = [for sd in data.cloudia_storage_domains.all.items : sd if sd.type == "LOCAL"]
+}
+```
+
+### `cloudia_file_system` — 단일 파일시스템 조회 (NFS/VIRTIOFS 공통)
+
+NFS와 VIRTIOFS는 별도 리소스(`cloudia_nfs_file_system`/`cloudia_virtiofs_file_system`)지만 조회는 공통 data source 하나로 통합됩니다.
+
+```hcl
+data "cloudia_file_system" "shared" {
+  lookup_id = var.shared_fs_id
+}
+
+output "fs_kind" {
+  value = data.cloudia_file_system.shared.kind   # "NFS" 또는 "VIRTIOFS"
+}
+```
+
 ## 자주 하는 실수
 
 - **단일 참조에 plural을 쓰는 경우** — `data.cloudia_images.all.items[0].id`처럼 인덱스로 한 개를 뽑으면, 정렬 순서나 필터가 바뀔 때 plan이 흔들립니다. singular `cloudia_image`를 쓰세요.

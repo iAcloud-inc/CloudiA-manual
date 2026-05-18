@@ -41,6 +41,11 @@
   * [시작하기 (Getting Started)](terraform-provider/getting-started.md)
   * [Singular vs Plural 데이터소스](terraform-provider/data-sources.md)
   * [문제 해결 (Troubleshooting)](terraform-provider/troubleshooting.md)
+  * [리소스 / 데이터소스 카탈로그](terraform-provider/catalog/README.md)
+    * [프로젝트 & 권한](terraform-provider/catalog/project.md)
+    * [네트워크](terraform-provider/catalog/network.md)
+    * [컴퓨트](terraform-provider/catalog/compute.md)
+    * [스토리지](terraform-provider/catalog/storage.md)
 
 * [FAQ (자주 묻는 질문)](faq/faq.md)
   * [가상머신 생성·실행·배치](faq/faq.md#faq-vm-placement)
