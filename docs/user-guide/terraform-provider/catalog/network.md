@@ -31,7 +31,7 @@ resource "cloudia_vpc" "main" {
 
 **Import**: `terraform import cloudia_vpc.main <project_id>/<vpc_id>`
 
-**전체 schema**: [영문 docs/resources/vpc.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/vpc.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -51,7 +51,7 @@ resource "cloudia_subnet" "public" {
 
 **Import**: `terraform import cloudia_subnet.public <project_id>/<vpc_id>/<subnet_id>`
 
-**전체 schema**: [영문 docs/resources/subnet.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/subnet.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -89,11 +89,11 @@ resource "cloudia_security_group" "web" {
 }
 ```
 
-> SSH (22번)을 열 때는 `cidr_blocks = ["0.0.0.0/0"]` 대신 사내 IP 대역(`["10.0.0.0/8"]`)으로 좁히세요.
+> SSH (22번)을 열 때는 `cidr_blocks = ["0.0.0.0/0"]` 대신 관리자 IP 대역(`["10.0.0.0/8"]`)으로 좁히세요.
 
 **Import**: `terraform import cloudia_security_group.web <project_id>/<vpc_id>/<security_group_id>`
 
-**전체 schema**: [영문 docs/resources/security_group.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/security_group.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -105,7 +105,7 @@ VPC를 만들면 백엔드가 자동으로 생성하는 기본 SG를 **adopt(어
 ```hcl
 resource "cloudia_default_security_group" "main_default" {
   vpc_id      = cloudia_vpc.main.id
-  description = "기본 SG — 사내 대역에서만 SSH 허용"
+  description = "기본 SG — 관리자 대역에서만 SSH 허용"
 
   ingress {
     protocol    = "tcp"
@@ -120,7 +120,7 @@ resource "cloudia_default_security_group" "main_default" {
 
 **Import**: `terraform import cloudia_default_security_group.main_default <project_id>/<vpc_id>`
 
-**전체 schema**: [영문 docs/resources/default_security_group.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/default_security_group.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 

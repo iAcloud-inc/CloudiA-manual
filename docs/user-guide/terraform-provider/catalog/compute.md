@@ -27,13 +27,13 @@
 <a id="instance"></a>
 ## `cloudia_instance`
 
-가상머신 인스턴스. 가장 큰 리소스라 영문 docs를 반드시 같이 보세요.
+가상머신 인스턴스. 가장 큰 리소스입니다.
 
 ### 최소 예제
 
 ```hcl
 data "cloudia_image" "ubuntu" {
-  name = "ubuntu-24.04"
+  name = "<your-image-name>"
 }
 
 resource "cloudia_instance" "demo" {
@@ -51,7 +51,7 @@ resource "cloudia_instance" "demo" {
 `vcpu_number` + `memory_total` (MiB) 두 값으로 사이즈 결정. 카탈로그 preset을 그대로 쓰려면 `cloudia_instance_type` data source로 미러:
 
 ```hcl
-data "cloudia_instance_type" "ref" { name = "c5.xlarge" }
+data "cloudia_instance_type" "ref" { name = "<your-instance-type-name>" }
 
 resource "cloudia_instance" "from_catalog" {
   vcpu_number  = data.cloudia_instance_type.ref.vcpu_number
@@ -60,17 +60,7 @@ resource "cloudia_instance" "from_catalog" {
 }
 ```
 
-### Update 분기 (LIVE / STOP / REPLACE) — 핵심 함정
-
-수정한 필드에 따라 동작이 다릅니다.
-
-| 분기 | 어떤 필드 | 동작 |
-|---|---|---|
-| **LIVE** | `vcpu_number`/`memory_total` **증가**, `data_volume_ids`, `vnic[*].security_group_ids` | 무중단 |
-| **STOP** | `vcpu_number`/`memory_total` **감소**, `name`, `cloud_init.*`, `hardware_gpu`/`hardware_npu` 변경 등 | 자동 stop → update → run (다운타임 발생) |
-| **REPLACE** | `network_id`, `image_id`, `vnic`, `boot_block_device_size_gib`, `secure_type` 등 | terraform이 destroy + create |
-
-증가 vs 감소가 분기 다른 점 주의 — 4 vCPU → 8 vCPU는 무중단, 8 → 4는 다운타임.
+> ⚠️ **Update 동작 주의**: 변경하는 필드에 따라 무중단(LIVE) / 자동 stop-update-run(STOP, 다운타임) / 재생성(REPLACE) 중 하나로 분기됩니다. 운영 환경에서는 **반드시 `tofu plan`으로 어떤 분기인지 확인**한 뒤 apply하세요. 정확한 필드별 매핑(LIVE/STOP/REPLACE 분류, GPU/NPU 설정, cloud-init, boot disk 정책 등) **상세 가이드는 추후 작성 예정**입니다.
 
 ### Import
 
@@ -78,7 +68,7 @@ resource "cloudia_instance" "from_catalog" {
 terraform import cloudia_instance.demo <project_id>/<instance_id>
 ```
 
-**전체 schema + GPU/NPU/cloud-init/lifecycle/topology 모든 옵션**: [영문 docs/resources/instance.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/instance.md)
+**전체 schema (모든 옵션) + 상세 운영 가이드**: 추후 작성 예정 (Terraform Registry 게시 시 영문 reference 제공)
 
 ---
 
@@ -98,7 +88,7 @@ resource "cloudia_ssh_key" "me" {
 
 **Import**: `terraform import cloudia_ssh_key.me <project_id>/<ssh_key_id>`
 
-**전체 schema**: [영문 docs/resources/ssh_key.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/ssh_key.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -125,7 +115,7 @@ resource "cloudia_affinity_group" "ha_pair" {
 
 **Import**: `terraform import cloudia_affinity_group.ha_pair <project_id>/<affinity_group_id>`
 
-**전체 schema**: [영문 docs/resources/affinity_group.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/affinity_group.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -146,7 +136,7 @@ resource "cloudia_instance_snapshot" "before_upgrade" {
 
 **Import**: `terraform import cloudia_instance_snapshot.before_upgrade <project_id>/<instance_id>/<snapshot_id>`
 
-**전체 schema**: [영문 docs/resources/instance_snapshot.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/instance_snapshot.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -164,7 +154,7 @@ resource "cloudia_instance_snapshot_restore" "rollback" {
 
 > `instance_id`/`snapshot_id`를 바꾸면 RequiresReplace로 복원이 다시 수행됨. 같은 스냅샷으로 여러 번 복원하고 싶다면 리소스를 새로 만드세요.
 
-**전체 schema**: [영문 docs/resources/instance_snapshot_restore.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/instance_snapshot_restore.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -190,7 +180,7 @@ output "running_count" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/instance.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instance.md), [instances.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instances.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -215,9 +205,9 @@ output "gpu_types" {
 }
 ```
 
-> 카탈로그는 환경마다 다릅니다. 사내 dev에 등록된 타입 목록은 운영자 또는 콘솔에서 확인.
+> 카탈로그는 환경마다 다릅니다. dev/test에 등록된 타입 목록은 운영자 또는 콘솔에서 확인.
 
-**전체 schema**: [영문 docs/data-sources/instance_type.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instance_type.md), [instance_types.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instance_types.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -236,7 +226,7 @@ output "boot_disk_size_gib" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/instance_disks.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instance_disks.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -256,7 +246,7 @@ output "primary_ipv4" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/instance_interface.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instance_interface.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -275,7 +265,7 @@ output "snapshot_names" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/instance_snapshots.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/instance_snapshots.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -295,7 +285,7 @@ resource "cloudia_instance" "demo" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/ssh_key.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/ssh_key.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -312,4 +302,4 @@ output "secure_type_names" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/secure_types.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/secure_types.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정

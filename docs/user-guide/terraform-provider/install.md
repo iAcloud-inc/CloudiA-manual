@@ -1,6 +1,6 @@
 # 설치하기 (로컬 빌드 + dev_overrides)
 
-> 본 문서는 사내 dev 클러스터(`192.168.160.10`) 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서는 Cloud:iA dev/test 환경 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 ## 빠른 이동
 
@@ -38,7 +38,7 @@ Cloud:iA Terraform Provider는 아직 Terraform / OpenTofu Registry에 **게시�
 | **OpenTofu CLI** (권장) 또는 Terraform CLI | OpenTofu 최신 / Terraform 1.11+ | `tofu version` / `terraform version` | 아래 §1 |
 | **git** | 아무거나 | `git --version` | OS 패키지 매니저 |
 
-> Cloud:iA dev 클러스터(`192.168.160.10`)에 접근하려면 사내 네트워크 또는 VPN이 추가로 필요합니다. CA 인증서도 사내 운영자에게서 받아두세요.
+> Cloud:iA dev 클러스터(`<your-cloudia-endpoint>`)에 접근하려면 네트워크 접근 권한이 추가로 필요합니다. CA 인증서도 Cloud:iA 운영자에게서 받아두세요.
 
 <a id="install-cli"></a>
 ## 1. OpenTofu CLI 설치
@@ -99,8 +99,8 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 mkdir -p ~/iacloud/git
 cd ~/iacloud/git
 
-# 2) provider repo 클론
-git clone https://github.com/iacloud/terraform-provider-cloudia.git
+# 2) provider repo 클론 (저장소 URL은 Cloud:iA 운영자에게 문의 — 현재 private repo)
+git clone <provider-repo-url>
 cd terraform-provider-cloudia
 
 # 3) $GOPATH/bin에 provider 바이너리 설치 (권장)
@@ -180,13 +180,13 @@ tofu plan
 > ⚠️ dev_overrides가 활성화된 동안에는 `tofu init`이 의미가 없고, `terraform.lock.hcl` 파일도 만들어지지 않습니다. 그래서 처음 시도할 때 `tofu init` 단계를 **건너뛰고** 바로 `tofu plan`을 실행하면 됩니다. registry 게시 후에는 다시 `tofu init`이 필요합니다.
 
 <a id="ca-cert"></a>
-## 5. CA 인증서 받기 (사내 dev 환경 사용 시)
+## 5. CA 인증서 받기 (dev/test 환경 사용 시)
 
-사내 dev 클러스터(`192.168.160.10`)는 self-signed 인증서를 씁니다. 둘 중 하나를 선택하세요.
+Cloud:iA dev/test 환경는 self-signed 인증서를 씁니다. 둘 중 하나를 선택하세요.
 
-### 옵션 A — 사내 CA를 시스템 trust store에 등록 (권장)
+### 옵션 A — 운영자 발급 CA를 시스템 trust store에 등록 (권장)
 
-CA 인증서 파일(`<your-ca-bundle>`, 사내 운영자에게서 발급)을 받아둔 뒤:
+CA 인증서 파일(`<your-ca-bundle>`, Cloud:iA 운영자에게서 발급)을 받아둔 뒤:
 
 **macOS:**
 ```bash
@@ -215,8 +215,8 @@ CA 등록이 번거롭다면 환경 변수 `CLOUDIA_TLS_INSECURE=true`만 켜면
 `~/cloudia-dev.env`:
 
 ```bash
-# Cloud:iA dev cluster (192.168.160.10) 접속용
-export CLOUDIA_ENDPOINT=https://192.168.160.10
+# Cloud:iA dev cluster (<your-cloudia-endpoint>) 접속용
+export CLOUDIA_ENDPOINT=<your-cloudia-endpoint>
 export CLOUDIA_API_BASE_PATH=/cloudia
 export CLOUDIA_TLS_INSECURE=true   # CA 등록했다면 제거
 
@@ -224,11 +224,11 @@ export CLOUDIA_TLS_INSECURE=true   # CA 등록했다면 제거
 export CLOUDIA_AUTH_TYPE=password
 export CLOUDIA_AUTH_USERNAME='<your-username>'      # 사내 Cloud:iA 계정명
 export CLOUDIA_AUTH_PASSWORD='<your-password>'      # 절대 git에 올리지 말 것
-export CLOUDIA_AUTH_CLIENT_ID=cloudia-secure-login
-export CLOUDIA_AUTH_CLIENT_SECRET='<your-client-secret>'   # 사내 운영자에게 발급 요청
+export CLOUDIA_AUTH_CLIENT_ID=<your-client-id>
+export CLOUDIA_AUTH_CLIENT_SECRET='<your-client-secret>'   # Cloud:iA 운영자에게 발급 요청
 
 # (선택) 기본 project context
-export CLOUDIA_PROJECT_ID='<your-project-id>'       # 사내 dev 예시: 25
+export CLOUDIA_PROJECT_ID='<your-project-id>'       # dev/test 예시: 25
 ```
 
 사용:
@@ -255,7 +255,7 @@ terraform {
 }
 
 provider "cloudia" {
-  endpoint      = "https://192.168.160.10"
+  endpoint      = "<your-cloudia-endpoint>"
   api_base_path = "/cloudia"
   tls_insecure  = true   # CA 등록했다면 제거
 

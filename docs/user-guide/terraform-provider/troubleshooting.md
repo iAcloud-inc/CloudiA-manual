@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/troubleshooting.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider를 처음 도입할 때 가장 자주 마주치는 문제를 모았습니다. credential 설정은 [인증](authentication.md), 전체 흐름은 [시작하기](getting-started.md)를 먼저 참고하세요.
 
@@ -29,7 +29,7 @@ Cloud:iA provider를 처음 도입할 때 가장 자주 마주치는 문제를 �
 `/oauth2/token`으로의 OAuth2 토큰 요청이 실패했습니다. 다음을 순서대로 확인하세요.
 
 1. `auth.type = "password"` (기본)일 때: `CLOUDIA_AUTH_USERNAME` / `CLOUDIA_AUTH_PASSWORD`가 대상 `CLOUDIA_ENDPOINT`의 실제 계정과 일치하는지.
-2. `CLOUDIA_AUTH_CLIENT_ID` / `CLOUDIA_AUTH_CLIENT_SECRET`가 백엔드에 등록된 OAuth2 client에 대응하는지. `password`에서 쓰는 client (예: `cloudia-secure-login` 같은 login client)는 사용자 credential과 *별개*이고, `client_credentials`용 service-account client와도 *다릅니다* — 각 client 발급 절차는 Cloud:iA 운영자에게 확인하세요.
+2. `CLOUDIA_AUTH_CLIENT_ID` / `CLOUDIA_AUTH_CLIENT_SECRET`가 백엔드에 등록된 OAuth2 client에 대응하는지. `password`에서 쓰는 client (예: `<your-client-id>` 같은 login client)는 사용자 credential과 *별개*이고, `client_credentials`용 service-account client와도 *다릅니다* — 각 client 발급 절차는 Cloud:iA 운영자에게 확인하세요.
 3. `CLOUDIA_API_BASE_PATH`가 대상 환경에 맞는지 (예: API를 subpath 아래에 마운트한 설치에서는 `/cloudia`).
 4. `auth.type = "client_credentials"`이면 `username`/`password`는 전혀 사용되지 않습니다. service-account client가 백엔드에서 활성화되어 있는지 다시 확인하세요.
 
@@ -97,13 +97,13 @@ tofu apply -parallelism=1
 
 ### `x509: certificate signed by unknown authority`
 
-provider가 검증할 수 없는 인증서를 가진 endpoint에 접속했습니다. self-signed cert를 쓰는 개발 환경에서 흔합니다 — 사내 dev 클러스터(`192.168.160.10`)가 이 경우에 해당합니다.
+provider가 검증할 수 없는 인증서를 가진 endpoint에 접속했습니다. self-signed cert를 쓰는 개발 환경에서 흔합니다 — Cloud:iA dev/test 환경가 이 경우에 해당합니다.
 
 #### 옵션 1 — CA를 시스템 trust store에 등록 (권장)
 
 운영자에게서 받은 CA 인증서를 시스템 trust store에 추가하면 `tls_insecure` 없이도 검증을 통과합니다.
 
-- 사내 dev에서 받는 CA 경로 예시: `<your-ca-bundle>` (본인 환경에 보관한 위치. 예: `~/cloudia-certs/ca-certificate.crt`)
+- dev/test에서 받는 CA 경로 예시: `<your-ca-bundle>` (본인 환경에 보관한 위치. 예: `~/cloudia-certs/ca-certificate.crt`)
 - macOS:
   ```bash
   sudo security add-trusted-cert -d -r trustRoot \
@@ -121,7 +121,7 @@ provider가 검증할 수 없는 인증서를 가진 endpoint에 접속했습니
 export CLOUDIA_TLS_INSECURE=true
 ```
 
-TLS 검증을 완전히 비활성화하므로 control plane 트래픽이 MITM에 노출됩니다. **운영 환경에서는 절대 쓰지 마세요.** 사내 dev 클러스터에서만, CA 등록이 어려운 일시적 상황(예: 임시 컨테이너 안)에서 임시로 사용하세요.
+TLS 검증을 완전히 비활성화하므로 control plane 트래픽이 MITM에 노출됩니다. **운영 환경에서는 절대 쓰지 마세요.** dev/test 환경에서만, CA 등록이 어려운 일시적 상황(예: 임시 컨테이너 안)에서 임시로 사용하세요.
 
 <a id="import"></a>
 ## Import

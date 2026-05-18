@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/authentication.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증합니다. 두 가지 grant flow를 지원합니다.
 
@@ -29,20 +29,20 @@ Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증�
 
 | 환경 변수 | 기본값 | 설명 |
 |---|---|---|
-| `CLOUDIA_API_BASE_PATH` | `""` | API base path prefix (예: `<your-api-base-path>` — 사내 dev는 `/cloudia`) |
+| `CLOUDIA_API_BASE_PATH` | `""` | API base path prefix (예: `<your-api-base-path>` — dev/test는 `/cloudia`) |
 | `CLOUDIA_PROJECT_ID` | (없음) | provider 기본 project context. 리소스에서 `project_id`를 명시하지 않을 때 fallback으로 사용 |
 | `CLOUDIA_POLL_INTERVAL_SECONDS` | `5` | 비동기 `requestId` 응답에 대한 polling 주기 |
 | `CLOUDIA_POLL_TIMEOUT_SECONDS` | `600` | 비동기 `requestId` 응답에 대한 polling timeout |
 | `CLOUDIA_TLS_INSECURE` | `false` | TLS 인증서 검증 skip. **dev 전용**, 운영에서는 사용 금지 |
 
 <a id="dev-env-example"></a>
-## 사내 dev 클러스터용 .env 예시
+## Cloud:iA dev/test 환경용 .env 예시
 
-아래 예시는 사내 dev (192.168.160.10) 환경 기준입니다. 민감 정보 자리는 `<your-...>` 플레이스홀더로 두었습니다 — 실제 값은 secret manager / 1Password / 사내 운영자에게서 가져와 채우세요. `.env` 파일은 git에 절대 커밋하지 마세요.
+아래 예시는 dev/test (<your-cloudia-endpoint>) 환경 기준입니다. 민감 정보 자리는 `<your-...>` 플레이스홀더로 두었습니다 — 실제 값은 secret manager / 1Password / Cloud:iA 운영자에게서 가져와 채우세요. `.env` 파일은 git에 절대 커밋하지 마세요.
 
 ```bash
-# Connection (사내 dev cluster)
-export CLOUDIA_ENDPOINT=https://192.168.160.10
+# Connection (dev/test cluster)
+export CLOUDIA_ENDPOINT=<your-cloudia-endpoint>
 export CLOUDIA_API_BASE_PATH=/cloudia
 export CLOUDIA_TLS_INSECURE=true   # dev only. 운영에서는 제거하고 CA를 trust store에 등록
 
@@ -50,11 +50,11 @@ export CLOUDIA_TLS_INSECURE=true   # dev only. 운영에서는 제거하고 CA�
 export CLOUDIA_AUTH_TYPE=password
 export CLOUDIA_AUTH_USERNAME='<your-username>'
 export CLOUDIA_AUTH_PASSWORD='<your-password>'
-export CLOUDIA_AUTH_CLIENT_ID=cloudia-secure-login
+export CLOUDIA_AUTH_CLIENT_ID=<your-client-id>
 export CLOUDIA_AUTH_CLIENT_SECRET='<your-client-secret>'
 
 # (선택) 기본 project context
-export CLOUDIA_PROJECT_ID='<your-project-id>'   # 사내 dev 예시: 25
+export CLOUDIA_PROJECT_ID='<your-project-id>'   # dev/test 예시: 25
 ```
 
 운영 클러스터로 옮길 때 바뀌는 값:
@@ -77,7 +77,7 @@ terraform {
   }
 }
 
-variable "cloudia_endpoint"   { type = string }   # 예: https://192.168.160.10
+variable "cloudia_endpoint"   { type = string }   # 예: <your-cloudia-endpoint>
 variable "cloudia_base_path"  { type = string  default = "" }
 variable "cloudia_tls_insecure" { type = bool  default = false }
 
@@ -145,7 +145,7 @@ jobs:
   apply:
     runs-on: ubuntu-latest
     env:
-      CLOUDIA_ENDPOINT:           ${{ secrets.CLOUDIA_ENDPOINT }}      # 예: https://192.168.160.10
+      CLOUDIA_ENDPOINT:           ${{ secrets.CLOUDIA_ENDPOINT }}      # 예: <your-cloudia-endpoint>
       CLOUDIA_API_BASE_PATH:      ${{ secrets.CLOUDIA_API_BASE_PATH }} # 예: /cloudia
       CLOUDIA_AUTH_TYPE:          password
       CLOUDIA_AUTH_USERNAME:      ${{ secrets.CLOUDIA_AUTH_USERNAME }}

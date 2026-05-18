@@ -70,7 +70,7 @@ terraform {
 
 # (2) provider 블록 — provider 자체의 설정(endpoint, 인증 등)
 provider "cloudia" {
-  endpoint = "https://192.168.160.10"
+  endpoint = "<your-cloudia-endpoint>"
 }
 
 # (3) resource 블록 — 만들고 싶은 객체

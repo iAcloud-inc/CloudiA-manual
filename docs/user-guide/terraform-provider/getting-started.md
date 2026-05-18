@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/getting-started.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 이 가이드는 Cloud:iA 환경에서 첫 번째 인스턴스를 띄우기까지의 최소 흐름을 안내합니다. [인증](authentication.md) 설정이 이미 끝났다고 가정합니다.
 
@@ -13,7 +13,7 @@
 - **provider 설치 완료** — [설치하기](install.md)를 먼저 끝내고 오세요. (Registry 미배포 상태라 로컬 빌드 + `dev_overrides`가 필요합니다.)
 - OpenTofu CLI (또는 Terraform CLI) 설치 완료
 - 프로젝트 한 개 이상을 보유한 Cloud:iA 계정 (이 가이드는 admin alias 없이 단일 provider로 진행)
-- 인증 환경 변수 export 완료 — [인증 §사내 dev 클러스터용 .env 예시](authentication.md#dev-env-example) 또는 [설치 §6](install.md#env-file)의 `.env`를 `source` 했다고 가정합니다
+- 인증 환경 변수 export 완료 — [인증 §Cloud:iA dev/test 환경용 .env 예시](authentication.md#dev-env-example) 또는 [설치 §6](install.md#env-file)의 `.env`를 `source` 했다고 가정합니다
 
 새 작업 디렉터리를 만들고 `main.tf` 파일을 생성합니다. 첫 블록은 "이 디렉터리는 cloudia provider를 쓴다" 라고 OpenTofu에 알리는 선언입니다.
 
@@ -41,12 +41,12 @@ terraform {
 ```hcl
 variable "cloudia_endpoint" {
   type        = string
-  description = "Cloud:iA API endpoint. 사내 dev 예시: https://192.168.160.10"
+  description = "Cloud:iA API endpoint. dev/test 예시: <your-cloudia-endpoint>"
 }
 
 variable "cloudia_api_base_path" {
   type    = string
-  default = ""   # 사내 dev는 "/cloudia"
+  default = ""   # dev/test는 "/cloudia"
 }
 
 variable "cloudia_tls_insecure" {
@@ -57,7 +57,7 @@ variable "cloudia_tls_insecure" {
 
 variable "project_id" {
   type        = string
-  description = "Target project ID (예: 사내 dev의 25)"
+  description = "Target project ID (예: dev/test의 25)"
 }
 
 provider "cloudia" {
@@ -73,13 +73,13 @@ provider "cloudia" {
 }
 ```
 
-사내 dev 클러스터용 `terraform.tfvars` 예시 (이 파일은 git에 커밋하지 말 것):
+Cloud:iA dev/test 환경용 `terraform.tfvars` 예시 (이 파일은 git에 커밋하지 말 것):
 
 ```hcl
-cloudia_endpoint      = "https://192.168.160.10"
+cloudia_endpoint      = "<your-cloudia-endpoint>"
 cloudia_api_base_path = "/cloudia"
 cloudia_tls_insecure  = true   # dev only
-project_id            = "<your-project-id>"   # 사내 dev 예시: 25
+project_id            = "<your-project-id>"   # dev/test 예시: 25
 ```
 
 ## 2. VPC 생성
@@ -177,7 +177,7 @@ resource "cloudia_security_group" "default" {
 }
 ```
 
-> 운영 환경에서는 inbound CIDR을 특정 IP allowlist로 제한하세요. 사내 dev에서도 0.0.0.0/0을 그대로 두지 말고 사내 대역(`<your-admin-cidr>`)으로 좁히세요.
+> 운영 환경에서는 inbound CIDR을 특정 IP allowlist로 제한하세요. dev/test에서도 0.0.0.0/0을 그대로 두지 말고 관리자 대역(`<your-admin-cidr>`)으로 좁히세요.
 
 ## 5. Image 조회
 
@@ -185,7 +185,7 @@ OS 이미지는 data source로 조회합니다. 이름 기반 조회가 일반�
 
 ```hcl
 data "cloudia_image" "ubuntu" {
-  name = "<your-image-name>"   # 예: ubuntu-24.04 (사내 dev에 등록된 이미지 이름은 운영자에게 확인)
+  name = "<your-image-name>"   # 예: ubuntu-24.04 (dev/test에 등록된 이미지 이름은 운영자에게 확인)
 }
 ```
 

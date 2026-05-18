@@ -39,7 +39,7 @@ resource "cloudia_volume" "data" {
 
 **Import**: `terraform import cloudia_volume.data <project_id>/<volume_id>`
 
-**전체 schema**: [영문 docs/resources/volume.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/volume.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -59,7 +59,7 @@ resource "cloudia_image" "ubuntu_custom" {
 
 **Import**: `terraform import cloudia_image.ubuntu_custom <project_id>/<image_id>` (`file_path`/`storage_domain_id`는 `ImportStateVerifyIgnore`)
 
-**전체 schema**: [영문 docs/resources/image.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/image.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -79,7 +79,7 @@ resource "cloudia_image_clone" "ubuntu_on_ceph" {
 
 **Import**: `terraform import cloudia_image_clone.ubuntu_on_ceph <project_id>/<image_id>`
 
-**전체 schema**: [영문 docs/resources/image_clone.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/image_clone.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -108,7 +108,7 @@ resource "cloudia_nfs_file_system" "shared" {
 
 **Import**: `terraform import cloudia_nfs_file_system.shared <project_id>/<file_system_id>`
 
-**전체 schema**: [영문 docs/resources/nfs_file_system.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/nfs_file_system.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -128,7 +128,7 @@ resource "cloudia_virtiofs_file_system" "host_local" {
 
 **Import**: `terraform import cloudia_virtiofs_file_system.host_local <project_id>/<file_system_id>`
 
-**전체 schema**: [영문 docs/resources/virtiofs_file_system.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/resources/virtiofs_file_system.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -151,7 +151,7 @@ output "image_names" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/image.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/image.md), [images.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/images.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -170,7 +170,7 @@ output "fs_kind" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/file_system.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/file_system.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
 
 ---
 
@@ -193,4 +193,4 @@ resource "cloudia_virtiofs_file_system" "fs" {
 }
 ```
 
-**전체 schema**: [영문 docs/data-sources/storage_domains.md](https://github.com/iacloud/terraform-provider-cloudia/blob/main/docs/data-sources/storage_domains.md)
+**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
