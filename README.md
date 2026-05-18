@@ -85,6 +85,15 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ---
 
 ## 사용자 가이드
+- **Terraform Provider (한국어)**
+  - [Terraform Provider 가이드 홈](docs/user-guide/terraform-provider/README.md)
+  - [개념 정리 (IaC 입문)](docs/user-guide/terraform-provider/concepts.md)
+  - [설치하기 (로컬 빌드 + dev_overrides)](docs/user-guide/terraform-provider/install.md)
+  - [인증 (Authentication)](docs/user-guide/terraform-provider/authentication.md)
+  - [시작하기 (Getting Started)](docs/user-guide/terraform-provider/getting-started.md)
+  - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/data-sources.md)
+  - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/troubleshooting.md)
+
 - **빠른 시작 가이드**
   - [빠른 시작 가이드 홈](docs/user-guide/quickstarts/README.md)
   - [Cloud:iA 계정 생성하기](docs/user-guide/quickstarts/01-create-account.md)
