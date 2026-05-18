@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/authentication.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-사내-dev-19216816010-환경-값)를 참고하세요.
+> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증합니다. 두 가지 grant flow를 지원합니다.
 
@@ -24,6 +24,7 @@ Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증�
 | `CLOUDIA_AUTH_CLIENT_ID` | OAuth2 client ID — `password`일 때는 login client, `client_credentials`일 때는 service-account client |
 | `CLOUDIA_AUTH_CLIENT_SECRET` | OAuth2 client secret (민감 정보) |
 
+<a id="optional-env-vars"></a>
 ## 선택 환경 변수
 
 | 환경 변수 | 기본값 | 설명 |
@@ -34,6 +35,7 @@ Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증�
 | `CLOUDIA_POLL_TIMEOUT_SECONDS` | `600` | 비동기 `requestId` 응답에 대한 polling timeout |
 | `CLOUDIA_TLS_INSECURE` | `false` | TLS 인증서 검증 skip. **dev 전용**, 운영에서는 사용 금지 |
 
+<a id="dev-env-example"></a>
 ## 사내 dev 클러스터용 .env 예시
 
 아래 예시는 사내 dev (192.168.160.10) 환경 기준입니다. 민감 정보 자리는 `<your-...>` 플레이스홀더로 두었습니다 — 실제 값은 secret manager / 1Password / 사내 운영자에게서 가져와 채우세요. `.env` 파일은 git에 절대 커밋하지 마세요.
@@ -61,6 +63,7 @@ export CLOUDIA_PROJECT_ID='<your-project-id>'   # 사내 dev 예시: 25
 - `CLOUDIA_TLS_INSECURE` — **반드시 제거** + CA를 시스템 trust store에 등록 (자세한 절차: [문제 해결 §TLS](troubleshooting.md#tls))
 - `CLOUDIA_AUTH_CLIENT_ID` — 클러스터마다 별도 발급될 수 있음. 운영자에게 확인
 
+<a id="admin-user-alias"></a>
 ## Admin vs User alias 패턴
 
 권장하는 운영 패턴은 `alias`로 두 개의 provider 인스턴스를 나누어, 관리 작업(project create/delete)과 일반 작업(project-scoped 리소스 CRUD)을 권한 경계에 따라 분리하는 것입니다.

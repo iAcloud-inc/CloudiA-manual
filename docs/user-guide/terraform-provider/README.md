@@ -13,6 +13,7 @@
 
 민감 정보(`<your-password>`, `<your-client-secret>` 등)는 **HCL에 평문으로 적지 말고** 환경 변수 또는 secret manager로 주입하세요.
 
+<a id="reference-table"></a>
 ## Reference: 사내 dev (192.168.160.10) 환경 값
 
 본 매뉴얼을 작성할 때 검증한 사내 dev 클러스터의 실제 설정값입니다. 본인 환경이 이와 다르면 `<your-...>` 플레이스홀더 자리에 본인 값을 채우세요.

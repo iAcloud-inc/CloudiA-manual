@@ -34,6 +34,14 @@
   * [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
   * [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](examples-and-labs/20-install-rocky-instance-from-iso.md)
 
+* [Terraform Provider 가이드](terraform-provider/README.md)
+  * [개념 정리 (IaC 입문)](terraform-provider/concepts.md)
+  * [설치하기 (로컬 빌드 + dev_overrides)](terraform-provider/install.md)
+  * [인증 (Authentication)](terraform-provider/authentication.md)
+  * [시작하기 (Getting Started)](terraform-provider/getting-started.md)
+  * [Singular vs Plural 데이터소스](terraform-provider/data-sources.md)
+  * [문제 해결 (Troubleshooting)](terraform-provider/troubleshooting.md)
+
 * [FAQ (자주 묻는 질문)](faq/faq.md)
   * [가상머신 생성·실행·배치](faq/faq.md#faq-vm-placement)
   * [스냅샷·복원](faq/faq.md#faq-snapshot-restore)

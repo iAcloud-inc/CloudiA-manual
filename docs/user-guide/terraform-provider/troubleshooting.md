@@ -2,10 +2,11 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/troubleshooting.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-사내-dev-19216816010-환경-값)를 참고하세요.
+> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider를 처음 도입할 때 가장 자주 마주치는 문제를 모았습니다. credential 설정은 [인증](authentication.md), 전체 흐름은 [시작하기](getting-started.md)를 먼저 참고하세요.
 
+<a id="auth"></a>
 ## 인증
 
 ### 첫 apply에서 `401 Unauthorized`
@@ -21,7 +22,7 @@ Cloud:iA OAuth2 client가 아직 없다면 client registry를 관리하는 Cloud
 
 ### project-scoped 리소스 생성에서 `403 Forbidden`
 
-credential 자체는 유효하지만 권한이 부족한 경우입니다. 대표적인 원인: 일반 사용자 계정으로 `cloudia_project`를 만들려고 했거나, 대상 project에 속하지 않은 admin 전용 계정으로 `cloudia_vpc`를 만들려고 한 경우. provider 설정을 `admin`/`user` alias로 분리하세요 — [인증 §Admin vs User alias 패턴](authentication.md#admin-vs-user-alias-패턴) 참고.
+credential 자체는 유효하지만 권한이 부족한 경우입니다. 대표적인 원인: 일반 사용자 계정으로 `cloudia_project`를 만들려고 했거나, 대상 project에 속하지 않은 admin 전용 계정으로 `cloudia_vpc`를 만들려고 한 경우. provider 설정을 `admin`/`user` alias로 분리하세요 — [인증 §Admin vs User alias 패턴](authentication.md#admin-user-alias) 참고.
 
 ### `Project context is required` 또는 `project_id is empty`
 
@@ -33,6 +34,7 @@ project-scoped 리소스(VPC, subnet, security group, instance 등)가 project c
 
 리소스 레벨 값이 provider 레벨 값보다 우선합니다.
 
+<a id="async-polling"></a>
 ## 비동기 polling
 
 Cloud:iA의 대부분 쓰기 작업은 `requestId`와 함께 `202 Accepted`를 반환합니다. provider가 완료까지 polling해주므로 사용자 입장에서는 `plan`/`apply`가 동기처럼 보입니다. polling 동작은 두 개의 knob으로 제어됩니다.
@@ -74,6 +76,7 @@ tofu apply -parallelism=1
 
 `-parallelism=1`은 apply 동안 전체 리소스 그래프를 직렬화하므로 다소 무거운 옵션입니다. 큰 구성이라 VPC만 직렬화하고 싶다면 VPC 생성을 별도 apply (또는 별도 workspace)로 분리하고, 나머지는 기본 parallelism (`10`)으로 돌리세요. provider 자체에 직렬화를 박아두지는 않았습니다 — 호출 단위 opt-in입니다. 백엔드 race가 수정되면 본 가이드는 제거됩니다.
 
+<a id="tls"></a>
 ## TLS
 
 ### `x509: certificate signed by unknown authority`

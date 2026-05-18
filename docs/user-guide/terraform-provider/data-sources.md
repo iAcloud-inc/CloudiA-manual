@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/data-sources.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-사내-dev-19216816010-환경-값)를 참고하세요.
+> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider는 같은 리소스 타입에 대해 **singular**(단일 조회)와 **plural**(컬렉션 조회) 두 가지 data source를 제공합니다. 다음 두 질문으로 선택하세요.
 

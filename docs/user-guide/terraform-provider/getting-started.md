@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/getting-started.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-사내-dev-19216816010-환경-값)를 참고하세요.
+> 본 문서의 예시는 사내 dev 클러스터(`192.168.160.10`) 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 이 가이드는 Cloud:iA 환경에서 첫 번째 인스턴스를 띄우기까지의 최소 흐름을 안내합니다. [인증](authentication.md) 설정이 이미 끝났다고 가정합니다.
 
@@ -13,7 +13,7 @@
 - **provider 설치 완료** — [설치하기](install.md)를 먼저 끝내고 오세요. (Registry 미배포 상태라 로컬 빌드 + `dev_overrides`가 필요합니다.)
 - OpenTofu CLI (또는 Terraform CLI) 설치 완료
 - 프로젝트 한 개 이상을 보유한 Cloud:iA 계정 (이 가이드는 admin alias 없이 단일 provider로 진행)
-- 인증 환경 변수 export 완료 — [인증 §사내 dev 클러스터용 .env 예시](authentication.md#사내-dev-클러스터용-env-예시) 또는 [설치 §6](install.md#6-환경-변수-env-파일-만들기)의 `.env`를 `source` 했다고 가정합니다
+- 인증 환경 변수 export 완료 — [인증 §사내 dev 클러스터용 .env 예시](authentication.md#dev-env-example) 또는 [설치 §6](install.md#env-file)의 `.env`를 `source` 했다고 가정합니다
 
 새 작업 디렉터리를 만들고 `main.tf` 파일을 생성합니다. 첫 블록은 "이 디렉터리는 cloudia provider를 쓴다" 라고 OpenTofu에 알리는 선언입니다.
 
@@ -32,7 +32,7 @@ terraform {
 }
 ```
 
-> dev_overrides가 활성화된 상태에서는 `tofu init`을 건너뛰고 바로 `tofu plan`을 실행하면 됩니다. 자세한 이유는 [설치 §4](install.md#4-dev_overrides-설정--핵심-단계) 참고.
+> dev_overrides가 활성화된 상태에서는 `tofu init`을 건너뛰고 바로 `tofu plan`을 실행하면 됩니다. 자세한 이유는 [설치 §4](install.md#dev-overrides) 참고.
 
 ## 1. Provider 설정
 
@@ -130,7 +130,7 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 tofu apply
 ```
 
-`Do you want to perform these actions?` 프롬프트에 `yes`를 입력하면 진행됩니다. 백엔드가 비동기로 작업하므로 1~2분이 걸릴 수 있습니다 ([개념 §7 비동기 작업과 polling](concepts.md#7-비동기-작업과-polling) 참고).
+`Do you want to perform these actions?` 프롬프트에 `yes`를 입력하면 진행됩니다. 백엔드가 비동기로 작업하므로 1~2분이 걸릴 수 있습니다 ([개념 §7 비동기 작업과 polling](concepts.md#async-polling) 참고).
 
 `apply` 이후 `cloudia_vpc.main.id`를 다음 단계에서 참조합니다.
 
@@ -236,7 +236,7 @@ resource "cloudia_instance" "demo" {
 tofu apply
 ```
 
-생성은 비동기입니다 — provider가 백엔드 `requestId`를 polling합니다. `CLOUDIA_POLL_TIMEOUT_SECONDS` (기본 600초) 안에 완료되지 않으면 timeout 에러가 발생합니다 ([인증 §선택 환경 변수](authentication.md#선택-환경-변수) 참고).
+생성은 비동기입니다 — provider가 백엔드 `requestId`를 polling합니다. `CLOUDIA_POLL_TIMEOUT_SECONDS` (기본 600초) 안에 완료되지 않으면 timeout 에러가 발생합니다 ([인증 §선택 환경 변수](authentication.md#optional-env-vars) 참고).
 
 ## 8. 결과 확인
 

@@ -129,11 +129,12 @@ my-project/
                   잘못됐으면 코드 수정 후 plan부터 다시
 ```
 
+<a id="async-polling"></a>
 ## 7. 비동기 작업과 polling
 
 Cloud:iA 백엔드는 인스턴스 생성 같은 무거운 작업을 **비동기**로 처리합니다. 즉 `apply` 명령을 내려도 백엔드는 "받았어요. 진행 중입니다(requestId=...)"만 즉시 응답합니다.
 
-provider가 사용자 대신 "완료됐는지" 를 주기적으로 물어봐(polling) 끝날 때까지 기다려 줍니다 — 그래서 사용자 입장에서는 `apply`가 한 번에 끝난 것처럼 보입니다. 기본 polling timeout은 10분(600초)이며, 느린 작업은 [문제 해결 §비동기 polling](troubleshooting.md#비동기-polling)을 참고해 시간을 늘릴 수 있습니다.
+provider가 사용자 대신 "완료됐는지" 를 주기적으로 물어봐(polling) 끝날 때까지 기다려 줍니다 — 그래서 사용자 입장에서는 `apply`가 한 번에 끝난 것처럼 보입니다. 기본 polling timeout은 10분(600초)이며, 느린 작업은 [문제 해결 §비동기 polling](troubleshooting.md#async-polling)을 참고해 시간을 늘릴 수 있습니다.
 
 ## 8. 다음 단계
 

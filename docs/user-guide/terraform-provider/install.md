@@ -1,6 +1,6 @@
 # 설치하기 (로컬 빌드 + dev_overrides)
 
-> 본 문서는 사내 dev 클러스터(`192.168.160.10`) 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-사내-dev-19216816010-환경-값)를 참고하세요.
+> 본 문서는 사내 dev 클러스터(`192.168.160.10`) 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
 
 ## 왜 직접 빌드해야 하나요?
 
@@ -93,6 +93,7 @@ ls "$(go env GOPATH)/bin/terraform-provider-cloudia"
 
 > `make install-dev`는 내부적으로 `go install` 을 실행해 `$GOPATH/bin/terraform-provider-cloudia`를 만듭니다. 코드가 바뀔 때마다 다시 실행해서 바이너리를 최신으로 유지하세요.
 
+<a id="dev-overrides"></a>
 ## 4. dev_overrides 설정 — 핵심 단계
 
 OpenTofu(또는 Terraform)에게 "registry에서 받지 말고 내가 빌드한 로컬 바이너리를 써라" 라고 알려주는 설정입니다.
@@ -186,6 +187,7 @@ sudo update-ca-certificates
 
 CA 등록이 번거롭다면 환경 변수 `CLOUDIA_TLS_INSECURE=true`만 켜면 됩니다. **운영 환경에서는 절대 쓰지 마세요** — MITM 공격에 그대로 노출됩니다.
 
+<a id="env-file"></a>
 ## 6. 환경 변수 .env 파일 만들기
 
 자격 증명을 매번 export하기 번거롭다면 `.env` 파일로 모아둡니다 (git에 커밋 금지).
@@ -274,7 +276,7 @@ Changes to Outputs:
 | `make: install-dev: No such target` | provider repo 디렉터리에서 실행했는지 확인 (`cd terraform-provider-cloudia`) |
 | `go: command not found` | Go 설치 안 됨 또는 PATH에 없음. §2 참고 |
 | `x509: certificate signed by unknown authority` | CA 미등록 + `TLS_INSECURE` 미설정. §5 참고 |
-| `401 Unauthorized` | 환경 변수 잘못 설정. [문제 해결 §인증](troubleshooting.md#인증) 참고 |
+| `401 Unauthorized` | 환경 변수 잘못 설정. [문제 해결 §인증](troubleshooting.md#auth) 참고 |
 | `connection refused` 또는 timeout | endpoint 오타 또는 VPN 미연결 |
 
 ## 8. provider 업데이트 (소스 갱신 후)
