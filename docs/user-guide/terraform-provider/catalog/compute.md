@@ -14,6 +14,9 @@
 - [`cloudia_instance_snapshot_restore`](#instance-snapshot-restore)
 
 ### 데이터소스
+- [`cloudia_compute_hosts`](#ds-compute-hosts)
+- [`cloudia_accelerator_gpus`](#ds-accelerator-gpus)
+- [`cloudia_accelerator_npus`](#ds-accelerator-npus)
 - [`cloudia_instance` / `cloudia_instances`](#ds-instance)
 - [`cloudia_instance_type` / `cloudia_instance_types`](#ds-instance-type)
 - [`cloudia_instance_disks`](#ds-instance-disks)
@@ -38,13 +41,28 @@ data "cloudia_image" "ubuntu" {
 
 resource "cloudia_instance" "demo" {
   name         = "demo-vm"
+  network_id   = cloudia_vpc.main.id
   vcpu_number  = 2
   memory_total = 4096   # MiB
 
-  image_id  = data.cloudia_image.ubuntu.id
-  subnet_id = cloudia_subnet.public.id
+  image_id = data.cloudia_image.ubuntu.id
+
+  vnic = [
+    {
+      subnet_id          = cloudia_subnet.public.id
+      security_group_ids = [cloudia_security_group.default.id]
+      is_default_nic     = true
+    },
+  ]
+
+  cloud_init = {
+    username = "appuser"
+    password = "<your-instance-password>"
+  }
 }
 ```
+
+`cloud_init.username`은 일반 로그인 사용자명으로 잡으세요. `root`, `admin`, `ubuntu`, `centos` 같은 예약 이름은 backend가 거부합니다.
 
 ### Sizing — 직접 입력
 
@@ -68,14 +86,14 @@ resource "cloudia_instance" "from_catalog" {
 terraform import cloudia_instance.demo <project_id>/<instance_id>
 ```
 
-**전체 schema (모든 옵션) + 상세 운영 가이드**: 추후 작성 예정 (Terraform Registry 게시 시 영문 reference 제공)
+**전체 schema (모든 옵션)**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
 <a id="ssh-key"></a>
 ## `cloudia_ssh_key`
 
-SSH 공개키 등록. 인스턴스에 `ssh_key_ids`로 attach.
+SSH 공개키 등록. 인스턴스에서는 `cloud_init.ssh_key_ids`로 연결.
 
 ```hcl
 resource "cloudia_ssh_key" "me" {
@@ -88,7 +106,7 @@ resource "cloudia_ssh_key" "me" {
 
 **Import**: `terraform import cloudia_ssh_key.me <project_id>/<ssh_key_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -108,14 +126,16 @@ resource "cloudia_affinity_group" "ha_pair" {
   host_positive    = true
   host_enforcing   = false
 
-  instance_ids      = [cloudia_instance.web1.id, cloudia_instance.web2.id]
-  host_machine_ids  = []   # 비워두면 호스트 제약 없음
+  instance_ids = [cloudia_instance.web1.id, cloudia_instance.web2.id]
+  host_ids     = []   # null = unmanaged, [] = clear, non-empty = replace
 }
 ```
 
+호스트 ID를 직접 하드코딩하지 말고 `cloudia_compute_hosts`에서 읽어 쓰는 패턴이 일반적입니다.
+
 **Import**: `terraform import cloudia_affinity_group.ha_pair <project_id>/<affinity_group_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -136,7 +156,7 @@ resource "cloudia_instance_snapshot" "before_upgrade" {
 
 **Import**: `terraform import cloudia_instance_snapshot.before_upgrade <project_id>/<instance_id>/<snapshot_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -154,7 +174,64 @@ resource "cloudia_instance_snapshot_restore" "rollback" {
 
 > `instance_id`/`snapshot_id`를 바꾸면 RequiresReplace로 복원이 다시 수행됨. 같은 스냅샷으로 여러 번 복원하고 싶다면 리소스를 새로 만드세요.
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
+
+---
+
+<a id="ds-compute-hosts"></a>
+## `cloudia_compute_hosts` (data source)
+
+cluster-wide compute host 목록. `cloudia_affinity_group.host_ids`를 동적으로 채울 때 사용합니다.
+
+```hcl
+data "cloudia_compute_hosts" "up_only" {
+  status = "UP"
+}
+
+output "host_ids" {
+  value = [for h in data.cloudia_compute_hosts.up_only.hosts : h.id]
+}
+```
+
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
+
+---
+
+<a id="ds-accelerator-gpus"></a>
+## `cloudia_accelerator_gpus` (data source)
+
+GPU `(vendor_id, product_id)` 카탈로그와 가용량. `cloudia_instance.hardware_gpu` 값을 정할 때 사용합니다.
+
+```hcl
+data "cloudia_accelerator_gpus" "all" {}
+
+output "gpu_pairs" {
+  value = [for g in data.cloudia_accelerator_gpus.all.items : "${g.vendor_id}:${g.product_id}"]
+}
+```
+
+GPU는 `pci_count_avail` 기준으로 용량을 보는 것이 안전합니다.
+
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
+
+---
+
+<a id="ds-accelerator-npus"></a>
+## `cloudia_accelerator_npus` (data source)
+
+NPU `(vendor_id, product_id)` 카탈로그와 카드 가용량. `cloudia_instance.hardware_npu` 값을 정할 때 사용합니다.
+
+```hcl
+data "cloudia_accelerator_npus" "all" {}
+
+output "npu_pairs" {
+  value = [for n in data.cloudia_accelerator_npus.all.items : "${n.vendor_id}:${n.product_id}"]
+}
+```
+
+NPU는 multi-endpoint 카드가 있으므로 `card_root_count_avail` 기준으로 보는 것이 안전합니다.
+
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -180,7 +257,7 @@ output "running_count" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -207,7 +284,7 @@ output "gpu_types" {
 
 > 카탈로그는 환경마다 다릅니다. dev/test에 등록된 타입 목록은 운영자 또는 콘솔에서 확인.
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -226,7 +303,7 @@ output "boot_disk_size_gib" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -246,7 +323,7 @@ output "primary_ipv4" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -265,7 +342,7 @@ output "snapshot_names" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -280,12 +357,15 @@ data "cloudia_ssh_key" "existing" {
 }
 
 resource "cloudia_instance" "demo" {
-  ssh_key_ids = [data.cloudia_ssh_key.existing.id]
+  cloud_init = {
+    username    = "appuser"
+    ssh_key_ids = [data.cloudia_ssh_key.existing.id]
+  }
   # ...
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -302,4 +382,4 @@ output "secure_type_names" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.

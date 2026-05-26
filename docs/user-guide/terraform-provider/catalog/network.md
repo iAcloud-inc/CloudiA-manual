@@ -10,6 +10,7 @@ VPC와 그 하위 네트워크 리소스. 본 카테고리에 속한 data source
 - [`cloudia_subnet`](#subnet)
 - [`cloudia_security_group`](#security-group)
 - [`cloudia_default_security_group`](#default-security-group)
+- [`cloudia_floating_ip`](#floating-ip)
 - [전체 결합 예제 — VPC + 서브넷 + 보안그룹](#full-example)
 
 ---
@@ -31,7 +32,7 @@ resource "cloudia_vpc" "main" {
 
 **Import**: `terraform import cloudia_vpc.main <project_id>/<vpc_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -51,7 +52,7 @@ resource "cloudia_subnet" "public" {
 
 **Import**: `terraform import cloudia_subnet.public <project_id>/<vpc_id>/<subnet_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -93,7 +94,7 @@ resource "cloudia_security_group" "web" {
 
 **Import**: `terraform import cloudia_security_group.web <project_id>/<vpc_id>/<security_group_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -120,7 +121,34 @@ resource "cloudia_default_security_group" "main_default" {
 
 **Import**: `terraform import cloudia_default_security_group.main_default <project_id>/<vpc_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
+
+---
+
+<a id="floating-ip"></a>
+## `cloudia_floating_ip`
+
+프로젝트의 public IP pool에서 플로팅 IP를 할당하고, 필요하면 인스턴스나 내부 IP에 bind합니다.
+
+```hcl
+resource "cloudia_floating_ip" "web" {
+  vpc_id      = cloudia_vpc.main.id
+  name        = "web-fip"
+  description = "public entrypoint"
+
+  binding = {
+    resource_type = "INSTANCE"   # 또는 "IP"
+    resource_id   = cloudia_instance.web.id
+    resource_ip   = "10.20.1.10"
+  }
+}
+```
+
+> `binding`을 생략하면 unbound 상태로 유지됩니다. 특정 public IP를 고정하고 싶으면 `ip_address`를 명시할 수 있지만, 바꿀 때는 기존 public IP가 release되고 새 IP가 할당됩니다.
+
+**Import**: `terraform import cloudia_floating_ip.web <project_id>/<vpc_id>/<floating_ip_id>`
+
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 

@@ -11,18 +11,19 @@ Cloud:iA Terraform provider가 제공하는 모든 리소스와 데이터소스�
 | 카테고리 | 다루는 리소스/데이터소스 | 페이지 |
 |---|---|---|
 | **프로젝트 & 권한** | `cloudia_project` 등 | [project.md](project.md) |
-| **네트워크** | `cloudia_vpc`, `cloudia_subnet`, `cloudia_security_group`, `cloudia_default_security_group` | [network.md](network.md) |
-| **컴퓨트** | `cloudia_instance`, `cloudia_ssh_key`, `cloudia_affinity_group`, `cloudia_instance_snapshot`, `cloudia_instance_snapshot_restore` + 7 data sources | [compute.md](compute.md) |
+| **네트워크** | `cloudia_vpc`, `cloudia_subnet`, `cloudia_security_group`, `cloudia_default_security_group`, `cloudia_floating_ip` | [network.md](network.md) |
+| **컴퓨트** | `cloudia_instance`, `cloudia_ssh_key`, `cloudia_affinity_group`, `cloudia_instance_snapshot`, `cloudia_instance_snapshot_restore` + 10 data sources | [compute.md](compute.md) |
 | **스토리지** | `cloudia_volume`, `cloudia_image`, `cloudia_image_clone`, `cloudia_nfs_file_system`, `cloudia_virtiofs_file_system` + 4 data sources | [storage.md](storage.md) |
 
 ## 빠른 인덱스 — 알파벳순
 
-### 리소스 (15개)
+### 리소스 (16개)
 
 | 이름 | 카테고리 | 한 줄 설명 |
 |---|---|---|
 | [`cloudia_affinity_group`](compute.md#affinity-group) | 컴퓨트 | 인스턴스/호스트 배치 정책 그룹 |
 | [`cloudia_default_security_group`](network.md#default-security-group) | 네트워크 | VPC 생성 시 자동 만들어지는 기본 SG의 어댑트 관리 |
+| [`cloudia_floating_ip`](network.md#floating-ip) | 네트워크 | 플로팅 IP 할당 + bind/unbind 상태 관리 |
 | [`cloudia_image`](storage.md#image) | 스토리지 | OS 이미지(qcow2) 업로드 |
 | [`cloudia_image_clone`](storage.md#image-clone) | 스토리지 | 이미지 복제 (LOCAL → CEPH 등 SD 간 이동) |
 | [`cloudia_instance`](compute.md#instance) | 컴퓨트 | 가상머신 인스턴스 (가장 큰 리소스) |
@@ -37,20 +38,23 @@ Cloud:iA Terraform provider가 제공하는 모든 리소스와 데이터소스�
 | [`cloudia_volume`](storage.md#volume) | 스토리지 | 블록 볼륨 (인스턴스에 attach) |
 | [`cloudia_vpc`](network.md#vpc) | 네트워크 | VPC (네트워크 격리 단위) |
 
-### 데이터소스 (15개)
+### 데이터소스 (18개)
 
 | 이름 | 카테고리 | 한 줄 설명 |
 |---|---|---|
+| [`cloudia_accelerator_gpus`](compute.md#ds-accelerator-gpus) | 컴퓨트 | GPU `(vendor_id, product_id)` 카탈로그 + 가용량 |
+| [`cloudia_accelerator_npus`](compute.md#ds-accelerator-npus) | 컴퓨트 | NPU `(vendor_id, product_id)` 카탈로그 + 카드 가용량 |
+| [`cloudia_compute_hosts`](compute.md#ds-compute-hosts) | 컴퓨트 | compute host 목록 (`cloudia_affinity_group.host_ids` 입력용) |
 | [`cloudia_file_system`](storage.md#ds-file-system) | 스토리지 | NFS/VIRTIOFS 공통 단일 조회 |
 | [`cloudia_image`](storage.md#ds-image) | 스토리지 | 이미지 단일 조회 (이름/ID) |
-| [`cloudia_images`](storage.md#ds-images) | 스토리지 | 이미지 컬렉션 (필터) |
+| [`cloudia_images`](storage.md#ds-image) | 스토리지 | 이미지 컬렉션 (필터) |
 | [`cloudia_instance`](compute.md#ds-instance) | 컴퓨트 | 인스턴스 단일 조회 |
 | [`cloudia_instance_disks`](compute.md#ds-instance-disks) | 컴퓨트 | 인스턴스에 붙은 모든 디스크 |
 | [`cloudia_instance_interface`](compute.md#ds-instance-interface) | 컴퓨트 | 인스턴스 NIC 1개 (selector singular) |
 | [`cloudia_instance_snapshots`](compute.md#ds-instance-snapshots) | 컴퓨트 | 인스턴스 스냅샷 컬렉션 |
 | [`cloudia_instance_type`](compute.md#ds-instance-type) | 컴퓨트 | 인스턴스 타입 카탈로그 단일 조회 |
-| [`cloudia_instance_types`](compute.md#ds-instance-types) | 컴퓨트 | 인스턴스 타입 컬렉션 (GPU/NPU 필터) |
-| [`cloudia_instances`](compute.md#ds-instances) | 컴퓨트 | 인스턴스 컬렉션 (name_prefix/power_state 필터) |
+| [`cloudia_instance_types`](compute.md#ds-instance-type) | 컴퓨트 | 인스턴스 타입 컬렉션 (GPU/NPU 필터) |
+| [`cloudia_instances`](compute.md#ds-instance) | 컴퓨트 | 인스턴스 컬렉션 (name_prefix/power_state 필터) |
 | [`cloudia_project`](project.md#ds-project) | 프로젝트 | 프로젝트 단일 조회 |
 | [`cloudia_projects`](project.md#ds-projects) | 프로젝트 | 프로젝트 컬렉션 |
 | [`cloudia_secure_types`](compute.md#ds-secure-types) | 컴퓨트 | 인스턴스 보안 등급 카탈로그 |

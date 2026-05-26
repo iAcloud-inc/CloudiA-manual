@@ -221,14 +221,24 @@ data "cloudia_instance_type" "small" {
 
 resource "cloudia_instance" "demo" {
   name         = "tutorial-instance"
+  network_id   = cloudia_vpc.main.id
   vcpu_number  = data.cloudia_instance_type.small.vcpu_number
   memory_total = data.cloudia_instance_type.small.memory_total
 
   image_id = data.cloudia_image.ubuntu.id
 
-  subnet_id          = cloudia_subnet.default.id
-  security_group_ids = [cloudia_security_group.default.id]
-  ssh_key_ids        = [cloudia_ssh_key.me.id]
+  vnic = [
+    {
+      subnet_id          = cloudia_subnet.default.id
+      security_group_ids = [cloudia_security_group.default.id]
+      is_default_nic     = true
+    },
+  ]
+
+  cloud_init = {
+    username    = "appuser"
+    ssh_key_ids = [cloudia_ssh_key.me.id]
+  }
 }
 ```
 
@@ -237,6 +247,10 @@ tofu apply
 ```
 
 생성은 비동기입니다 — provider가 백엔드 `requestId`를 polling합니다. `CLOUDIA_POLL_TIMEOUT_SECONDS` (기본 600초) 안에 완료되지 않으면 timeout 에러가 발생합니다 ([인증 §선택 환경 변수](authentication.md#optional-env-vars) 참고).
+
+`cloud_init` 블록은 필수입니다. SSH 키 대신 초기 비밀번호를 줄 때는 `cloud_init = { username = "appuser", password = "<your-password>" }`처럼 적으면 됩니다.
+
+`cloud_init.username`은 4-20자, 소문자로 시작, `[a-z0-9_-]`만 허용됩니다. `root`, `admin`, `ubuntu`, `centos` 같은 예약 이름은 backend가 거부하므로 예시처럼 일반 사용자명을 쓰세요.
 
 ## 8. 결과 확인
 

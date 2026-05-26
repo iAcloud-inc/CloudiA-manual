@@ -35,11 +35,11 @@ resource "cloudia_volume" "data" {
 }
 ```
 
-> **In-place grow만 지원**, shrink는 plan 단계에서 거부됩니다. 줄이려면 destroy + recreate. `description`도 update 불가 (ADR-0017).
+> **In-place grow만 지원**, shrink는 destroy + recreate로 계획됩니다. `description`은 in-place update 가능합니다. 단, attached 상태에서 destroy가 필요해지면 backend가 삭제를 거부할 수 있습니다.
 
 **Import**: `terraform import cloudia_volume.data <project_id>/<volume_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -55,11 +55,11 @@ resource "cloudia_image" "ubuntu_custom" {
 }
 ```
 
-> 백엔드가 `virt-inspector`로 검증하므로 부팅 가능한 x86_64 cloud image여야 합니다 (빈 qcow2는 CLERR-402004로 거부). `file_path`는 RequiresReplace.
+> 백엔드가 `virt-inspector`로 검증하므로 부팅 가능한 x86_64 cloud image여야 합니다 (빈 qcow2는 CLERR-402004로 거부). `file_path`는 WriteOnly라 create 시에만 필요하고, 이후에는 HCL에서 생략할 수 있습니다. 다른 파일로 다시 올리려면 destroy + recreate가 필요합니다.
 
-**Import**: `terraform import cloudia_image.ubuntu_custom <project_id>/<image_id>` (`file_path`/`storage_domain_id`는 `ImportStateVerifyIgnore`)
+**Import**: `terraform import cloudia_image.ubuntu_custom <project_id>/<image_id>` (`file_path`는 state에 남지 않으므로 import 후 HCL에서 생략 가능)
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -79,7 +79,7 @@ resource "cloudia_image_clone" "ubuntu_on_ceph" {
 
 **Import**: `terraform import cloudia_image_clone.ubuntu_on_ceph <project_id>/<image_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -95,20 +95,19 @@ resource "cloudia_nfs_file_system" "shared" {
   storage_domain_id = data.cloudia_storage_domains.all.items[0].id
   network_id        = cloudia_vpc.main.id
 
-  vnic = [{
+  vnic = {
     subnet_id          = cloudia_subnet.public.id
     security_group_ids = [cloudia_security_group.nfs.id]
     # ipv4_address       = "10.20.1.50"   # 선택 (생략 시 자동 할당)
-    is_default_nic     = true
-  }]
+  }
 }
 ```
 
-> `size_gib` grow만 가능, shrink 거부. `vnic`/`storage_domain_id`/`network_id`는 RequiresReplace.
+> `size_gib` grow만 가능, shrink 거부. `vnic`/`storage_domain_id`/`network_id`는 RequiresReplace. 생성 직후 같은 plan에서 인스턴스 mount가 race 나면 provider의 `nfs_create_settle_seconds` 또는 `CLOUDIA_NFS_CREATE_SETTLE_SECONDS`를 늘려 조정하세요.
 
 **Import**: `terraform import cloudia_nfs_file_system.shared <project_id>/<file_system_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -128,7 +127,7 @@ resource "cloudia_virtiofs_file_system" "host_local" {
 
 **Import**: `terraform import cloudia_virtiofs_file_system.host_local <project_id>/<file_system_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -151,7 +150,7 @@ output "image_names" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -170,7 +169,7 @@ output "fs_kind" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -193,4 +192,4 @@ resource "cloudia_virtiofs_file_system" "fs" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.

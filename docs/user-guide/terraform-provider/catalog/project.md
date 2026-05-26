@@ -35,7 +35,7 @@ resource "cloudia_project" "app" {
 
 **Import**: `terraform import cloudia_project.app <project_id>`
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -56,7 +56,7 @@ resource "cloudia_vpc" "main" {
 }
 ```
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.
 
 ---
 
@@ -75,4 +75,4 @@ output "project_names" {
 
 단일 ID 참조용으로 쓰지 마세요 (정렬 순서 변경에 plan이 흔들림) — [Singular vs Plural 가이드](../data-sources.md) 참고.
 
-**전체 schema**: 추후 Terraform Registry 게시 후 공개 예정
+**전체 schema**: 본 문서는 최소 예제만 다룹니다. 전체 필드/속성 표는 provider generated reference를 참고하세요.

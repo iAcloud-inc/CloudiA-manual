@@ -33,6 +33,7 @@ Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증�
 | `CLOUDIA_PROJECT_ID` | (없음) | provider 기본 project context. 리소스에서 `project_id`를 명시하지 않을 때 fallback으로 사용 |
 | `CLOUDIA_POLL_INTERVAL_SECONDS` | `5` | 비동기 `requestId` 응답에 대한 polling 주기 |
 | `CLOUDIA_POLL_TIMEOUT_SECONDS` | `600` | 비동기 `requestId` 응답에 대한 polling timeout |
+| `CLOUDIA_NFS_CREATE_SETTLE_SECONDS` | `30` | NFS 생성 완료 직후 같은 plan에서 attach/mount race가 날 때 늘려 쓰는 settle 대기 시간. provider 옵션명은 `nfs_create_settle_seconds` |
 | `CLOUDIA_TLS_INSECURE` | `false` | TLS 인증서 검증 skip. **dev 전용**, 운영에서는 사용 금지 |
 
 <a id="dev-env-example"></a>
