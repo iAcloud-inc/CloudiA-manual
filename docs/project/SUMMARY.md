@@ -32,6 +32,7 @@
   * [이미지](storage/image/image.md)
   * [블록](storage/block/block.md)
   * [파일 시스템](storage/file-system/file-system.md)
+  * [오브젝트 스토리지](storage/object-storage/object-storage.md)
   * [스냅샷](storage/snapshot/snapshot.md)
 
 * [쿠버네티스](kubernetes/README.md)
