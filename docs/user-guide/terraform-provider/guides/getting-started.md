@@ -267,7 +267,7 @@ data "cloudia_instance_interface" "demo_default" {
 }
 
 output "primary_ip" {
-  value = data.cloudia_instance_interface.demo_default.ip_address
+  value = data.cloudia_instance_interface.demo_default.ipv4_address
 }
 ```
 

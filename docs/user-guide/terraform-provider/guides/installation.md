@@ -269,7 +269,7 @@ provider "cloudia" {
 data "cloudia_projects" "all" {}
 
 output "project_count" {
-  value = data.cloudia_projects.all.count
+  value = data.cloudia_projects.all.total_count
 }
 ```
 

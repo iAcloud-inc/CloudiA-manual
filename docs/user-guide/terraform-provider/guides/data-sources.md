@@ -14,7 +14,7 @@ Cloud:iA provider는 같은 리소스 타입에 대해 **singular**(단일 조�
 | 용도 | 권장 형태 |
 |---|---|
 | `resource.X.id = data.Y.id` 단일 참조 | **singular** (`cloudia_image`, `cloudia_instance` 등) |
-| `for_each = toset(data.Y.items[*].id)` 컬렉션 루프 | **plural** (`cloudia_images`, `cloudia_instances` 등) |
+| `for_each = toset(data.cloudia_images.all.items[*].id)` 컬렉션 루프 | **plural** (`cloudia_images`, `cloudia_instances` 등) |
 | Output / 대시보드 / 필터 조합 | **plural** |
 | Plan 안정성 (여러 매칭은 명확히 실패하길 원함) | **singular** (`ExactlyOneOf` 검증) |
 
@@ -28,6 +28,18 @@ Cloud:iA provider는 같은 리소스 타입에 대해 **singular**(단일 조�
 | `cloudia_project` | `cloudia_projects` | 프로젝트. admin alias 필요할 수 있음 |
 
 다음 data source는 컬렉션 전용입니다 (singular 짝 없음): `cloudia_instance_disks`, `cloudia_instance_snapshots`, `cloudia_secure_types`, `cloudia_storage_domains`. 단일 항목이 필요하면 HCL `for` / `one()` 함수로 결과를 좁히세요.
+
+> **컬렉션 속성 이름은 data source마다 다릅니다.** 일률적으로 `items`가 아닙니다. 반환되는 목록 속성 이름은 다음과 같습니다.
+>
+> | data source | 목록 속성 | 개수 속성 |
+> |---|---|---|
+> | `cloudia_instances` | `instances` | `total_count` |
+> | `cloudia_instance_disks` | `disks` | `total_count` |
+> | `cloudia_instance_snapshots` | `snapshots` | `total_count` |
+> | `cloudia_secure_types` | `values` (문자열 목록) | — |
+> | `cloudia_images` · `cloudia_instance_types` · `cloudia_storage_domains` · `cloudia_projects` | `items` | `total_count` |
+>
+> 개수는 `count`가 아니라 `total_count`입니다.
 
 `cloudia_instance_interface`는 1:1 매핑이 가장 흔한 사용 패턴이라 컬렉션 대신 **selector singular** 형태(`lookup_id` ⊕ `is_default`, `ExactlyOneOf`)로 노출됩니다.
 
@@ -59,7 +71,7 @@ data "cloudia_instances" "running" {
 }
 
 output "running_instance_names" {
-  value = data.cloudia_instances.running.items[*].name
+  value = data.cloudia_instances.running.instances[*].name
 }
 ```
 
@@ -73,7 +85,7 @@ data "cloudia_instance_disks" "demo" {
 }
 
 locals {
-  boot_disk = one([for d in data.cloudia_instance_disks.demo.items : d if d.is_boot])
+  boot_disk = one([for d in data.cloudia_instance_disks.demo.disks : d if d.is_boot])
 }
 ```
 
@@ -90,12 +102,12 @@ data "cloudia_instance_disks" "demo" {
 
 # 부팅 디스크 1개 뽑기
 output "boot_disk_size_gib" {
-  value = one([for d in data.cloudia_instance_disks.demo.items : d.size_gib if d.is_boot])
+  value = one([for d in data.cloudia_instance_disks.demo.disks : d.size_gib if d.is_boot])
 }
 
 # 추가 데이터 볼륨 개수
 output "data_volume_count" {
-  value = length([for d in data.cloudia_instance_disks.demo.items : d if !d.is_boot])
+  value = length([for d in data.cloudia_instance_disks.demo.disks : d if !d.is_boot])
 }
 ```
 
@@ -110,7 +122,7 @@ data "cloudia_instance_interface" "primary" {
 }
 
 output "primary_ipv4" {
-  value = data.cloudia_instance_interface.primary.ip_address
+  value = data.cloudia_instance_interface.primary.ipv4_address
 }
 ```
 
@@ -124,8 +136,8 @@ data "cloudia_instance_snapshots" "demo" {
 # 가장 최근 스냅샷 1개의 ID
 locals {
   latest_snapshot_id = element(
-    sort([for s in data.cloudia_instance_snapshots.demo.items : s.id]),
-    length(data.cloudia_instance_snapshots.demo.items) - 1,
+    sort([for s in data.cloudia_instance_snapshots.demo.snapshots : s.id]),
+    length(data.cloudia_instance_snapshots.demo.snapshots) - 1,
   )
 }
 ```
@@ -138,7 +150,7 @@ locals {
 data "cloudia_secure_types" "all" {}
 
 output "available_secure_types" {
-  value = data.cloudia_secure_types.all.items[*].name
+  value = data.cloudia_secure_types.all.values
 }
 ```
 
@@ -149,7 +161,7 @@ output "available_secure_types" {
 ```hcl
 data "cloudia_storage_domains" "all" {}
 
-# LOCAL 타입만 필터링 (VIRTIOFS는 LOCAL/GFS2/NFS만 허용)
+# LOCAL 타입만 필터링 (VIRTIOFS는 CEPH만 불가, 보통 LOCAL 사용)
 locals {
   local_sd = [for sd in data.cloudia_storage_domains.all.items : sd if sd.type == "LOCAL"]
 }
@@ -165,7 +177,7 @@ data "cloudia_file_system" "shared" {
 }
 
 output "fs_kind" {
-  value = data.cloudia_file_system.shared.kind   # "NFS" 또는 "VIRTIOFS"
+  value = data.cloudia_file_system.shared.type   # "NFS" 또는 "VIRTIOFS"
 }
 ```
 
@@ -173,7 +185,7 @@ output "fs_kind" {
 
 - **단일 참조에 plural을 쓰는 경우** — `data.cloudia_images.all.items[0].id`처럼 인덱스로 한 개를 뽑으면, 정렬 순서나 필터가 바뀔 때 plan이 흔들립니다. singular `cloudia_image`를 쓰세요.
 - **여러 개를 다루는 작업에 singular를 쓰는 경우** — singular는 `ExactlyOneOf`로 검증하므로, `count` / `for_each`로 여러 번 호출하는 패턴이 어색합니다. plural이 자연스러운 선택입니다.
-- **plural에 `count`를 쓰는 경우** — `data.cloudia_instances.X.count`는 필터 적용 후 결과 개수를 반환합니다. preflight validation에 유용합니다.
+- **plural에 `count`를 쓰는 경우** — `data.cloudia_instances.X.total_count`는 필터 적용 후 결과 개수를 반환합니다. preflight validation에 유용합니다.
 
 ## 함께 보기
 

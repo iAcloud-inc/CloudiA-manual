@@ -65,7 +65,7 @@ timeout 안에 작업이 끝나지 않았습니다. 대응 옵션:
 
 1. **기다렸다 재시도** — Cloud:iA 콘솔에서 작업이 실제로 끝났는지 확인하세요. 끝났다면 `tofu apply`를 다시 실행하면 다음 read에서 state가 reconcile됩니다.
 2. **timeout 증가** — 느린 image copy가 필요한 인스턴스의 경우 `CLOUDIA_POLL_TIMEOUT_SECONDS`를 더 큰 값 (예: `1800`)으로 설정.
-3. **stuck instance에 한정한 escape hatch** — provider 블록에 `instance_force_delete_on_timeout = true`를 설정. `cloudia_instance` delete polling이 timeout에 도달하면 provider가 백엔드 force-delete endpoint를 fallback으로 호출합니다. 운영 사고용 대피로이지 일상 설정이 아닙니다 — provider schema의 caveat을 반드시 읽어보세요.
+3. **작업이 백엔드에서 멈춘 경우** — Cloud:iA 콘솔에서 해당 리소스의 상태를 확인하고, 백엔드 작업이 멈춰 있다면 운영자에게 문의하세요. 콘솔에서 정리한 뒤 `tofu apply`를 다시 실행하면 state가 reconcile됩니다.
 
 ### apply가 오류 없이 멈춘 것처럼 보일 때
 
