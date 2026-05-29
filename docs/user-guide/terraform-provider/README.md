@@ -2,7 +2,7 @@
 
 `terraform-provider-cloudia`를 OpenTofu/Terraform로 사용할 때 참고하는 한국어 사용자 가이드입니다.
 
-> 본 문서는 사용자(운영자/개발자) 대상 한국어 매뉴얼입니다. provider 자체와 영문 정식 문서(schema reference)는 추후 Terraform Registry / OpenTofu Registry에 게시될 예정이며, 게시 후에는 그쪽이 영문 SSOT 역할을 합니다.
+> 본 문서는 사용자(운영자/개발자) 대상 한국어 매뉴얼입니다. provider 자체와 영문 정식 문서(schema reference)는 추후 Terraform Registry / OpenTofu Registry에 게시될 예정이며, 게시 후에는 그쪽이 영문 기준 문서 역할을 합니다.
 
 ## 본 매뉴얼의 표기 원칙
 
