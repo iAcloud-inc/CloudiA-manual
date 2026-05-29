@@ -27,6 +27,8 @@ docs/_build/
 .env
 .env.*
 
-# AI 
+# AI
 .kiro
 docs/steering/
+docs/superpowers/
+.claude/
