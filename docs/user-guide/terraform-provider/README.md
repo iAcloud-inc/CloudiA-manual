@@ -35,77 +35,15 @@
 | `<your-instance-type-name>` | 인스턴스 타입 이름 | 환경마다 다름 |
 | `<your-ca-bundle>` | CA 인증서 경로 | self-signed 클러스터에서만 필요 (예: `~/cloudia-certs/ca-certificate.crt`) |
 
-## 가이드
+## 문서 구성
 
-권장 학습 순서:
+본 매뉴얼은 세 부분으로 구성됩니다.
 
-1. **[개념 정리 (입문자)](guides/concepts.md)** — IaC가 처음이라면 먼저 읽으세요. Terraform/OpenTofu/HCL/Provider/State 같은 용어 정리
-2. **[설치하기](guides/installation.md)** — provider 로컬 빌드 + `dev_overrides` 설정 (현재 Registry 미배포 상태라 직접 빌드 필요)
-3. [Provider 설정](guides/configuration.md) — `provider "cloudia"` 블록, endpoint·api_base_path, admin/user alias, 환경 변수, TLS
-4. [인증](guides/authentication.md) — `auth { ... }` 블록, password vs client_credentials, 환경 변수, CI/CD 연동
-5. [시작하기](guides/getting-started.md) — VPC → subnet → security group → image → SSH key → instance 까지 최소 흐름
-6. [자주 쓰는 워크플로](guides/common-workflows.md) — 멀티 NIC, 데이터 볼륨, 스냅샷/롤백, 플로팅 IP, NFS 공유, 골든 이미지
-7. [데이터소스 선택 (Singular vs Plural)](guides/data-sources.md) — 단일 조회와 컬렉션 조회 중 어떤 것을 쓸지
-8. [리소스 import](guides/import.md) — import key 형식과 리소스별 ID 규칙
-9. [문제 해결](guides/troubleshooting.md) — 인증 실패, polling timeout, force-delete, TLS, import 형식 오류 등
+- **[가이드](guides/README.md)** — 개념·설치·설정·인증·워크플로·문제 해결. IaC가 처음이거나 환경을 처음 세팅한다면 여기부터 시작하세요.
+- **[리소스](resources/README.md)** — `cloudia_*` 리소스 16종의 사용 예제와 운영 노트.
+- **[데이터소스](data-sources/README.md)** — 기존 리소스·카탈로그를 조회하는 데이터소스 18종.
 
-이미 IaC에 익숙하다면 1번을 건너뛰고 2번부터 보셔도 됩니다.
-
-## 리소스
-
-각 리소스의 사용 예제와 운영상 주의점을 한국어로 정리했습니다. 전체 필드/속성 목록은 provider의 영문 레퍼런스 문서를 기준으로 합니다.
-
-**프로젝트 & 권한**
-
-- [`cloudia_project`](resources/project.md) — 프로젝트 (admin 권한 필요)
-
-**네트워크**
-
-- [`cloudia_vpc`](resources/vpc.md) — VPC (네트워크 격리 단위)
-- [`cloudia_subnet`](resources/subnet.md) — 서브넷 (VPC 내 IP 블록)
-- [`cloudia_security_group`](resources/security_group.md) — 보안그룹 + inbound/outbound rule
-- [`cloudia_default_security_group`](resources/default_security_group.md) — 기본 보안그룹 adopt 관리
-- [`cloudia_floating_ip`](resources/floating_ip.md) — 플로팅 IP 할당 + bind/unbind
-
-**컴퓨트**
-
-- [`cloudia_instance`](resources/instance.md) — 가상머신 인스턴스 (가장 큰 리소스, LIVE/STOP/REPLACE 분기 포함)
-- [`cloudia_ssh_key`](resources/ssh_key.md) — SSH 공개키 등록
-- [`cloudia_affinity_group`](resources/affinity_group.md) — 인스턴스/호스트 배치 정책 그룹
-- [`cloudia_instance_snapshot`](resources/instance_snapshot.md) — 인스턴스 스냅샷 생성
-- [`cloudia_instance_snapshot_restore`](resources/instance_snapshot_restore.md) — 스냅샷 복원 (action 스타일, import 불가)
-
-**스토리지**
-
-- [`cloudia_volume`](resources/volume.md) — 블록 볼륨
-- [`cloudia_image`](resources/image.md) — OS 이미지(qcow2) 업로드
-- [`cloudia_image_clone`](resources/image_clone.md) — 이미지 복제 (스토리지 도메인 간 이동)
-- [`cloudia_nfs_file_system`](resources/nfs_file_system.md) — NFS 공유 파일시스템 (multi-attach)
-- [`cloudia_virtiofs_file_system`](resources/virtiofs_file_system.md) — VIRTIOFS host-local 공유 파일시스템
-
-## 데이터소스
-
-**프로젝트**
-
-- [`cloudia_project`](data-sources/project.md) / [`cloudia_projects`](data-sources/projects.md) — 프로젝트 단일/컬렉션 조회
-
-**컴퓨트**
-
-- [`cloudia_instance`](data-sources/instance.md) / [`cloudia_instances`](data-sources/instances.md) — 인스턴스 단일/컬렉션
-- [`cloudia_instance_type`](data-sources/instance_type.md) / [`cloudia_instance_types`](data-sources/instance_types.md) — 인스턴스 타입 카탈로그
-- [`cloudia_instance_disks`](data-sources/instance_disks.md) — 인스턴스에 붙은 디스크 목록
-- [`cloudia_instance_interface`](data-sources/instance_interface.md) — 인스턴스 NIC 1개
-- [`cloudia_instance_snapshots`](data-sources/instance_snapshots.md) — 인스턴스 스냅샷 목록
-- [`cloudia_ssh_key`](data-sources/ssh_key.md) — SSH 키 단일 조회
-- [`cloudia_secure_types`](data-sources/secure_types.md) — 보안 등급 카탈로그
-- [`cloudia_compute_hosts`](data-sources/compute_hosts.md) — compute host 목록
-- [`cloudia_accelerator_gpus`](data-sources/accelerator_gpus.md) / [`cloudia_accelerator_npus`](data-sources/accelerator_npus.md) — GPU/NPU 카탈로그 + 가용량
-
-**스토리지**
-
-- [`cloudia_image`](data-sources/image.md) / [`cloudia_images`](data-sources/images.md) — 이미지 단일/컬렉션
-- [`cloudia_file_system`](data-sources/file_system.md) — NFS/VIRTIOFS 공통 단일 조회
-- [`cloudia_storage_domains`](data-sources/storage_domains.md) — 사용 가능한 스토리지 도메인
+처음이라면 권장 순서: [개념 정리](guides/concepts.md) → [설치하기](guides/installation.md) → [Provider 설정](guides/configuration.md) → [인증](guides/authentication.md) → [시작하기](guides/getting-started.md). 이미 IaC에 익숙하다면 설치부터 보셔도 됩니다.
 
 ## 관련 자료
 
