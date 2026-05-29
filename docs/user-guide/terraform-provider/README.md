@@ -111,4 +111,4 @@
 
 - Cloud:iA UI 기반 사용자 가이드: [user-guide/quickstarts](../quickstarts/README.md), [user-guide/examples-and-labs](../examples-and-labs/README.md)
 - Cloud:iA 용어집: [glossary](../../glossary/glossary.md)
-- 영문 Provider Reference: 추후 Terraform Registry / OpenTofu Registry에 게시 예정
+- 영문 Provider Reference: provider 저장소의 `docs/resources/`, `docs/data-sources/`
