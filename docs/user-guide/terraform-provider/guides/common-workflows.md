@@ -192,7 +192,7 @@ output "public_ip" {
 
 **운영 노트**
 
-- `binding.resource_type`이 `"IP"`인 경우 `resource_ip`에 인스턴스 private IP를 지정합니다. `"INSTANCE"`로 바꾸면 `resource_id`에 인스턴스 ID를 넣고 `resource_ip`는 생략할 수 있습니다.
+- `binding.resource_ip`(대상 VPC 내부 IPv4)는 `"IP"`/`"INSTANCE"` **두 타입 모두 필수**입니다. `resource_id`는 `"INSTANCE"`일 때만 인스턴스 ID로 지정하고, `"IP"`일 때는 반드시 생략(`null`)해야 합니다.
 - `binding`을 생략하면 unbound 상태(공인 IP만 예약)로 유지됩니다.
 - `ip_address` 속성을 명시해 특정 공인 IP를 고정할 수 있지만, 변경 시 기존 IP가 release되고 새 IP가 할당됩니다.
 - 프로젝트의 `public_ip_quota`가 충분해야 합니다. quota 초과 시 apply가 실패합니다.
