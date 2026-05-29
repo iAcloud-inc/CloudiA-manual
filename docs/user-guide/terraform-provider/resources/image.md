@@ -63,6 +63,8 @@ import 후 `file_path`는 state에 남지 않으므로 HCL에서 생략 가능�
 - [../guides/common-workflows.md](../guides/common-workflows.md)
 - [../guides/import.md](../guides/import.md)
 - [../README.md](../README.md)
+- [cloudia_image (데이터소스)](../data-sources/image.md) — 등록된 이미지 정보 조회
+- [cloudia_images (데이터소스)](../data-sources/images.md) — 이미지 목록 조회
 
 ---
 

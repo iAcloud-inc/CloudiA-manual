@@ -59,6 +59,9 @@ import 키 형식: `<project_id>/<image_id>` (복제된 이미지의 ID)
 - [../guides/common-workflows.md](../guides/common-workflows.md)
 - [../guides/import.md](../guides/import.md)
 - [../README.md](../README.md)
+- [cloudia_image (데이터소스)](../data-sources/image.md) — 이미지 정보 조회 (복제 원본·복제 결과 조회에 활용)
+- [cloudia_images (데이터소스)](../data-sources/images.md) — 이미지 목록 조회
+- [cloudia_storage_domains (데이터소스)](../data-sources/storage_domains.md) — 복제 대상 스토리지 도메인 목록 조회
 
 ---
 

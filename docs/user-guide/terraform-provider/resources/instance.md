@@ -2,6 +2,8 @@
 
 가상머신 인스턴스를 생성하는 리소스입니다. 이 provider에서 **가장 큰 리소스**로, 사이징(vCPU·메모리)·네트워크(vNIC)·인증(cloud-init)·디스크(boot/데이터 볼륨)·파일시스템·가속기(GPU/NPU)·보안 모드(secure_type)를 한 리소스에서 모두 다룹니다. 변경하는 필드에 따라 적용 방식(무중단/재시작/재생성)이 달라지므로, 운영 환경에서는 apply 전에 반드시 `plan`으로 동작을 확인하세요.
 
+> 이 페이지는 다른 리소스 문서보다 항목이 많아, 표준 구성(예제·주요 인자·운영 노트) 대신 주제별 섹션(사이징·vNIC·Update 동작 등)으로 구성되어 있습니다.
+
 ## 최소 예제
 
 이미지는 `cloudia_image` 데이터소스로 조회하고, 인스턴스는 직접 사이징(`vcpu_number` + `memory_total`)으로 만듭니다. `cloud_init`은 필수 블록입니다.
@@ -281,6 +283,12 @@ import 키 형식: `<project_id>/<instance_id>`
 - [../guides/getting-started.md](../guides/getting-started.md)
 - [../guides/import.md](../guides/import.md)
 - [../README.md](../README.md)
+- [cloudia_instance (데이터소스)](../data-sources/instance.md) — 기존 인스턴스 정보 조회
+- [cloudia_instances (데이터소스)](../data-sources/instances.md) — 인스턴스 목록 조회
+- [cloudia_instance_type (데이터소스)](../data-sources/instance_type.md) — 인스턴스 타입 카탈로그 조회
+- [cloudia_instance_disks (데이터소스)](../data-sources/instance_disks.md) — 인스턴스에 연결된 디스크 목록 조회
+- [cloudia_instance_interface (데이터소스)](../data-sources/instance_interface.md) — 인스턴스 네트워크 인터페이스 조회
+- [cloudia_secure_types (데이터소스)](../data-sources/secure_types.md) — 사용 가능한 보안 모드 목록 조회
 
 ---
 

@@ -110,6 +110,7 @@ import 키 형식: `<project_id>/<affinity_group_id>`
 - [../guides/common-workflows.md](../guides/common-workflows.md)
 - [../README.md](../README.md)
 - `cloudia_compute_hosts` 데이터소스 — 호스트 ID 동적 조회에 사용
+- [cloudia_compute_hosts (데이터소스)](../data-sources/compute_hosts.md) — 배치 가능한 컴퓨트 호스트 목록 조회
 
 ---
 

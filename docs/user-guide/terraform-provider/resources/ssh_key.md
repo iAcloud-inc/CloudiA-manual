@@ -59,6 +59,7 @@ import 키 형식: `<project_id>/<ssh_key_id>`
 - [../guides/import.md](../guides/import.md)
 - [../guides/common-workflows.md](../guides/common-workflows.md)
 - [../README.md](../README.md)
+- [cloudia_ssh_key (데이터소스)](../data-sources/ssh_key.md) — 등록된 SSH 공개키 정보 조회
 
 ---
 

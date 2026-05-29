@@ -71,6 +71,7 @@ import 키 형식: `<project_id>/<instance_id>/<snapshot_id>` (3-part, 인스턴
 - [../guides/import.md](../guides/import.md)
 - [../guides/common-workflows.md](../guides/common-workflows.md)
 - [../README.md](../README.md)
+- [cloudia_instance_snapshots (데이터소스)](../data-sources/instance_snapshots.md) — 인스턴스 스냅샷 목록 조회
 
 ---
 

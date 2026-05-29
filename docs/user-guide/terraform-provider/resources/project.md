@@ -73,6 +73,8 @@ Import 후 Terraform 상태와 실제 설정이 일치하는지 확인하는 방
 - [../guides/configuration.md](../guides/configuration.md) — admin alias provider 구성
 - [../guides/import.md](../guides/import.md)
 - [../README.md](../README.md)
+- [cloudia_project (데이터소스)](../data-sources/project.md) — 기존 프로젝트 정보 조회
+- [cloudia_projects (데이터소스)](../data-sources/projects.md) — 프로젝트 목록 조회
 
 ---
 

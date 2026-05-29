@@ -129,6 +129,15 @@ provider "cloudia" {
 
 TLS 관련 오류(`x509: certificate signed by unknown authority` 등) 해결 방법은 [문제 해결 §TLS](troubleshooting.md#tls)를 참고하세요.
 
+## 고급 설정
+
+일반적인 사용에서는 기본값으로 충분합니다. 아래 인수는 폴링 주기나 NFS 생성 대기 시간을 조정해야 하는 경우에만 설정하세요.
+
+| 인수 | 환경 변수 | 설명 |
+|---|---|---|
+| `poll_interval` | `CLOUDIA_POLL_INTERVAL_SECONDS` | 비동기 작업 폴링 간격(초). 기본값은 provider 내부 기본을 따릅니다. 너무 짧게 설정하면 API 부하가 늘 수 있습니다. `poll_timeout`과 함께 사용합니다. |
+| `nfs_create_settle_seconds` | `CLOUDIA_NFS_CREATE_SETTLE_SECONDS` | NFS 파일시스템 생성 완료 후 내부 cloud-init 준비를 기다리는 추가 대기 시간(초). 기본 약 30초. 같은 plan에서 NFS를 바로 인스턴스에 마운트할 때 race 조건을 줄입니다. 자세한 동작은 [`cloudia_nfs_file_system`](../resources/nfs_file_system.md) 참고. |
+
 ## 다음 단계
 
 - [인증](authentication.md) — `auth {}` 블록 옵션, password/client_credentials, CI/CD 연동
