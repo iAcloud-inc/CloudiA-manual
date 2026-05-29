@@ -62,4 +62,4 @@ import 키 형식: `<project_id>/<image_id>` (복제된 이미지의 ID)
 
 ---
 
-> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/image_clone.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/image_clone.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

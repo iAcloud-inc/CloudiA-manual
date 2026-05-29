@@ -66,4 +66,4 @@ import 후 `file_path`는 state에 남지 않으므로 HCL에서 생략 가능�
 
 ---
 
-> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/image.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/image.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

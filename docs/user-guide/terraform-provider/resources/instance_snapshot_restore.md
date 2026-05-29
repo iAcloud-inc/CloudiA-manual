@@ -42,7 +42,7 @@ resource "cloudia_instance_snapshot_restore" "rollback" {
 - **RequiresReplace**: `instance_id` 또는 `snapshot_id`를 변경하면 기존 리소스가 삭제(no-op)되고 새 리소스로 복원이 재수행됩니다.
 - **같은 스냅샷 재복원**: `instance_id`와 `snapshot_id`가 동일한 경우 일반 apply는 no-op입니다. 재복원이 필요하면 `triggers` 맵의 값을 변경하거나 `terraform taint <resource>`를 사용하세요.
 - **복원 불가역성**: 복원이 완료되면 인스턴스 디스크는 스냅샷 시점으로 되돌아가며, 그 이후 변경 사항은 사라집니다. 적용 전 반드시 최신 스냅샷을 확보하세요.
-- **import 불가**: 복원은 일회성 이벤트로 백엔드에 "마지막 복원" 상태를 저장하는 SoT가 없습니다. 새 환경에서 복원이 필요하면 새 리소스 블록을 작성하세요.
+- **import 불가**: 복원은 일회성 동작이라 백엔드에 "마지막 복원"을 가리키는 별도 상태 오브젝트가 없습니다. 새 환경에서 복원이 필요하면 새 리소스 블록을 작성하세요.
 
 ## Import
 
@@ -56,4 +56,4 @@ resource "cloudia_instance_snapshot_restore" "rollback" {
 
 ---
 
-> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/instance_snapshot_restore.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/instance_snapshot_restore.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

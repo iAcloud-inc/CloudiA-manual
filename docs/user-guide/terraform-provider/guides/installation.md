@@ -175,14 +175,14 @@ tofu plan
 │   - iacloud/cloudia in /Users/<you>/go/bin
 ```
 
-이 경고는 정상입니다 — dev_overrides가 활성화돼 있다는 알림이에요.
+이 경고는 정상입니다 — dev_overrides가 활성화돼 있다는 알림입니다.
 
 > ⚠️ dev_overrides가 활성화된 동안에는 `tofu init`이 의미가 없고, `terraform.lock.hcl` 파일도 만들어지지 않습니다. 그래서 처음 시도할 때 `tofu init` 단계를 **건너뛰고** 바로 `tofu plan`을 실행하면 됩니다. registry 게시 후에는 다시 `tofu init`이 필요합니다.
 
 <a id="ca-cert"></a>
 ## 5. CA 인증서 받기 (dev/test 환경 사용 시)
 
-Cloud:iA dev/test 환경는 self-signed 인증서를 씁니다. 둘 중 하나를 선택하세요.
+Cloud:iA dev/test 환경은 self-signed 인증서를 씁니다. 둘 중 하나를 선택하세요.
 
 ### 옵션 A — 운영자 발급 CA를 시스템 trust store에 등록 (권장)
 

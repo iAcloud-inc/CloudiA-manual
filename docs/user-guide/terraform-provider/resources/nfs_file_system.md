@@ -41,7 +41,7 @@ resource "cloudia_nfs_file_system" "shared" {
 
 - **grow-only**: `size_gib`를 줄이면 plan 단계에서 데이터 보호 정책으로 거부됩니다(`FS_UPDATE_FAILED`). 더 작은 NFS가 필요하면 destroy 후 재생성하세요.
 - **RequiresReplace 인자**: `vnic`(전체 블록), `storage_domain_id`, `network_id`는 변경 시 파일시스템 전체를 destroy 후 재생성합니다. 변경 전에 마운트된 인스턴스를 먼저 분리하세요.
-- **비동기 생성 및 settle delay**: NFS 서버 VM 생성·업데이트·삭제는 모두 `202 + requestId` 비동기 API로 처리되며, provider가 완료까지 polling합니다. 완료 후 provider는 추가로 약 30초(`nfs_create_settle_seconds`, 기본값) 대기하여 NFS 서버 내 `cloud-init` runcmd가 완료되길 기다립니다. 같은 plan에서 바로 인스턴스를 마운트하면 race가 발생할 수 있으면 `CLOUDIA_NFS_CREATE_SETTLE_SECONDS` 환경변수 또는 provider의 `nfs_create_settle_seconds` 설정으로 대기 시간을 늘리세요.
+- **비동기 생성 및 settle delay**: NFS 서버 VM 생성·업데이트·삭제는 모두 `202 + requestId` 비동기 API로 처리되며, provider가 완료까지 polling합니다. 완료 후 provider는 추가로 약 30초(`nfs_create_settle_seconds`, 기본값) 대기하여 NFS 서버 내 `cloud-init` runcmd가 완료되길 기다립니다. 같은 plan에서 바로 인스턴스를 마운트하면 race가 발생할 수 있으니 `CLOUDIA_NFS_CREATE_SETTLE_SECONDS` 환경변수 또는 provider의 `nfs_create_settle_seconds` 설정으로 대기 시간을 늘리세요.
 - **단일 NIC**: 백엔드 정책상 NFS는 단일 NIC만 허용합니다. `vnic`은 리스트가 아닌 단일 중첩 객체입니다.
 - **마운트 방법**: 인스턴스에 NFS를 마운트하려면 `cloudia_instance`의 `file_systems` 블록에 `{ file_system_id = cloudia_nfs_file_system.shared.id, mountpoint = "/mnt/nfs" }` 형태로 지정합니다.
 - **deletable 플래그**: 인스턴스가 마운트 중이면 백엔드가 `deletable = false`를 반환합니다. 이 상태에서 destroy를 시도하면 실패합니다. 먼저 모든 인스턴스에서 마운트를 해제하세요.
@@ -70,4 +70,4 @@ import 키 형식: `<project_id>/<file_system_id>`
 
 ---
 
-> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/nfs_file_system.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/nfs_file_system.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

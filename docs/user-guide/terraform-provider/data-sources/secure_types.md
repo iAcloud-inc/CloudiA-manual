@@ -38,4 +38,4 @@ output "supports_sev" {
 
 ---
 
-> 전체 필드/속성 목록은 provider의 영문 레퍼런스 문서(`docs/data-sources/secure_types.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 목록은 provider의 영문 레퍼런스 문서(`docs/data-sources/secure_types.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

@@ -76,4 +76,4 @@ Import 후 Terraform 상태와 실제 설정이 일치하는지 확인하는 방
 
 ---
 
-> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/project.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/project.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

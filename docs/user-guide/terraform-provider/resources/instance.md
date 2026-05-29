@@ -36,7 +36,7 @@ resource "cloudia_instance" "demo" {
 
 `cloud_init.username`은 일반 로그인 사용자명으로 지정하세요(소문자로 시작하는 4~20자, `[a-z0-9_-]`). `root`, `admin`, `ubuntu`, `centos` 같은 예약 이름은 백엔드가 거부합니다.
 
-## Sizing
+## 사이징 (Sizing)
 
 사이징은 **직접 입력**이 유일한 경로입니다. `vcpu_number`(vCPU 개수)와 `memory_total`(메모리, MiB) 두 값으로 크기가 결정됩니다.
 
@@ -284,4 +284,4 @@ import 키 형식: `<project_id>/<instance_id>`
 
 ---
 
-> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/instance.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/instance.md`)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
