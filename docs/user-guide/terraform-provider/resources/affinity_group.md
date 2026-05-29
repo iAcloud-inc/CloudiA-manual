@@ -86,7 +86,7 @@ resource "cloudia_affinity_group" "ha_pair" {
 
 - **positive without enforcing**: `guest_positive`를 설정하면서 `guest_enforcing`을 생략(null)하면 plan이 거부될 수 있습니다. 두 플래그는 항상 쌍으로 설정하세요. 동일 규칙이 `host_positive` / `host_enforcing`에도 적용됩니다.
 - **tri-state 멤버십**: `instance_ids`와 `host_ids`는 null(관리 안 함) / `[]`(전체 해제) / non-empty(전체 교체) 세 가지 상태를 구분합니다. Terraform state에서 명시적으로 `[]`를 넣어야 전체 해제가 됩니다.
-- **cross-group conflict**: 동일 인스턴스가 서로 충돌하는 정책의 그룹에 중복 등록되면 백엔드가 conflict를 감지합니다(ADR-0024). 인스턴스를 여러 그룹에 등록할 때는 정책 방향이 충돌하지 않는지 확인하세요.
+- **cross-group conflict**: 동일 인스턴스가 서로 충돌하는 정책의 그룹에 중복 등록되면 백엔드가 conflict를 감지합니다. 인스턴스를 여러 그룹에 등록할 때는 정책 방향이 충돌하지 않는지 확인하세요.
 - **host_ids 동적 관리**: 호스트 ID를 하드코딩하지 말고 `cloudia_compute_hosts` 데이터소스로 조회하여 채우는 패턴을 권장합니다.
 - **enabled = false**: 그룹을 비활성화해도 멤버십은 유지됩니다. 스케줄링 강제만 중단됩니다.
 
@@ -113,4 +113,4 @@ import 키 형식: `<project_id>/<affinity_group_id>`
 
 ---
 
-> 전체 필드/속성 표는 영문 generated reference(provider `docs/resources/affinity_group.md`, 추후 Registry)를 SSOT로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/affinity_group.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

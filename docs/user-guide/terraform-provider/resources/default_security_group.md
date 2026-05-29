@@ -65,7 +65,7 @@ resource "cloudia_default_security_group" "main_default" {
 
 ## 운영 노트
 
-- **adopt/forget 모델 (ADR-0019)**: 이 리소스는 백엔드 singleton을 "adopt"합니다. `terraform destroy`를 실행해도 실제 백엔드의 기본 SG는 삭제되지 않고, Terraform state에서만 제거됩니다. 기본 SG는 VPC 삭제 시 백엔드가 자동으로 제거합니다.
+- **adopt/forget 모델**: 이 리소스는 백엔드 singleton을 "adopt"합니다. `terraform destroy`를 실행해도 실제 백엔드의 기본 SG는 삭제되지 않고, Terraform state에서만 제거됩니다. 기본 SG는 VPC 삭제 시 백엔드가 자동으로 제거합니다.
 - **null = 미관리(tri-state)**: `description`, `allow_intra_group_traffic`, `inbound_rules`, `outbound_rules`를 HCL에서 생략하면 해당 속성은 Terraform이 관리하지 않습니다(`null` 상태). 이는 빈 값과 다릅니다. `outbound_rules = null` 일 때 outbound 방향은 백엔드 소유로 유지됩니다.
 - **name은 백엔드 고정**: `name` 인자는 존재하지 않습니다. 이름은 백엔드가 `<vpc-name>-default-sg` 형식으로 자동 부여하며, 읽기 전용 `name` 속성으로만 조회할 수 있습니다.
 - **import 후 재선언 필요**: import 직후 `description`, `inbound_rules`, `outbound_rules`, `allow_intra_group_traffic` 모두 `null`(미관리)로 설정됩니다. 관리하려는 속성을 HCL에 재선언한 뒤 `terraform plan`으로 확인하세요.
@@ -100,4 +100,4 @@ import 키 형식: `<project_id>/<vpc_id>` (SG ID가 아닌 **VPC ID** 사용)
 
 ---
 
-> 전체 필드/속성 표는 영문 generated reference(provider `docs/resources/default_security_group.md`, 추후 Registry)를 SSOT로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.
+> 전체 필드/속성 표는 영문 레퍼런스 문서(provider `docs/resources/default_security_group.md`, 추후 Terraform Registry 게시)를 기준으로 합니다. 본 페이지는 한국어 사용 예제와 운영 노트를 다룹니다.

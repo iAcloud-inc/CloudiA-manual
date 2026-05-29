@@ -1,6 +1,6 @@
 # 시작하기 (Getting Started)
 
-> 영문 SSOT: `terraform-provider-cloudia/docs/guides/getting-started.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
+> 원본(영문): `terraform-provider-cloudia/docs/guides/getting-started.md`. 한국어 문서와 차이가 있으면 영문 문서를 우선합니다.
 >
 > 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
@@ -296,4 +296,4 @@ tofu destroy
 
 ## 비고
 
-OIDC 인증이 도입되면 [인증](authentication.md) §0 사전 준비와 이 가이드의 사전 준비 항목이 함께 업데이트됩니다 (ADR-0006).
+OIDC 인증이 도입되면 [인증](authentication.md) §0 사전 준비와 이 가이드의 사전 준비 항목이 함께 업데이트됩니다.

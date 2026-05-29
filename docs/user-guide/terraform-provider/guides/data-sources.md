@@ -1,6 +1,6 @@
 # Singular vs Plural 데이터소스 선택하기
 
-> 영문 SSOT: `terraform-provider-cloudia/docs/guides/data-sources.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
+> 원본(영문): `terraform-provider-cloudia/docs/guides/data-sources.md`. 한국어 문서와 차이가 있으면 영문 문서를 우선합니다.
 >
 > 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
@@ -29,7 +29,7 @@ Cloud:iA provider는 같은 리소스 타입에 대해 **singular**(단일 조�
 
 다음 data source는 컬렉션 전용입니다 (singular 짝 없음): `cloudia_instance_disks`, `cloudia_instance_snapshots`, `cloudia_secure_types`, `cloudia_storage_domains`. 단일 항목이 필요하면 HCL `for` / `one()` 함수로 결과를 좁히세요.
 
-`cloudia_instance_interface`는 1:1 매핑이 가장 흔한 사용 패턴이라 컬렉션 대신 **selector singular** 형태(`lookup_id` ⊕ `is_default`, `ExactlyOneOf`)로 노출됩니다 (ADR-0013).
+`cloudia_instance_interface`는 1:1 매핑이 가장 흔한 사용 패턴이라 컬렉션 대신 **selector singular** 형태(`lookup_id` ⊕ `is_default`, `ExactlyOneOf`)로 노출됩니다.
 
 ## 예시
 
@@ -179,4 +179,3 @@ output "fs_kind" {
 
 - 전체 data source 목록: Terraform Registry sidebar의 Data Sources 섹션
 - [시작하기 (Getting Started)](getting-started.md) §5 Image 조회
-- ADR-0013 — Data source shape & naming policy

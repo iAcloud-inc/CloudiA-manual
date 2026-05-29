@@ -1,6 +1,6 @@
 # 인증 (Authentication)
 
-> 영문 SSOT: `terraform-provider-cloudia/docs/guides/authentication.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
+> 원본(영문): `terraform-provider-cloudia/docs/guides/authentication.md`. 한국어 문서와 차이가 있으면 영문 문서를 우선합니다.
 >
 > 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
@@ -171,4 +171,4 @@ GitLab CI / Jenkins / CircleCI도 동일한 환경 변수를 주입하면 동일
 
 ## 비고
 
-중첩된 `auth { ... }` 블록은 ADR-0006에서 채택되었습니다. 동일 구조는 향후 OIDC `authorization_code` 등 추가 flow를 도입할 때도 재사용되며, 신규 `type` 값만 추가될 뿐 기존 HCL은 변경 없이 동작합니다.
+중첩된 `auth { ... }` 블록 구조를 사용합니다. 동일 구조는 향후 OIDC `authorization_code` 등 추가 flow를 도입할 때도 재사용되며, 신규 `type` 값만 추가될 뿐 기존 HCL은 변경 없이 동작합니다.
