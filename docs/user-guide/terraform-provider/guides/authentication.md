@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/authentication.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider는 중첩된 `auth { ... }` 블록을 통해 OAuth2로 인증합니다. 두 가지 grant flow를 지원합니다.
 

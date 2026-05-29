@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/getting-started.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
 이 가이드는 Cloud:iA 환경에서 첫 번째 인스턴스를 띄우기까지의 최소 흐름을 안내합니다. [인증](authentication.md) 설정이 이미 끝났다고 가정합니다.
 
@@ -10,10 +10,10 @@
 
 ## 0. 사전 준비
 
-- **provider 설치 완료** — [설치하기](install.md)를 먼저 끝내고 오세요. (Registry 미배포 상태라 로컬 빌드 + `dev_overrides`가 필요합니다.)
+- **provider 설치 완료** — [설치하기](installation.md)를 먼저 끝내고 오세요. (Registry 미배포 상태라 로컬 빌드 + `dev_overrides`가 필요합니다.)
 - OpenTofu CLI (또는 Terraform CLI) 설치 완료
 - 프로젝트 한 개 이상을 보유한 Cloud:iA 계정 (이 가이드는 admin alias 없이 단일 provider로 진행)
-- 인증 환경 변수 export 완료 — [인증 §Cloud:iA dev/test 환경용 .env 예시](authentication.md#dev-env-example) 또는 [설치 §6](install.md#env-file)의 `.env`를 `source` 했다고 가정합니다
+- 인증 환경 변수 export 완료 — [인증 §Cloud:iA dev/test 환경용 .env 예시](authentication.md#dev-env-example) 또는 [설치 §6](installation.md#env-file)의 `.env`를 `source` 했다고 가정합니다
 
 새 작업 디렉터리를 만들고 `main.tf` 파일을 생성합니다. 첫 블록은 "이 디렉터리는 cloudia provider를 쓴다" 라고 OpenTofu에 알리는 선언입니다.
 
@@ -32,7 +32,7 @@ terraform {
 }
 ```
 
-> dev_overrides가 활성화된 상태에서는 `tofu init`을 건너뛰고 바로 `tofu plan`을 실행하면 됩니다. 자세한 이유는 [설치 §4](install.md#dev-overrides) 참고.
+> dev_overrides가 활성화된 상태에서는 `tofu init`을 건너뛰고 바로 `tofu plan`을 실행하면 됩니다. 자세한 이유는 [설치 §4](installation.md#dev-overrides) 참고.
 
 ## 1. Provider 설정
 

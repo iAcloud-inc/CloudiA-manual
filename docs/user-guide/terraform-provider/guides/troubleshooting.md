@@ -2,7 +2,7 @@
 
 > 영문 SSOT: `terraform-provider-cloudia/docs/guides/troubleshooting.md`. 본 한국어 본은 그 sibling이며, 차이가 있을 경우 영문판이 우선합니다.
 >
-> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서의 예시는 Cloud:iA dev/test 환경 기준입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
 Cloud:iA provider를 처음 도입할 때 가장 자주 마주치는 문제를 모았습니다. credential 설정은 [인증](authentication.md), 전체 흐름은 [시작하기](getting-started.md)를 먼저 참고하세요.
 

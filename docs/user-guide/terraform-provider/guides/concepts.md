@@ -1,8 +1,8 @@
 # 개념 정리 — IaC가 처음이라면
 
-> 본 문서는 Infrastructure as Code(IaC), Terraform / OpenTofu, HCL 같은 용어가 처음인 분들을 위한 입문용 정리입니다. 이미 익숙하시다면 [설치하기](install.md)로 건너뛰세요.
+> 본 문서는 Infrastructure as Code(IaC), Terraform / OpenTofu, HCL 같은 용어가 처음인 분들을 위한 입문용 정리입니다. 이미 익숙하시다면 [설치하기](installation.md)로 건너뛰세요.
 >
-> Cloud:iA 자체 용어(VPC, 서브넷, 인스턴스, 스토리지 도메인 등)는 [Cloud:iA 용어집](../../glossary/glossary.md)에서 확인하세요.
+> Cloud:iA 자체 용어(VPC, 서브넷, 인스턴스, 스토리지 도메인 등)는 [Cloud:iA 용어집](../../../glossary/glossary.md)에서 확인하세요.
 
 ## 1. Infrastructure as Code (IaC)란?
 
@@ -142,7 +142,7 @@ provider가 사용자 대신 "완료됐는지" 를 주기적으로 물어봐(pol
 
 이 정도 개념이 잡혔다면 실제로 설치해 봅니다.
 
-- [설치하기 (로컬 빌드 + dev_overrides)](install.md) — Cloud:iA provider가 아직 Registry에 게시되지 않아 직접 빌드해 써야 합니다
+- [설치하기 (로컬 빌드 + dev_overrides)](installation.md) — Cloud:iA provider가 아직 Registry에 게시되지 않아 직접 빌드해 써야 합니다
 - [인증](authentication.md) — endpoint와 자격 증명 설정
 - [시작하기](getting-started.md) — 첫 VPC와 인스턴스 만들기
 

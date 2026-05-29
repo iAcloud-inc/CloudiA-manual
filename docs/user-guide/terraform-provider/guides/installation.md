@@ -1,6 +1,6 @@
 # 설치하기 (로컬 빌드 + dev_overrides)
 
-> 본 문서는 Cloud:iA dev/test 환경 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](README.md#reference-table)를 참고하세요.
+> 본 문서는 Cloud:iA dev/test 환경 기준 예시입니다. `<your-...>` 플레이스홀더와 실제 값 매핑은 [가이드 홈의 Reference 표](../README.md#reference-table)를 참고하세요.
 
 ## 빠른 이동
 
