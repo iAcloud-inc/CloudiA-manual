@@ -27,6 +27,7 @@ terraform {
 provider "cloudia" {
   endpoint      = "<your-cloudia-endpoint>"
   api_base_path = "/cloudia"   # 선택 — subpath 마운트 환경에서만 필요
+  project_id    = "<your-project-id>"  # 선택 — 기본 project context
 
   auth {
     type = "password"
@@ -39,6 +40,8 @@ provider "cloudia" {
 |---|---|---|---|
 | `endpoint` | Cloud:iA API endpoint URL | 필수 | 예: `<your-cloudia-endpoint>` |
 | `api_base_path` | API base path prefix | 선택 | API가 subpath에 마운트된 경우만 설정 (예: `/cloudia`). 루트(`/`)에 마운트된 경우 빈 문자열 또는 생략. 잘못 설정하면 `http=405` 오류 발생 |
+| `project_id` | 기본 project context ID | 선택 | 리소스에서 `project_id`를 명시하지 않을 때 fallback. 환경 변수 `CLOUDIA_PROJECT_ID`로도 주입 가능 |
+| `tls_insecure` | TLS 인증서 검증 생략 | 선택 | 기본 `false`. dev 전용 — 운영 환경 금지. 아래 TLS / CA 인증서 섹션 참고 |
 | `auth {}` | 인증 블록 | 필수 | 상세는 [인증](authentication.md) 참고 |
 
 > 민감 정보(`password`, `client_secret` 등)는 HCL에 평문으로 적지 마세요. 환경 변수 또는 secret manager로 주입하세요.
@@ -98,25 +101,31 @@ resource "cloudia_vpc" "main" {
 | `CLOUDIA_ENDPOINT` | `endpoint` | (없음) | Cloud:iA API endpoint URL |
 | `CLOUDIA_API_BASE_PATH` | `api_base_path` | `""` | API base path prefix (예: `/cloudia`) |
 | `CLOUDIA_PROJECT_ID` | `project_id` | (없음) | 기본 project context. 리소스에서 `project_id`를 명시하지 않을 때 fallback으로 사용 |
-| `CLOUDIA_POLL_TIMEOUT_SECONDS` | — | `600` | 비동기 작업 polling timeout (초). 대용량 리소스 생성 등 오래 걸리는 작업 시 늘려 설정 |
+| `CLOUDIA_POLL_TIMEOUT_SECONDS` | `poll_timeout` | `600` | 비동기 작업 polling timeout (초). 대용량 리소스 생성 등 오래 걸리는 작업 시 늘려 설정 |
+| `CLOUDIA_TLS_INSECURE` | `tls_insecure` | `false` | TLS 인증서 검증 생략 (dev 전용). 아래 TLS 섹션 참고 |
 
 인증 관련 환경 변수(`CLOUDIA_AUTH_*`)는 [인증](authentication.md) 가이드를 참고하세요.
 
 ## TLS / CA 인증서
 
-self-signed 인증서를 사용하는 클러스터에 접속할 때는 CA 인증서를 시스템 trust store에 등록하거나 provider에 직접 지정합니다.
+Cloud:iA dev/test 환경은 보통 self-signed 인증서를 사용합니다. 두 가지 방법 중 하나를 선택하세요.
+
+**옵션 A — CA를 시스템 trust store에 등록 (권장)**: Cloud:iA 운영자에게 CA 인증서(`<your-ca-bundle>`)를 발급받아 OS 신뢰 저장소에 등록합니다. 등록 절차는 [설치하기 §5 CA 인증서 받기](installation.md#ca-cert)에 정리되어 있습니다. 운영 환경에서는 이 방법을 사용하세요.
+
+**옵션 B — TLS 검증 끄기 (dev 전용, 비권장)**: CA 등록이 번거로운 개발 환경에서만 `tls_insecure`를 켭니다. 운영 환경에서는 절대 사용하지 마세요 — MITM 공격에 그대로 노출됩니다.
 
 ```hcl
 provider "cloudia" {
-  endpoint      = "<your-cloudia-endpoint>"
-  api_base_path = "/cloudia"
-  ca_bundle     = "<your-ca-bundle>"   # 예: ~/cloudia-certs/ca-certificate.crt
+  endpoint     = "<your-cloudia-endpoint>"
+  tls_insecure = true   # dev 전용. CA를 등록했다면 제거
 
-  auth { ... }
+  auth {
+    type = "password"
+  }
 }
 ```
 
-CA 인증서는 Cloud:iA 운영자에게 발급받으세요 (`<your-ca-bundle>`). 개발 환경에서만 임시로 `CLOUDIA_TLS_INSECURE=true`를 사용할 수 있지만 운영 환경에서는 반드시 CA를 등록해야 합니다.
+환경 변수로도 켤 수 있습니다: `export CLOUDIA_TLS_INSECURE=true`.
 
 TLS 관련 오류(`x509: certificate signed by unknown authority` 등) 해결 방법은 [문제 해결 §TLS](troubleshooting.md#tls)를 참고하세요.
 
