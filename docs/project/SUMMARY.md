@@ -3,6 +3,8 @@
 # Project
 * [Cloud:iA 개요](overview/overview.md)
 
+* [내 정보](my-info/my-info.md)
+
 * [프로젝트 관리](project-management/project-management.md)
 
 * [프로젝트 홈](home/project-home.md)

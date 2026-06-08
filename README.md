@@ -32,6 +32,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
 - **접근관리**
+  - [내 정보](docs/project/my-info/my-info.md)
   - [멤버](docs/administrator/access-management/member/member.md)
   - [역할](docs/administrator/access-management/role/role.md)
   - [관리자 역할](docs/administrator/access-management/admin-role/admin-role.md)
@@ -49,6 +50,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ---
 
 ## 프로젝트 매뉴얼
+- [내 정보](docs/project/my-info/my-info.md)
 - [프로젝트 관리](docs/project/project-management/project-management.md)
 - [프로젝트 홈](docs/project/project-home/project-home.md)
 - [네트워크 토폴로지](docs/project/project-home/network-topology/network-topology.md)
@@ -61,7 +63,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **네트워크**
   - [VPC](docs/project/network/vpc/vpc.md)
   - [서브넷](docs/project/network/subnet/subnet.md)
-  - [외부 IP](docs/project/network/external-ip/external-ip)
+  - [외부 IP](docs/project/network/external-ip/external-ip.md)
   - [플로팅 IP](docs/project/network/floating-ip/floating-ip.md)
   - [포트 포워딩](docs/project/network/port-forwarding/port-forwarding.md)
   - [로드 밸런서](docs/project/network/load-balancer/load-balancer.md)
@@ -74,6 +76,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [이미지](docs/project/storage/image/image.md)
   - [블록](docs/project/storage/block/block.md)
   - [파일 시스템](docs/project/storage/file-system/file-system.md)
+  - [오브젝트 스토리지](docs/project/storage/object-storage/object-storage.md)
   - [스냅샷](docs/project/storage/snapshot/snapshot.md)
 - **쿠버네티스**
   - [클러스터](docs/project/kubernetes/cluster/cluster.md)
@@ -117,7 +120,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [로드 밸런서를 활용한 트래픽 분산하기](docs/user-guide/examples-and-labs/09-distribute-traffic-with-load-balancer.md)
   - [포트 포워딩으로 인스턴스 연결하기](docs/user-guide/examples-and-labs/10-connect-instance-via-port-forwarding.md)
   - [내부 DNS 활용하기](docs/user-guide/examples-and-labs/11-use-private-dns-and-verify-with-dig.md)
-  - [네트워크 접근 제어 커스터마이징하기](docs/user-guide/examples-and-labs/12-customize-nacl-and-bind-subnet.md)
+  - [네트워크 ACL 커스터마이징하기](docs/user-guide/examples-and-labs/12-customize-nacl-and-bind-subnet.md)
   - [보안그룹을 통한 인스턴스 통신 정책 만들기](docs/user-guide/examples-and-labs/13-create-security-group-traffic-policy.md)
   - [스케줄러를 통한 주기적인 인스턴스 스냅샷 생성](docs/user-guide/examples-and-labs/14-schedule-recurring-instance-snapshots.md)
   - [인스턴스 스냅샷 롤백하기](docs/user-guide/examples-and-labs/15-rollback-instance-to-snapshot.md)
