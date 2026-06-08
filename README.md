@@ -22,7 +22,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
   - [컴퓨트 노드](docs/administrator/host-machine/compute-node/compute-node.md)
 - **네트워크**
-  - [외부 IP 풀](docs/administrator/network/ip-pool/ip-pool.md)
+  - [외부 IP 풀](docs/administrator/network/external-ip-pool/external-ip-pool.md)
   - [방화벽](docs/administrator/network/firewall/firewall.md)
   - [보안그룹 템플릿](docs/administrator/network/security-group-template/security-group-template.md)
 - **스토리지**
@@ -52,8 +52,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ## 프로젝트 매뉴얼
 - [내 정보](docs/project/my-info/my-info.md)
 - [프로젝트 관리](docs/project/project-management/project-management.md)
-- [프로젝트 홈](docs/project/project-home/project-home.md)
-- [네트워크 토폴로지](docs/project/project-home/network-topology/network-topology.md)
+- [프로젝트 홈](docs/project/home/project-home.md)
+- [네트워크 토폴로지](docs/project/home/network-topology.md)
 - **가상머신**
   - [인스턴스](docs/project/vm/instance/instance.md)
   - [시작 템플릿](docs/project/vm/launch-template/launch-template.md)
@@ -90,13 +90,13 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ## 사용자 가이드
 - **Terraform Provider (한국어)**
   - [Terraform Provider 가이드 홈](docs/user-guide/terraform-provider/README.md)
-  - [개념 정리 (IaC 입문)](docs/user-guide/terraform-provider/concepts.md)
-  - [설치하기 (로컬 빌드 + dev_overrides)](docs/user-guide/terraform-provider/install.md)
-  - [인증 (Authentication)](docs/user-guide/terraform-provider/authentication.md)
-  - [시작하기 (Getting Started)](docs/user-guide/terraform-provider/getting-started.md)
-  - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/data-sources.md)
-  - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/troubleshooting.md)
-  - [리소스/데이터소스 카탈로그](docs/user-guide/terraform-provider/catalog/README.md) — 프로젝트 / 네트워크 / 컴퓨트 / 스토리지
+  - [개념 정리 (IaC 입문)](docs/user-guide/terraform-provider/guides/concepts.md)
+  - [설치하기 (로컬 빌드 + dev_overrides)](docs/user-guide/terraform-provider/guides/installation.md)
+  - [인증 (Authentication)](docs/user-guide/terraform-provider/guides/authentication.md)
+  - [시작하기 (Getting Started)](docs/user-guide/terraform-provider/guides/getting-started.md)
+  - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/guides/data-sources.md)
+  - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/guides/troubleshooting.md)
+  - [리소스/데이터소스 카탈로그](docs/user-guide/terraform-provider/resources/README.md) — 프로젝트 / 네트워크 / 컴퓨트 / 스토리지
 
 - **빠른 시작 가이드**
   - [빠른 시작 가이드 홈](docs/user-guide/quickstarts/README.md)
