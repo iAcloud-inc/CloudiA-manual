@@ -36,8 +36,9 @@ Cloud:iA provider는 같은 리소스 타입에 대해 **singular**(단일 조�
 > | `cloudia_instances` | `instances` | `total_count` |
 > | `cloudia_instance_disks` | `disks` | `total_count` |
 > | `cloudia_instance_snapshots` | `snapshots` | `total_count` |
+> | `cloudia_compute_hosts` | `hosts` | `total_count` |
 > | `cloudia_secure_types` | `values` (문자열 목록) | — |
-> | `cloudia_images` · `cloudia_instance_types` · `cloudia_storage_domains` · `cloudia_projects` | `items` | `total_count` |
+> | `cloudia_images` · `cloudia_instance_types` · `cloudia_storage_domains` · `cloudia_projects` · `cloudia_accelerator_gpus` · `cloudia_accelerator_npus` | `items` | `total_count` |
 >
 > 개수는 `count`가 아니라 `total_count`입니다.
 
