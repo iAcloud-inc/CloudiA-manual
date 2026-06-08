@@ -32,3 +32,7 @@ docs/_build/
 docs/steering/
 docs/superpowers/
 .claude/
+
+# Internal planning docs (not for publication)
+/manual-improvement-plan-*.md
+/*-improvement-plan-*.md
