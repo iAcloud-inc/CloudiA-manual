@@ -21,7 +21,9 @@
   * [플로팅 IP](network/floating-ip/floating-ip.md)
   * [포트 포워딩](network/port-forwarding/port-forwarding.md)
   * [로드 밸런서](network/load-balancer/load-balancer.md)
+  * [어플리케이션 로드 밸런서](network/l7-load-balancer/l7-load-balancer.md)
   * [타겟 그룹](network/target-group/target-group.md)
+  * [어플리케이션 타겟 그룹](network/l7-target-group/l7-target-group.md)
   * [내부 DNS](network/private-dns/private-dns.md)
 
 * [네트워크 보안](security/README.md)
