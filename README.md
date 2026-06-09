@@ -67,8 +67,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [플로팅 IP](docs/project/network/floating-ip/floating-ip.md)
   - [포트 포워딩](docs/project/network/port-forwarding/port-forwarding.md)
   - [로드 밸런서](docs/project/network/load-balancer/load-balancer.md)
-  - [타겟 그룹](docs/project/network/target-group/target-group.md)
   - [어플리케이션 로드 밸런서](docs/project/network/l7-load-balancer/l7-load-balancer.md)
+  - [타겟 그룹](docs/project/network/target-group/target-group.md)
   - [어플리케이션 타겟 그룹](docs/project/network/l7-target-group/l7-target-group.md)
   - [내부 DNS](docs/project/network/private-dns/private-dns.md)
 - **네트워크 보안**
