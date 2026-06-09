@@ -119,4 +119,4 @@ tofu plan
 
 import 관련 오류(예: `Resource ID is malformed`) 또는 import 후 예상치 못한 drift는 [문제 해결 §Import](troubleshooting.md#import)를 참고하세요.
 
-각 리소스의 인자·속성·운영 노트는 [리소스 문서](../README.md#리소스)에서 확인할 수 있습니다.
+각 리소스의 인자·속성·운영 노트는 [리소스 문서](../resources/README.md)에서 확인할 수 있습니다.
