@@ -68,7 +68,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [타겟 그룹](docs/project/network/target-group/target-group.md)
   - [내부 DNS](docs/project/network/private-dns/private-dns.md)
 - **네트워크 보안**
-  - [네트워크 ACL](docs/project/security/nacl/nacl.md)
+  - [Network ACL](docs/project/security/nacl/nacl.md)
   - [보안그룹](docs/project/security/security-group/security-group.md)
 - **스토리지**
   - [이미지](docs/project/storage/image/image.md)
