@@ -33,6 +33,7 @@
   * [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
   * [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
   * [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](examples-and-labs/20-install-rocky-instance-from-iso.md)
+  * [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](examples-and-labs/21-route-l7-requests-by-host-and-path.md)
 
 * [Terraform Provider 가이드](terraform-provider/README.md)
   * [가이드](terraform-provider/guides/README.md)
