@@ -49,7 +49,7 @@
 | 항목 | 값 |
 |---|---|
 | 이름 | `example-pvc-001` |
-| 용량 | `1 GiB` |
+| 용량 | `1 GB` |
 | 스토리지 클래스 | `example-sc-001` |
 | 네임스페이스 | `default` |
 | 접근 모드 | `ReadWriteMany` |

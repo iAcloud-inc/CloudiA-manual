@@ -22,7 +22,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
   - [컴퓨트 노드](docs/administrator/host-machine/compute-node/compute-node.md)
 - **네트워크**
-  - [외부 IP 풀](docs/administrator/network/ip-pool/ip-pool.md)
+  - [외부 IP 풀](docs/administrator/network/external-ip-pool/external-ip-pool.md)
   - [방화벽](docs/administrator/network/firewall/firewall.md)
   - [보안그룹 템플릿](docs/administrator/network/security-group-template/security-group-template.md)
 - **스토리지**
@@ -32,6 +32,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
 - **접근관리**
+  - [내 정보](docs/project/my-info/my-info.md)
   - [멤버](docs/administrator/access-management/member/member.md)
   - [역할](docs/administrator/access-management/role/role.md)
   - [관리자 역할](docs/administrator/access-management/admin-role/admin-role.md)
@@ -49,9 +50,10 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ---
 
 ## 프로젝트 매뉴얼
+- [내 정보](docs/project/my-info/my-info.md)
 - [프로젝트 관리](docs/project/project-management/project-management.md)
-- [프로젝트 홈](docs/project/project-home/project-home.md)
-- [네트워크 토폴로지](docs/project/project-home/network-topology/network-topology.md)
+- [프로젝트 홈](docs/project/home/project-home.md)
+- [네트워크 토폴로지](docs/project/home/network-topology.md)
 - **가상머신**
   - [인스턴스](docs/project/vm/instance/instance.md)
   - [시작 템플릿](docs/project/vm/launch-template/launch-template.md)
@@ -61,19 +63,22 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **네트워크**
   - [VPC](docs/project/network/vpc/vpc.md)
   - [서브넷](docs/project/network/subnet/subnet.md)
-  - [외부 IP](docs/project/network/external-ip/external-ip)
+  - [외부 IP](docs/project/network/external-ip/external-ip.md)
   - [플로팅 IP](docs/project/network/floating-ip/floating-ip.md)
   - [포트 포워딩](docs/project/network/port-forwarding/port-forwarding.md)
   - [로드 밸런서](docs/project/network/load-balancer/load-balancer.md)
+  - [어플리케이션 로드 밸런서](docs/project/network/l7-load-balancer/l7-load-balancer.md)
   - [타겟 그룹](docs/project/network/target-group/target-group.md)
+  - [어플리케이션 타겟 그룹](docs/project/network/l7-target-group/l7-target-group.md)
   - [내부 DNS](docs/project/network/private-dns/private-dns.md)
 - **네트워크 보안**
-  - [네트워크 ACL](docs/project/security/nacl/nacl.md)
+  - [Network ACL](docs/project/security/nacl/nacl.md)
   - [보안그룹](docs/project/security/security-group/security-group.md)
 - **스토리지**
   - [이미지](docs/project/storage/image/image.md)
   - [블록](docs/project/storage/block/block.md)
   - [파일 시스템](docs/project/storage/file-system/file-system.md)
+  - [오브젝트 스토리지](docs/project/storage/object-storage/object-storage.md)
   - [스냅샷](docs/project/storage/snapshot/snapshot.md)
 - **쿠버네티스**
   - [클러스터](docs/project/kubernetes/cluster/cluster.md)
@@ -85,6 +90,16 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ---
 
 ## 사용자 가이드
+- **Terraform Provider (한국어)**
+  - [Terraform Provider 가이드 홈](docs/user-guide/terraform-provider/README.md)
+  - [개념 정리 (IaC 입문)](docs/user-guide/terraform-provider/guides/concepts.md)
+  - [설치하기 (로컬 빌드 + dev_overrides)](docs/user-guide/terraform-provider/guides/installation.md)
+  - [인증 (Authentication)](docs/user-guide/terraform-provider/guides/authentication.md)
+  - [시작하기 (Getting Started)](docs/user-guide/terraform-provider/guides/getting-started.md)
+  - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/guides/data-sources.md)
+  - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/guides/troubleshooting.md)
+  - [리소스/데이터소스 카탈로그](docs/user-guide/terraform-provider/resources/README.md) — 프로젝트 / 네트워크 / 컴퓨트 / 스토리지
+
 - **빠른 시작 가이드**
   - [빠른 시작 가이드 홈](docs/user-guide/quickstarts/README.md)
   - [Cloud:iA 계정 생성하기](docs/user-guide/quickstarts/01-create-account.md)
@@ -107,7 +122,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [로드 밸런서를 활용한 트래픽 분산하기](docs/user-guide/examples-and-labs/09-distribute-traffic-with-load-balancer.md)
   - [포트 포워딩으로 인스턴스 연결하기](docs/user-guide/examples-and-labs/10-connect-instance-via-port-forwarding.md)
   - [내부 DNS 활용하기](docs/user-guide/examples-and-labs/11-use-private-dns-and-verify-with-dig.md)
-  - [네트워크 접근 제어 커스터마이징하기](docs/user-guide/examples-and-labs/12-customize-nacl-and-bind-subnet.md)
+  - [네트워크 ACL 커스터마이징하기](docs/user-guide/examples-and-labs/12-customize-nacl-and-bind-subnet.md)
   - [보안그룹을 통한 인스턴스 통신 정책 만들기](docs/user-guide/examples-and-labs/13-create-security-group-traffic-policy.md)
   - [스케줄러를 통한 주기적인 인스턴스 스냅샷 생성](docs/user-guide/examples-and-labs/14-schedule-recurring-instance-snapshots.md)
   - [인스턴스 스냅샷 롤백하기](docs/user-guide/examples-and-labs/15-rollback-instance-to-snapshot.md)

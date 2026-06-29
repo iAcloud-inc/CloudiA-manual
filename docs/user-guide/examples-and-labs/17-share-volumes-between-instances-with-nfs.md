@@ -29,7 +29,7 @@
 |---|---|
 | 이름 | `example-fs-nfs-001` |
 | 타입 | `NFS` |
-| 크기 | `20 GiB` |
+| 크기 | `20 GB` |
 | 스토리지 도메인 | `NFS-SD` |
 | VPC | `example-vpc` |
 | 서브넷 | `example-subnet-001` |
