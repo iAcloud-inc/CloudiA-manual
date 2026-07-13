@@ -129,3 +129,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](docs/user-guide/examples-and-labs/16-create-golden-image-from-snapshot.md)
   - [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기](docs/user-guide/examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
   - [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](docs/user-guide/examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
+  - [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
+  - [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](docs/user-guide/examples-and-labs/20-install-rocky-instance-from-iso.md)
+  - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](docs/user-guide/examples-and-labs/21-route-l7-requests-by-host-and-path.md)
+  - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](docs/user-guide/examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
