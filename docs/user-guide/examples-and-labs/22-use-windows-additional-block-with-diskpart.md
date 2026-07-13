@@ -1,0 +1,122 @@
+# Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)
+
+이 문서는 Windows 인스턴스(골든 이미지 기반)에 연결한 추가 블록 디스크를 게스트 내부에서 사용하는 방법을 안내합니다. 새 디스크를 초기화하는 경우와, 다른 인스턴스에서 쓰던 디스크를 데이터 보존한 채 그대로 재사용하는 경우로 나누어 설명합니다.
+
+## 사용 제한 (개수)
+Windows 인스턴스의 디스크는 SATA 방식으로 연결되며, 내장 SATA 컨트롤러는 **6포트**를 제공합니다.
+
+- 부팅 디스크가 1포트를 사용하므로 **추가 블록은 최대 5개**까지 연결할 수 있습니다.
+- 한도(총 6개)를 초과하는 구성은 인스턴스 **생성·편집 단계에서 거부**됩니다.
+- 추가 블록 연결·분리는 **인스턴스를 종료한 상태에서만** 가능합니다. 실행 중 연결/제거(hot-plug)는 지원하지 않습니다.
+
+## 사전 준비
+- Windows 인스턴스가 생성되어 있고, 콘솔 또는 RDP로 접근 가능
+- 연결할 블록 스토리지가 준비되어 있어야 함
+  - 블록 생성은 [블록](../../project/storage/block/block.md) 참고
+  - 블록 연결(종료 상태에서 편집 → 스토리지 추가)은 [블록 생성과 인스턴스 연결하기](../quickstarts/05-create-block-and-add-to-new-instance.md) 참고
+- 관리자 권한으로 `명령 프롬프트` 또는 `PowerShell` 실행 가능
+
+## 개요
+1. [디스크 목록 확인](#step-1)
+2. [시나리오 A: 새 디스크 초기화해서 사용](#step-2)
+3. [시나리오 B: 기존 데이터 디스크 그대로 재사용](#step-3)
+4. [참고: 디스크를 다른 인스턴스로 이동](#step-4)
+
+<a id="step-1"></a>
+## 1단계: 디스크 목록 확인
+**수행 계정/화면:** `관리자 계정` / `Windows 콘솔`
+
+관리자 권한 `명령 프롬프트`에서 `diskpart`를 실행해 연결된 디스크를 확인합니다.
+
+```bat
+diskpart
+list disk
+```
+
+### 확인
+- 부팅 디스크(`디스크 0`) 외에 추가 블록이 `디스크 1`, `디스크 2` … 로 표시됩니다.
+- `상태`가 `온라인`인지 `오프라인`인지, 크기가 예상과 일치하는지 확인합니다.
+- 새로 붙인 디스크는 흔히 `오프라인` 또는 `읽기 전용` 상태로 나타납니다.
+
+<a id="step-2"></a>
+## 2단계: 시나리오 A — 새 디스크 초기화해서 사용
+**수행 계정/화면:** `관리자 계정` / `Windows 콘솔`
+
+아직 파티션이 없는 **새 블록**을 초기화하고 NTFS로 포맷해 드라이브 문자를 부여합니다.
+
+### 절차 (diskpart)
+```bat
+diskpart
+list disk
+select disk 1
+attributes disk clear readonly   :: 읽기 전용이면 해제(쓰기 가능하게)
+online disk                      :: 오프라인이면 온라인 전환
+convert gpt                      :: 필요 시 GPT로 변환(2TB 초과 등)
+create partition primary
+format fs=ntfs quick label=DATA
+assign letter=E
+exit
+```
+
+### 절차 (PowerShell 대안)
+```powershell
+# 초기화되지 않은(RAW) 디스크 확인 후 GPT 초기화 + NTFS 포맷 + 드라이브 문자 자동 부여
+Set-Disk -Number 1 -IsOffline $false
+Set-Disk -Number 1 -IsReadOnly $false
+Initialize-Disk -Number 1 -PartitionStyle GPT
+New-Partition -DiskNumber 1 -UseMaximumSize -AssignDriveLetter |
+  Format-Volume -FileSystem NTFS -NewFileSystemLabel DATA -Confirm:$false
+```
+
+> GUI를 선호하면 `diskmgmt.msc`(디스크 관리)를 열어 대상 디스크를 `온라인` → `디스크 초기화` → `새 단순 볼륨`으로 진행해도 됩니다.
+
+### 확인
+- `파일 탐색기`에 새 드라이브(예: `E:`)가 표시됩니다.
+- 해당 드라이브에서 파일 읽기/쓰기가 가능합니다.
+
+<a id="step-3"></a>
+## 3단계: 시나리오 B — 기존 데이터 디스크 그대로 재사용
+**수행 계정/화면:** `관리자 계정` / `Windows 콘솔`
+
+다른 인스턴스에서 쓰던, **이미 포맷·데이터가 있는 디스크**를 붙였을 때는 초기화하지 않고 온라인 전환과 읽기 전용 해제만 수행합니다. 데이터가 보존됩니다.
+
+### 절차 (diskpart)
+```bat
+diskpart
+list disk
+select disk 1
+online disk                      :: 오프라인으로 보이면 온라인 전환
+attributes disk clear readonly   :: 읽기 전용 플래그 해제(쓰기 가능하게)
+list volume                      :: 기존 데이터 볼륨 확인
+select volume 3                  :: 대상 볼륨 번호 선택
+assign letter=E                  :: 드라이브 문자만 부여
+exit
+```
+
+> ⚠️ 데이터를 보존하려면 `create partition` / `format` / `clean`을 **실행하지 마십시오.** 이 명령들은 기존 데이터를 삭제합니다. 재사용 시에는 `online disk` + `attributes disk clear readonly` + `assign`만 사용합니다.
+
+### 절차 (PowerShell 대안)
+```powershell
+Set-Disk -Number 1 -IsOffline $false
+Set-Disk -Number 1 -IsReadOnly $false
+# 기존 파티션에 드라이브 문자만 부여(포맷하지 않음)
+Get-Partition -DiskNumber 1 | Where-Object Type -eq 'Basic' |
+  Set-Partition -NewDriveLetter E
+```
+
+### 확인
+- `파일 탐색기`에 드라이브(예: `E:`)가 표시되고, 기존 파일이 그대로 보입니다.
+- 해당 드라이브에서 파일 읽기/쓰기가 가능합니다.
+
+<a id="step-4"></a>
+## 4단계: 참고 — 디스크를 다른 인스턴스로 이동
+**수행 계정/화면:** `프로젝트 계정` / `프로젝트 페이지`
+
+데이터를 유지한 채 블록을 다른 인스턴스로 옮길 때의 순서입니다.
+
+1. 원본 인스턴스를 **종료**합니다.
+2. 원본 인스턴스 `편집`에서 해당 블록을 **분리**합니다. (블록 자체는 삭제되지 않습니다.)
+3. 대상 인스턴스를 **종료**한 뒤 `편집 > 스토리지 추가`로 블록을 **연결**합니다.
+4. 대상 인스턴스를 실행하고, [시나리오 B](#step-3)의 절차로 온라인 전환·읽기 전용 해제만 수행합니다. (초기화 금지)
+
+> 연결·분리는 종료 상태에서만 가능하며, 한 블록은 동시에 하나의 인스턴스에만 연결할 수 있습니다.
