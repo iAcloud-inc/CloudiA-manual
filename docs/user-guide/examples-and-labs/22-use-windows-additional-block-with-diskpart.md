@@ -44,7 +44,7 @@ list disk
 
 아직 파티션이 없는 **새 블록**을 초기화하고 NTFS로 포맷해 드라이브 문자를 부여합니다.
 
-### 절차 (diskpart)
+### 절차
 ```bat
 diskpart
 list disk
@@ -58,18 +58,6 @@ assign letter=E
 exit
 ```
 
-### 절차 (PowerShell 대안)
-```powershell
-# 초기화되지 않은(RAW) 디스크 확인 후 GPT 초기화 + NTFS 포맷 + 드라이브 문자 자동 부여
-Set-Disk -Number 1 -IsOffline $false
-Set-Disk -Number 1 -IsReadOnly $false
-Initialize-Disk -Number 1 -PartitionStyle GPT
-New-Partition -DiskNumber 1 -UseMaximumSize -AssignDriveLetter |
-  Format-Volume -FileSystem NTFS -NewFileSystemLabel DATA -Confirm:$false
-```
-
-> GUI를 선호하면 `diskmgmt.msc`(디스크 관리)를 열어 대상 디스크를 `온라인` → `디스크 초기화` → `새 단순 볼륨`으로 진행해도 됩니다.
-
 ### 확인
 - `파일 탐색기`에 새 드라이브(예: `E:`)가 표시됩니다.
 - 해당 드라이브에서 파일 읽기/쓰기가 가능합니다.
@@ -80,7 +68,7 @@ New-Partition -DiskNumber 1 -UseMaximumSize -AssignDriveLetter |
 
 다른 인스턴스에서 쓰던, **이미 포맷·데이터가 있는 디스크**를 붙였을 때는 초기화하지 않고 온라인 전환과 읽기 전용 해제만 수행합니다. 데이터가 보존됩니다.
 
-### 절차 (diskpart)
+### 절차
 ```bat
 diskpart
 list disk
@@ -94,15 +82,6 @@ exit
 ```
 
 > ⚠️ 데이터를 보존하려면 `create partition` / `format` / `clean`을 **실행하지 마십시오.** 이 명령들은 기존 데이터를 삭제합니다. 재사용 시에는 `online disk` + `attributes disk clear readonly` + `assign`만 사용합니다.
-
-### 절차 (PowerShell 대안)
-```powershell
-Set-Disk -Number 1 -IsOffline $false
-Set-Disk -Number 1 -IsReadOnly $false
-# 기존 파티션에 드라이브 문자만 부여(포맷하지 않음)
-Get-Partition -DiskNumber 1 | Where-Object Type -eq 'Basic' |
-  Set-Partition -NewDriveLetter E
-```
 
 ### 확인
 - `파일 탐색기`에 드라이브(예: `E:`)가 표시되고, 기존 파일이 그대로 보입니다.
