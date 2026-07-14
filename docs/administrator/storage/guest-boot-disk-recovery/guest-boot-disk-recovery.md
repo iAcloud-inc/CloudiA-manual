@@ -79,13 +79,22 @@ lsblk -f /dev/rbd0
 | `rbd0p4` | **루트(`/`)** | ✅ 핵심 대상 |
 
 ### 6) 파일시스템 복구
-루트 파티션의 파일시스템 유형에 맞는 도구를 사용합니다. (`lsblk -f` / `blkid` 로 유형 확인)
+게스트 OS 계열에 따라 루트 파일시스템이 다르므로, 계열에 맞는 도구를 사용합니다.
+
+| 게스트 OS 계열 | 루트 파일시스템 | 복구 명령 |
+| --- | --- | --- |
+| **Rocky / RHEL 계열** | XFS | `xfs_repair /dev/rbd0p4` (막히면 `xfs_repair -L`) |
+| **Ubuntu 계열** | ext4 | `fsck.ext4 -f -y /dev/rbd0p4` |
 
 ```bash
-xfs_repair /dev/rbd0p4          # XFS  (막히면 xfs_repair -L /dev/rbd0p4)
-fsck.ext4 -f -y /dev/rbd0p4     # ext4
+# Rocky / RHEL 계열 (XFS)
+xfs_repair /dev/rbd0p4          # 막히면: xfs_repair -L /dev/rbd0p4
+
+# Ubuntu 계열 (ext4)
+fsck.ext4 -f -y /dev/rbd0p4
 ```
 
+> 💡 참고: OS 계열로 판단하되, 커스텀 이미지 등 확실하지 않으면 `blkid /dev/rbd0p4` 로 실제 유형(`xfs`/`ext4`)을 확인한 뒤 도구를 선택합니다.
 > 💡 참고: 루트 복구 후에도 부팅되지 않으면 `/boot`(p3), EFI(p2)도 같은 방식으로 점검합니다.
 
 ### 7) 연결 해제 후 재기동
