@@ -429,6 +429,8 @@ df -hT
 - [ ] `오토 스케일링 그룹`, `쿠버네티스 연계 리소스` 등 상위 서비스 잔존 리소스를 정리했다.
 - [ ] 위 항목 확인 후 프로젝트 삭제를 다시 시도했다.
 
+자세한 삭제 조건과 절차는 [프로젝트 삭제](../../administrator/project/project-management/project-management.md#프로젝트-삭제)를 참고하세요.
+
 <a id="faq-migration"></a>
 ## 8. 마이그레이션
 
