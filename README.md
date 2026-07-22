@@ -42,6 +42,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [이벤트](docs/administrator/monitoring/event/event.md)
   - [감사 로그](docs/administrator/monitoring/audit-log/audit-log.md)
   - [이벤트 트리거](docs/administrator/monitoring/event-trigger/event-trigger.md)
+  - [로그 전송](docs/administrator/monitoring/log-export/log-export.md)
 - **환경설정**
   - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
   - [알림 설정](docs/administrator/setting/alarm-setting/alarm-setting.md)
