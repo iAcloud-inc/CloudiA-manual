@@ -133,4 +133,5 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
   - [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](docs/user-guide/examples-and-labs/20-install-rocky-instance-from-iso.md)
   - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](docs/user-guide/examples-and-labs/21-route-l7-requests-by-host-and-path.md)
+  - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](docs/user-guide/examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
   - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/22-grow-boot-disk.md)
