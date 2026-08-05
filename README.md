@@ -12,6 +12,11 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 이러한 기능을 통합해 Cloud:iA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
+## v1.5.0 주요 변경
+- **스냅샷 사용성 개선**: 독립 `스토리지 > 스냅샷` 메뉴가 제거되었습니다. 블록 스냅샷은 [블록 상세](docs/project/storage/block/block.md#블록-스냅샷), 인스턴스 스냅샷·이미지 생성은 [인스턴스 상세](docs/project/vm/instance/instance.md#인스턴스-스냅샷)에서 관리합니다.
+- **스토리지 마이그레이션**: 디스크(부팅 디스크·블록)를 다른 스토리지 도메인으로 이동하는 기능(콜드/라이브). [블록](docs/project/storage/block/block.md#블록-스토리지-마이그레이션) / [인스턴스](docs/project/vm/instance/instance.md#스토리지-마이그레이션) 참고.
+- **NFS 사용자 계정**: NFS 파일 시스템 생성 시 사용자 계정(계정명·비밀번호·SSH 키, 모두 선택)을 지정할 수 있으며, 고정 기본 비밀번호는 제거되었습니다. [파일 시스템](docs/project/storage/file-system/file-system.md#nfs-타입-사용자-계정-선택) 참고.
+
 ## 관리자 매뉴얼
 
 - **대시보드**
@@ -42,6 +47,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [이벤트](docs/administrator/monitoring/event/event.md)
   - [감사 로그](docs/administrator/monitoring/audit-log/audit-log.md)
   - [이벤트 트리거](docs/administrator/monitoring/event-trigger/event-trigger.md)
+  - [상태 점검](docs/administrator/monitoring/status-check/status-check.md)
   - [로그 전송](docs/administrator/monitoring/log-export/log-export.md)
 - **환경설정**
   - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
@@ -80,7 +86,6 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [블록](docs/project/storage/block/block.md)
   - [파일 시스템](docs/project/storage/file-system/file-system.md)
   - [오브젝트 스토리지](docs/project/storage/object-storage/object-storage.md)
-  - [스냅샷](docs/project/storage/snapshot/snapshot.md)
 - **쿠버네티스**
   - [클러스터](docs/project/kubernetes/cluster/cluster.md)
 - **스케줄러**
