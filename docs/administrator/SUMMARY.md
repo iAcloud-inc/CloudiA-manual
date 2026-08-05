@@ -37,6 +37,7 @@
   * [이벤트](monitoring/event/event.md)
   * [감사 로그](monitoring/audit-log/audit-log.md)
   * [이벤트 트리거](monitoring/event-trigger/event-trigger.md)
+  * [로그 전송](monitoring/log-export/log-export.md)
 
 * [환경설정](setting/README.md)
   * [정책 설정](setting/policy-setting/policy-setting.md)

@@ -38,7 +38,6 @@
   * [블록](storage/block/block.md)
   * [파일 시스템](storage/file-system/file-system.md)
   * [오브젝트 스토리지](storage/object-storage/object-storage.md)
-  * [스냅샷](storage/snapshot/snapshot.md)
 
 * [쿠버네티스](kubernetes/README.md)
   * [클러스터](kubernetes/cluster/cluster.md)
@@ -48,3 +47,4 @@
 
 * [모니터링](monitoring/README.md)
   * [이벤트](monitoring/event/event.md)
+  * [이벤트 트리거](monitoring/event-trigger/event-trigger.md)
