@@ -30,3 +30,4 @@
 - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](./21-route-l7-requests-by-host-and-path.md)
 - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](./22-use-windows-additional-block-with-diskpart.md)
 - [인스턴스 부팅 디스크 증설하기](./22-grow-boot-disk.md)
+- [콘솔로 부팅 문제 진단하기](./23-troubleshoot-boot-with-console.md)
