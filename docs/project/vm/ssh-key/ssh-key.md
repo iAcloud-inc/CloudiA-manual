@@ -167,4 +167,4 @@ ssh -i ~/.ssh/example-key-ed25519 example-user@192.168.11.13
 - 외부 접속 경로로 플로팅 IP를 사용하는 절차는 [플로팅 IP로 인스턴스 접속하기](../../../user-guide/quickstarts/04-access-instance-via-floating-ip.md)를 참고합니다.
 - SSH 키 생성, 등록, 인스턴스 연결, 실제 접속 확인 예시는 [SSH 키를 사용한 인스턴스 접속하기](../../../user-guide/examples-and-labs/07-access-instance-with-ssh-key.md)를 참고합니다.
 
-> ⚠️ **주의:** SSH 키는 SSH 접속용입니다. 웹 콘솔은 일반적으로 사용자 이름/비밀번호 기반 로그인이 필요하므로, 비밀번호 없이 SSH 키만 설정한 경우 콘솔 로그인은 되지 않거나 제한될 수 있습니다.
+> ⚠️ **주의:** SSH 키는 SSH 접속용입니다. 그래픽 콘솔(VNC)은 사용자 이름/비밀번호 기반 로그인이 필요하므로, 비밀번호 없이 SSH 키만 설정한 경우 콘솔로는 로그인할 수 없습니다.
