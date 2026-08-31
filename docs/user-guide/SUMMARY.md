@@ -37,6 +37,7 @@
   * [인스턴스 부팅 디스크 증설하기](examples-and-labs/22-grow-boot-disk.md)
   * [콘솔로 부팅 문제 진단하기](examples-and-labs/23-troubleshoot-boot-with-console.md)
 
+<!-- Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026-08-31). 복원 시 이 주석의 시작·끝 표시만 제거. -->
 * [Terraform Provider 가이드](terraform-provider/README.md)
   * [가이드](terraform-provider/guides/README.md)
     * [개념 정리 (IaC 입문)](terraform-provider/guides/concepts.md)
@@ -84,6 +85,7 @@
     * [cloudia_images](terraform-provider/data-sources/images.md)
     * [cloudia_file_system](terraform-provider/data-sources/file_system.md)
     * [cloudia_storage_domains](terraform-provider/data-sources/storage_domains.md)
+<!-- Terraform Provider 섹션 주석 끝 -->
 
 * [FAQ (자주 묻는 질문)](faq/faq.md)
   * [가상머신 생성·실행·배치](faq/faq.md#faq-vm-placement)

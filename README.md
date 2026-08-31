@@ -96,6 +96,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ---
 
 ## 사용자 가이드
+<!-- Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026-08-31). 복원 시 이 주석의 시작·끝 표시만 제거. -->
 - **Terraform Provider (한국어)**
   - [Terraform Provider 가이드 홈](docs/user-guide/terraform-provider/README.md)
   - [개념 정리 (IaC 입문)](docs/user-guide/terraform-provider/guides/concepts.md)
@@ -105,6 +106,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/guides/data-sources.md)
   - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/guides/troubleshooting.md)
   - [리소스/데이터소스 카탈로그](docs/user-guide/terraform-provider/resources/README.md) — 프로젝트 / 네트워크 / 컴퓨트 / 스토리지
+<!-- Terraform Provider 섹션 주석 끝 -->
 
 - **빠른 시작 가이드**
   - [빠른 시작 가이드 홈](docs/user-guide/quickstarts/README.md)
