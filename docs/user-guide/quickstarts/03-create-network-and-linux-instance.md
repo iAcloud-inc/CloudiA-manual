@@ -5,7 +5,7 @@
 ## 사전 준비
 - [프로젝트 생성하기](./02-create-project.md) 완료
 - `example-member` 계정이 `example-project`의 `project-owner`
-- 외부 IP 쿼터 1 이상
+- 외부 IP 할당량 1 이상
 - Linux 이미지 준비
   - 예: `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2`
 
