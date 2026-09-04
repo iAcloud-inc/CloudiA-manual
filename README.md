@@ -96,6 +96,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ---
 
 ## 사용자 가이드
+<!--
+Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026-08-31). 복원 시 첫 줄의 시작 마커(`<!--`)와 마지막 줄의 끝 마커만 제거.
 - **Terraform Provider (한국어)**
   - [Terraform Provider 가이드 홈](docs/user-guide/terraform-provider/README.md)
   - [개념 정리 (IaC 입문)](docs/user-guide/terraform-provider/guides/concepts.md)
@@ -105,6 +107,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [Singular vs Plural 데이터소스](docs/user-guide/terraform-provider/guides/data-sources.md)
   - [문제 해결 (Troubleshooting)](docs/user-guide/terraform-provider/guides/troubleshooting.md)
   - [리소스/데이터소스 카탈로그](docs/user-guide/terraform-provider/resources/README.md) — 프로젝트 / 네트워크 / 컴퓨트 / 스토리지
+-->
 
 - **빠른 시작 가이드**
   - [빠른 시작 가이드 홈](docs/user-guide/quickstarts/README.md)
@@ -140,3 +143,4 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](docs/user-guide/examples-and-labs/21-route-l7-requests-by-host-and-path.md)
   - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](docs/user-guide/examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
   - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/22-grow-boot-disk.md)
+  - [게스트 부팅 디스크 복구 (CEPH)](docs/user-guide/examples-and-labs/23-recover-guest-boot-disk-ceph.md)

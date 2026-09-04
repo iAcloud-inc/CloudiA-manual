@@ -17,7 +17,7 @@
 
 ### 절차
 1. `가상머신 > 시작 템플릿`에서 `생성`을 클릭합니다.
-2. 이름/설명, 인스턴스 타입, OS 이미지를 설정합니다.
+2. 이름, 인스턴스 타입, OS 이미지를 설정합니다.
 3. VPC/서브넷/보안그룹을 설정합니다.
 4. 사용자 계정과 인증(비밀번호 또는 SSH 키)을 설정합니다.
 5. `생성`을 클릭합니다.
@@ -26,7 +26,6 @@
 | 항목 | 값 |
 |---|---|
 | 템플릿 이름 | `example-launch-template-001` |
-| 설명 | `example launch template for quick provisioning` |
 | 인스턴스 타입 | `t2.medium` |
 | OS 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64.qcow2` |
 | VPC | `example-vpc` |
