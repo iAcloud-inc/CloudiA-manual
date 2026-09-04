@@ -165,7 +165,7 @@
 | 4 | **블록(디스크)** | [블록 삭제](../../../project/storage/block/block.md#블록-삭제)를 참고하세요. |
 | 5 | **이미지** | [이미지 삭제](../../../project/storage/image/image.md#이미지-삭제)를 참고하세요. |
 | 6 | **파일 시스템** | [파일 시스템 삭제](../../../project/storage/file-system/file-system.md#파일-시스템-삭제)를 참고하세요. |
-| 7 | **오브젝트 스토리지** | 버킷·오브젝트는 삭제 시 함께 정리됩니다. [오브젝트 스토리지 삭제](../../../project/storage/object-storage/object-storage.md#오브젝트-스토리지-삭제)를 참고하세요. |
+| 7 | **오브젝트 스토리지** | 버킷·오브젝트는 삭제 시 함께 정리되도록 시도(best-effort)하며, 일부 정리 실패에도 삭제는 진행됩니다. [오브젝트 스토리지 삭제](../../../project/storage/object-storage/object-storage.md#오브젝트-스토리지-삭제)를 참고하세요. |
 | 8 | **외부 IP** | 점유 리소스를 해제하면 자동으로 반납됩니다. [외부 IP 반납](../../../project/network/external-ip/external-ip.md#외부-ip-반납)을 참고하세요. |
 | 9 | **VPC** | 서브넷·보안 그룹 등 하위 리소스를 먼저 정리한 뒤 [VPC 삭제](../../../project/network/vpc/vpc.md#vpc-삭제)를 진행합니다. |
 

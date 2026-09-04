@@ -143,3 +143,4 @@ Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026
   - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](docs/user-guide/examples-and-labs/21-route-l7-requests-by-host-and-path.md)
   - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](docs/user-guide/examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
   - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/22-grow-boot-disk.md)
+  - [게스트 부팅 디스크 복구 (CEPH)](docs/user-guide/examples-and-labs/23-recover-guest-boot-disk-ceph.md)
