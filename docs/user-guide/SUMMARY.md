@@ -34,10 +34,12 @@
   * [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
   * [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](examples-and-labs/20-install-rocky-instance-from-iso.md)
   * [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](examples-and-labs/21-route-l7-requests-by-host-and-path.md)
+  * [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
   * [인스턴스 부팅 디스크 증설하기](examples-and-labs/22-grow-boot-disk.md)
   * [콘솔로 부팅 문제 진단하기](examples-and-labs/23-troubleshoot-boot-with-console.md)
 
-<!-- Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026-08-31). 복원 시 이 주석의 시작·끝 표시만 제거. -->
+<!--
+Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026-08-31). 복원 시 이 주석의 시작·끝 표시만 제거.
 * [Terraform Provider 가이드](terraform-provider/README.md)
   * [가이드](terraform-provider/guides/README.md)
     * [개념 정리 (IaC 입문)](terraform-provider/guides/concepts.md)
@@ -85,7 +87,7 @@
     * [cloudia_images](terraform-provider/data-sources/images.md)
     * [cloudia_file_system](terraform-provider/data-sources/file_system.md)
     * [cloudia_storage_domains](terraform-provider/data-sources/storage_domains.md)
-<!-- Terraform Provider 섹션 주석 끝 -->
+-->
 
 * [FAQ (자주 묻는 질문)](faq/faq.md)
   * [가상머신 생성·실행·배치](faq/faq.md#faq-vm-placement)
