@@ -12,6 +12,12 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 이러한 기능을 통합해 Cloud:iA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
+## v1.6.0 주요 변경
+- **쿠버네티스 클러스터 업그레이드**: 클러스터 상세의 **버전** 항목 옆 `업그레이드` 버튼으로 컨트롤 플레인·워커를 순차 교체해 상위 버전으로 올릴 수 있습니다. [클러스터 업그레이드](docs/project/kubernetes/cluster/cluster.md#클러스터-업그레이드) 참고. 제공 버전은 `1.36`, `1.37` 입니다.
+- **레지스트리 신뢰**: 사설·사용자 레지스트리의 CA 를 클러스터 노드에 신뢰 등록하고 노드별 적용 현황을 확인할 수 있습니다. [레지스트리 신뢰](docs/project/kubernetes/cluster/cluster.md#레지스트리-신뢰) 참고.
+- **클러스터 파일 시스템 연결/해제**: 클러스터 상세 스토리지 섹션에서 파일 시스템을 연결·해제합니다. 연결된 파일 시스템은 해제 전까지 삭제할 수 없습니다. [스토리지](docs/project/kubernetes/cluster/cluster.md#스토리지) 참고.
+- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [레지스트리](docs/administrator/kubernetes/registry/registry.md) 참고.
+
 ## v1.5.0 주요 변경
 - **스냅샷 사용성 개선**: 독립 `스토리지 > 스냅샷` 메뉴가 제거되었습니다. 블록 스냅샷은 [블록 상세](docs/project/storage/block/block.md#블록-스냅샷), 인스턴스 스냅샷·이미지 생성은 [인스턴스 상세](docs/project/vm/instance/instance.md#인스턴스-스냅샷)에서 관리합니다.
 - **스토리지 마이그레이션**: 디스크(부팅 디스크·블록)를 다른 스토리지 도메인으로 이동하는 기능(콜드/라이브). [블록](docs/project/storage/block/block.md#블록-스토리지-마이그레이션) / [인스턴스](docs/project/vm/instance/instance.md#스토리지-마이그레이션) 참고.
@@ -34,6 +40,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [스토리지 도메인](docs/administrator/storage/storage-domain/storage-domain.md)
   - [공용 이미지 관리](docs/administrator/storage/public-image/public-image.md)
   - [ISO](docs/administrator/storage/iso/iso.md)
+- **쿠버네티스**
+  - [레지스트리](docs/administrator/kubernetes/registry/registry.md)
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
 - **접근관리**

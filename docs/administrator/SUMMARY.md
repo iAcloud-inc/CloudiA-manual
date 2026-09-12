@@ -23,6 +23,9 @@
   * [ISO](storage/iso/iso.md)
   * [게스트 부팅 디스크 복구 (CEPH)](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
 
+* [쿠버네티스](kubernetes/README.md)
+  * [레지스트리](kubernetes/registry/registry.md)
+
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)
 
