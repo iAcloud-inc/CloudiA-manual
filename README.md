@@ -32,6 +32,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [노드](docs/administrator/host-machine/machine/machine.md)
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
   - [컴퓨트 노드](docs/administrator/host-machine/compute-node/compute-node.md)
+  - [네트워크 노드](docs/administrator/host-machine/network-node/network-node.md)
 - **네트워크**
   - [외부 IP 풀](docs/administrator/network/external-ip-pool/external-ip-pool.md)
   - [방화벽](docs/administrator/network/firewall/firewall.md)
