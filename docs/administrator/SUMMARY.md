@@ -22,6 +22,7 @@
   * [스토리지 도메인](storage/storage-domain/storage-domain.md)
   * [공용 이미지 관리](storage/public-image/public-image.md)
   * [ISO](storage/iso/iso.md)
+  * [백업 서버](storage/backup-server/backup-server.md)
   * [게스트 부팅 디스크 복구 (CEPH)](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
 
 * [쿠버네티스](kubernetes/README.md)
@@ -41,6 +42,7 @@
   * [이벤트](monitoring/event/event.md)
   * [감사 로그](monitoring/audit-log/audit-log.md)
   * [이벤트 트리거](monitoring/event-trigger/event-trigger.md)
+  * [상태 점검](monitoring/status-check/status-check.md)
   * [로그 전송](monitoring/log-export/log-export.md)
 
 * [환경설정](setting/README.md)

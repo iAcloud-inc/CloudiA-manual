@@ -13,6 +13,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 이러한 기능을 통합해 Cloud:iA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
 ## v1.6.0 주요 변경
+- **노드 유지관리 모드**: 관리자 `물리 머신 > 노드`에서 노드를 클러스터에서 잠시 떼어내 점검할 수 있습니다. 진입하면 그 노드의 인스턴스를 다른 노드로 옮기고, 점검이 끝나면 복귀 검증을 거쳐 되돌립니다. [유지관리 모드](docs/administrator/host-machine/machine/machine.md#유지관리-모드) 참고.
+- **ISO 업로드 시 OS 타입 자동 입력**: ISO 파일을 선택하면 `OS 타입`이 자동으로 채워집니다. 판별할 수 없는 ISO는 비어 있으며 직접 선택합니다. [ISO 업로드](docs/administrator/storage/iso/iso.md#iso-업로드) 참고.
 - **쿠버네티스 클러스터 업그레이드**: 클러스터 상세의 **버전** 항목 옆 `업그레이드` 버튼으로 컨트롤 플레인·워커를 순차 교체해 상위 버전으로 올릴 수 있습니다. [클러스터 업그레이드](docs/project/kubernetes/cluster/cluster.md#클러스터-업그레이드) 참고. 제공 버전은 `1.36`, `1.37` 입니다.
 - **레지스트리 신뢰**: 사설·사용자 레지스트리의 CA 를 클러스터 노드에 신뢰 등록하고 노드별 적용 현황을 확인할 수 있습니다. [레지스트리 신뢰](docs/project/kubernetes/cluster/cluster.md#레지스트리-신뢰) 참고.
 - **클러스터 파일 시스템 연결/해제**: 클러스터 상세 스토리지 섹션에서 파일 시스템을 연결·해제합니다. 연결된 파일 시스템은 해제 전까지 삭제할 수 없습니다. [스토리지](docs/project/kubernetes/cluster/cluster.md#스토리지) 참고.
@@ -41,6 +43,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [스토리지 도메인](docs/administrator/storage/storage-domain/storage-domain.md)
   - [공용 이미지 관리](docs/administrator/storage/public-image/public-image.md)
   - [ISO](docs/administrator/storage/iso/iso.md)
+  - [백업 서버](docs/administrator/storage/backup-server/backup-server.md)
 - **쿠버네티스**
   - [레지스트리](docs/administrator/kubernetes/registry/registry.md)
 - **프로젝트**
