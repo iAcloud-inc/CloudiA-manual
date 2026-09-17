@@ -58,7 +58,25 @@ resource "cloudia_instance" "from_catalog" {
 
 ### 핫플러그 여유분 — `max_vcpu` / `max_memory`
 
-`max_vcpu`(vCPU 핫플러그 상한)와 `max_memory`(메모리 핫플러그 상한, MiB)는 인스턴스별 하이퍼바이저 천장값입니다. 카탈로그(인스턴스 타입)에는 노출되지 않으므로 워크로드의 핫플러그 여유분에 맞춰 직접 정합니다. 권장값은 현재 `vcpu_number` / `memory_total`의 1.5~2배입니다. 생략하면 각각 `vcpu_number` / `memory_total` 값으로 자동 채워집니다.
+`max_vcpu`(vCPU 핫플러그 상한)와 `max_memory`(메모리 핫플러그 상한, MiB)는 인스턴스별 하이퍼바이저 천장값입니다. 카탈로그(인스턴스 타입)에는 노출되지 않으므로 워크로드의 핫플러그 여유분에 맞춰 직접 정할 수 있습니다.
+
+두 값 모두 **생략할 수 있습니다.** 다만 생략했을 때의 동작이 웹 콘솔과 다릅니다.
+
+- **웹 콘솔**은 값을 보내지 않아, 백엔드가 무중단 증설 정책 기본값(현재 사양의 **4배**, 메모리는 1GiB 슬롯 단위로 내림)을 부여합니다.
+- **Terraform provider**는 생략된 값을 plan 단계에서 `vcpu_number` / `memory_total`로 채워 보냅니다. 그래서 **정책 기본값이 적용되지 않고 핫플러그 여유분이 0이 됩니다.**
+
+Terraform으로 만든 인스턴스에 여유분이 필요하면 `max_vcpu` / `max_memory`를 **명시적으로 지정하세요.** 정책이 부여하는 값과 같게 맞추려면 현재 사양의 4배를 적습니다.
+
+```hcl
+resource "cloudia_instance" "example" {
+  vcpu_number  = 2
+  memory_total = 4096
+  max_vcpu     = 8     # 2 x 4
+  max_memory   = 16384 # 4096 x 4
+}
+```
+
+정책의 실제 배수·상한값은 `GET /api/v1/hot-plug-policy`로 조회할 수 있습니다.
 
 ### `hyperthreading_enabled`
 
@@ -78,8 +96,8 @@ resource "cloudia_instance" "from_catalog" {
 |---|---|---|
 | `data_volume_ids` 추가/제거 | **LIVE** | 데이터 볼륨 attach/detach |
 | `vnic[*].security_group_ids` 변경 | **LIVE** | NIC 보안그룹 교체 |
-| `vcpu_number` 증가 | **LIVE** | 핫플러그(hot-plug) |
-| `memory_total` 증가 | **LIVE** | 핫플러그(hot-plug) |
+| `vcpu_number` 증가 | **LIVE**<sup>1</sup> | 핫플러그(hot-plug) |
+| `memory_total` 증가 | **LIVE**<sup>1</sup> | 핫플러그(hot-plug), 1GB(1GiB) 단위만 허용 |
 | `vcpu_number` 감소 | **STOP** | 백엔드가 hot-unplug 미지원 |
 | `memory_total` 감소 | **STOP** | 백엔드가 hot-unplug 미지원 |
 | `max_vcpu` / `max_memory` 변경 | **STOP** | |
@@ -99,6 +117,8 @@ resource "cloudia_instance" "from_catalog" {
 | `image_id` 변경 | **REPLACE** | |
 
 > STOP 분기와 LIVE 분기가 한 번에 바뀌면 하나의 정지-수정 호출로 합쳐 처리됩니다. `vcpu_number` / `memory_total`은 증가하면 LIVE, 감소하면 STOP으로 방향에 따라 나뉩니다.
+>
+> <sup>1</sup> `secure_type`이 `SEV_ES` 또는 `SEV_SNP`인 인스턴스는 `vcpu_number` / `memory_total` 증가를 핫플러그로 지원하지 않습니다. provider는 증가 방향을 여전히 LIVE로 분기하므로, 이 보안 유형에서 시도하면 apply 단계에서 백엔드가 요청을 거부해 실패합니다. 사양을 바꾸려면 인스턴스를 정지한 뒤(`power_state = "STOPPED"`) 적용해야 합니다.
 
 ## vNIC
 
@@ -197,7 +217,7 @@ output "secure_type_names" {
 ```
 
 - `secure_type` 변경은 boot disk 호환성 때문에 **REPLACE**입니다. 예를 들어 `NONE` → `SEV` 전환은 인스턴스 재생성으로 이어지며, 인스턴스가 배치된 호스트가 SEV를 지원하지 않으면 apply가 실패합니다.
-- `secure_type = "SEV_ES"`인 경우 백엔드가 `max_vcpu`를 `vcpu_number`와 같게 강제합니다.
+- `secure_type`이 `"SEV_ES"` 또는 `"SEV_SNP"`인 경우 `max_vcpu` / `max_memory`를 각각 `vcpu_number` / `memory_total`보다 크게 지정하면 apply가 거부됩니다(핫플러그를 지원하지 않는 보안 유형). 생략하면 백엔드가 자동으로 `vcpu_number` / `memory_total`과 같은 값을 부여합니다.
 
 ## GPU / NPU
 

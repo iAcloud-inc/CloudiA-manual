@@ -49,7 +49,7 @@ resource "cloudia_project" "app" {
 - **quota 기본값 0 = 모든 할당 차단**: 새 프로젝트에서 quota 인자를 명시하지 않으면 기본값 `0`이 적용되어 해당 프로젝트에서 아무 리소스도 생성할 수 없습니다. 반드시 `-1`(무제한) 또는 적절한 양수로 설정하세요.
 - **VPC 생성과 `public_ip_quota`**: VPC를 생성하면 백엔드가 vRouter용 공인 IP를 자동으로 1개 할당합니다. `public_ip_quota = 0` 상태에서 VPC를 생성하려 하면 API가 `CLERR-312003` 에러를 반환합니다. VPC를 사용하려면 `public_ip_quota >= 1` 이상으로 설정하세요.
 - **프로젝트 삭제 전 의존 리소스 제거**: `terraform destroy` 로 프로젝트를 삭제하기 전에 해당 프로젝트 내의 모든 리소스(VPC, 인스턴스, 볼륨 등)를 먼저 제거해야 합니다. 의존 리소스가 남아 있으면 API가 에러를 반환합니다.
-- **in-place 업데이트**: `name`, `description`과 각 quota 값(`vcpu_quota` 등)은 프로젝트를 재생성하지 않고 그대로 수정됩니다. 운영 중에도 quota를 올려 자원 한도를 늘릴 수 있습니다.
+- **in-place 업데이트**: `name`, `description`과 각 quota 값(`vcpu_quota` 등)은 프로젝트를 재생성하지 않고 그대로 수정됩니다. 운영 중에도 할당량을 올릴 수 있습니다.
 
 ## Import
 

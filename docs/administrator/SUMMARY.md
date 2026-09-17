@@ -11,6 +11,7 @@
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
   * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
+  * [네트워크 노드](host-machine/network-node/network-node.md)
 
 * [네트워크](network/README.md)
   * [외부 IP 풀](network/external-ip-pool/external-ip-pool.md)
@@ -21,6 +22,11 @@
   * [스토리지 도메인](storage/storage-domain/storage-domain.md)
   * [공용 이미지 관리](storage/public-image/public-image.md)
   * [ISO](storage/iso/iso.md)
+  * [백업 서버](storage/backup-server/backup-server.md)
+  * [게스트 부팅 디스크 복구 (CEPH)](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
+
+* [쿠버네티스](kubernetes/README.md)
+  * [레지스트리](kubernetes/registry/registry.md)
 
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)
@@ -36,6 +42,7 @@
   * [이벤트](monitoring/event/event.md)
   * [감사 로그](monitoring/audit-log/audit-log.md)
   * [이벤트 트리거](monitoring/event-trigger/event-trigger.md)
+  * [상태 점검](monitoring/status-check/status-check.md)
   * [로그 전송](monitoring/log-export/log-export.md)
 
 * [환경설정](setting/README.md)

@@ -27,7 +27,7 @@
 | `GREEN` | `GREEN-1`, `GREEN-2` | `/apiv2/test.html` | `example-green-tg` |
 | `CANARY` | `CANARY-1`, `CANARY-2` | `/apiv3/test.html` | `example-canary-tg` |
 
-각 인스턴스에는 같은 VPC의 서브넷과 `8080/tcp`를 허용한 보안그룹을 연결합니다. 인스턴스 접속은 Cloud:iA 웹 콘솔의 `콘솔`을 사용하거나, 플로팅 IP와 SSH를 사용할 수 있습니다.
+각 인스턴스에는 같은 VPC의 서브넷과 `8080/tcp`를 허용한 보안그룹을 연결합니다. 인스턴스 접속은 Cloud:iA 웹콘솔에서 인스턴스 상세의 `콘솔` 메뉴 > `그래픽 콘솔`을 사용하거나, 플로팅 IP와 SSH를 사용할 수 있습니다.
 
 인스턴스에 접속한 뒤 아래 Python 스크립트를 생성합니다.
 
