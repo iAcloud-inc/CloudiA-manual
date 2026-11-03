@@ -17,5 +17,5 @@
 ## 참고 사항
 - 스토리지 도메인은 다른 스토리지 리소스의 기반이므로 삭제 전에 연관 리소스를 반드시 확인해야 합니다.
 - ISO와 공용 이미지는 프로젝트 운영에 직접 노출되므로 파일 품질과 저장 위치를 함께 관리하는 것이 좋습니다.
-- 가상머신이 부팅 디스크 손상으로 기동되지 않을 때는 [게스트 부팅 디스크 복구 (CEPH)](guest-boot-disk-recovery/guest-boot-disk-recovery.md) 절차를 참고합니다. (`CEPH` 스토리지 도메인 전용)
+- 가상머신이 부팅 디스크 문제(파일시스템 손상, 잘못된 `/etc/fstab`, initramfs 드라이버 누락)로 기동되지 않을 때는 [게스트 부팅 디스크 복구](guest-boot-disk-recovery/guest-boot-disk-recovery.md) 절차를 참고합니다.
 - 백업 서버는 전 프로젝트가 공유하는 자원이라 등록·해제가 전체 사용자에게 영향을 줍니다. 등록 전 사전 준비 조건은 [백업 서버](backup-server/backup-server.md) 문서를 확인합니다.

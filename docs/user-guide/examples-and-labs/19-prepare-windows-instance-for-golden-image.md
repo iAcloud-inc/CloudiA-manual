@@ -84,6 +84,10 @@ manage-bde -status E:
 ## 3단계: Sysprep 적용 후 종료 준비
 **수행 계정/화면:** `인스턴스 콘솔` / `관리자 권한 CMD`
 
+> 참고
+>
+> 이 이미지로 만든 인스턴스에서 직렬 콘솔을 쓰려면 Sysprep 전에 EMS를 켜 둡니다. EMS 설정은 Sysprep을 거쳐도 유지되어, 이 이미지로 만든 인스턴스의 `직렬 콘솔`에 `SAC>`가 나타납니다. 방법은 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 5단계](./04-create-windows-instance-from-iso-and-open-console.md#step-5)를 참고하세요.
+
 ### 절차
 1. `Sysprep` 폴더로 이동합니다.
 2. `Sysprep`을 실행합니다.

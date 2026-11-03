@@ -27,7 +27,7 @@ LDAP Provider 목록 화면에서는 등록된 LDAP Provider를 조회하고, �
 | --- | --- |
 | 이름 | 클릭하면 LDAP Provider 상세 화면으로 이동하는 컬럼입니다. |
 | ID | LDAP Provider 식별자를 표시하는 컬럼입니다. |
-| 활성화 | 현재 LDAP Provider의 활성화 상태를 표시하는 컬럼입니다. |
+| 활성화 여부 | 현재 LDAP Provider가 `활성화`인지 `비활성화`인지 표시하는 컬럼입니다. |
 | 연결 URL | LDAP 서버 연결 URL을 표시하는 컬럼입니다. |
 
 ### 사용 시 참고

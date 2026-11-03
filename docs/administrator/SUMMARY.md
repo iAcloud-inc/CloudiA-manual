@@ -6,12 +6,14 @@
 * [대시보드](dashboard/README.md)
   * [전체](dashboard/total-dashboard/total-dashboard.md)
   * [컴퓨트](dashboard/compute-dashboard/compute-dashboard.md)
+  * [네트워크](dashboard/network-dashboard/network-dashboard.md)
 
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
   * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
   * [네트워크 노드](host-machine/network-node/network-node.md)
+  * [노드 접속 계정과 SSH 포트](host-machine/node-access/node-access.md)
 
 * [네트워크](network/README.md)
   * [외부 IP 풀](network/external-ip-pool/external-ip-pool.md)
@@ -23,10 +25,11 @@
   * [공용 이미지 관리](storage/public-image/public-image.md)
   * [ISO](storage/iso/iso.md)
   * [백업 서버](storage/backup-server/backup-server.md)
-  * [게스트 부팅 디스크 복구 (CEPH)](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
+  * [게스트 부팅 디스크 복구](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
 
-* [쿠버네티스](kubernetes/README.md)
-  * [레지스트리](kubernetes/registry/registry.md)
+* [저장소](repository/README.md)
+  * [레지스트리](repository/registry/registry.md)
+  * [패키지 저장소](repository/package/package.md)
 
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)

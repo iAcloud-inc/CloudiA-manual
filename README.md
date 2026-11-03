@@ -12,13 +12,19 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 이러한 기능을 통합해 Cloud:iA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
+## v1.7.0 주요 변경
+- **쿠버네티스 클러스터 생성 실패 복구와 구성 맞추기**: `생성 실패` 상태의 클러스터를 지우지 않고 `이어서 만들기`로 모자란 컨트롤 플레인만 채우거나, `처음부터 다시 만들기`로 저장된 설정대로 다시 만듭니다. 클러스터가 컨트롤 플레인 목표 수를 기억해 목록에 `정상/목표`로 표시하고, 수가 어긋나면 상세 화면의 `구성 맞추기`로 고아 노드·유령 etcd 멤버를 정리하고 목표 수를 맞춥니다. 스토리지 도메인을 자동으로 고른 클러스터는 컨트롤 플레인 VM 을 실행하지 못하면 다음 순위 스토리지 도메인으로 다시 만듭니다. [생성 실패 복구](docs/project/kubernetes/cluster/cluster.md#생성-실패-복구), [구성 맞추기](docs/project/kubernetes/cluster/cluster.md#구성-맞추기), [디스크 및 스토리지 도메인](docs/project/kubernetes/cluster/cluster.md#디스크-및-스토리지-도메인) 참고.
+
+## v1.6.2 주요 변경
+- **라이브 마이그레이션 데이터를 내부망으로 전송**: 라이브 마이그레이션 데이터를 기본으로 내부망에 실어 보냅니다. 대상 노드의 내부망 경로를 쓸 수 없으면 마이그레이션을 시작하지 않고 알려 주며, 메모리가 커서 제한 시간 안에 끝나지 않을 것으로 보이는 인스턴스는 콜드 마이그레이션만 허용합니다. 노드 유지관리 모드의 대피는 내부망 경로를 쓸 수 없으면 관리망으로, 라이브 마이그레이션에 실패하면 같은 대상 노드로 콜드 마이그레이션해 이어 갑니다. [인스턴스 마이그레이션](docs/administrator/host-machine/compute-node/compute-node.md#인스턴스-마이그레이션), [유지관리 모드](docs/administrator/host-machine/machine/machine.md#유지관리-모드) 참고.
+
 ## v1.6.0 주요 변경
 - **노드 유지관리 모드**: 관리자 `물리 머신 > 노드`에서 노드를 클러스터에서 잠시 떼어내 점검할 수 있습니다. 진입하면 그 노드의 인스턴스를 다른 노드로 옮기고, 점검이 끝나면 복귀 검증을 거쳐 되돌립니다. [유지관리 모드](docs/administrator/host-machine/machine/machine.md#유지관리-모드) 참고.
 - **ISO 업로드 시 OS 타입 자동 입력**: ISO 파일을 선택하면 `OS 타입`이 자동으로 채워집니다. 판별할 수 없는 ISO는 비어 있으며 직접 선택합니다. [ISO 업로드](docs/administrator/storage/iso/iso.md#iso-업로드) 참고.
 - **쿠버네티스 클러스터 업그레이드**: 클러스터 상세의 **버전** 항목 옆 `업그레이드` 버튼으로 컨트롤 플레인·워커를 순차 교체해 상위 버전으로 올릴 수 있습니다. [클러스터 업그레이드](docs/project/kubernetes/cluster/cluster.md#클러스터-업그레이드) 참고. 제공 버전은 `1.36`, `1.37` 입니다.
 - **레지스트리 신뢰**: 사설·사용자 레지스트리의 CA 를 클러스터 노드에 신뢰 등록하고 노드별 적용 현황을 확인할 수 있습니다. [레지스트리 신뢰](docs/project/kubernetes/cluster/cluster.md#레지스트리-신뢰) 참고.
 - **클러스터 파일 시스템 연결/해제**: 클러스터 상세 스토리지 섹션에서 파일 시스템을 연결·해제합니다. 연결된 파일 시스템은 해제 전까지 삭제할 수 없습니다. [스토리지](docs/project/kubernetes/cluster/cluster.md#스토리지) 참고.
-- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [레지스트리](docs/administrator/kubernetes/registry/registry.md) 참고.
+- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [레지스트리](docs/administrator/repository/registry/registry.md) 참고. v1.7.0 부터는 `저장소 > 레지스트리`에 있습니다.
 
 ## v1.5.0 주요 변경
 - **스냅샷 사용성 개선**: 독립 `스토리지 > 스냅샷` 메뉴가 제거되었습니다. 블록 스냅샷은 [블록 상세](docs/project/storage/block/block.md#블록-스냅샷), 인스턴스 스냅샷·이미지 생성은 [인스턴스 상세](docs/project/vm/instance/instance.md#인스턴스-스냅샷)에서 관리합니다.
@@ -30,11 +36,13 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **대시보드**
   - [전체 대시보드](docs/administrator/dashboard/total-dashboard/total-dashboard.md)
   - [컴퓨트 대시보드](docs/administrator/dashboard/compute-dashboard/compute-dashboard.md)
+  - [네트워크 대시보드](docs/administrator/dashboard/network-dashboard/network-dashboard.md)
 - **물리머신**
   - [노드](docs/administrator/host-machine/machine/machine.md)
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
   - [컴퓨트 노드](docs/administrator/host-machine/compute-node/compute-node.md)
   - [네트워크 노드](docs/administrator/host-machine/network-node/network-node.md)
+  - [노드 접속 계정과 SSH 포트](docs/administrator/host-machine/node-access/node-access.md)
 - **네트워크**
   - [외부 IP 풀](docs/administrator/network/external-ip-pool/external-ip-pool.md)
   - [방화벽](docs/administrator/network/firewall/firewall.md)
@@ -44,8 +52,9 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [공용 이미지 관리](docs/administrator/storage/public-image/public-image.md)
   - [ISO](docs/administrator/storage/iso/iso.md)
   - [백업 서버](docs/administrator/storage/backup-server/backup-server.md)
-- **쿠버네티스**
-  - [레지스트리](docs/administrator/kubernetes/registry/registry.md)
+- **저장소**
+  - [레지스트리](docs/administrator/repository/registry/registry.md)
+  - [패키지 저장소](docs/administrator/repository/package/package.md)
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
 - **접근관리**
