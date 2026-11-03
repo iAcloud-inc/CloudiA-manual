@@ -74,6 +74,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
   - [알림 설정](docs/administrator/setting/alarm-setting/alarm-setting.md)
   - [사용자 연동](docs/administrator/setting/ldap/ldap.md)
+  - [SSO 연동 — Microsoft Entra](docs/administrator/setting/sso/sso.md)
 
 ---
 

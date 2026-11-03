@@ -52,3 +52,4 @@
   * [정책 설정](setting/policy-setting/policy-setting.md)
   * [알림 설정](setting/alarm-setting/alarm-setting.md)
   * [사용자 연동](setting/ldap/ldap.md)
+  * [SSO 연동 — Microsoft Entra](setting/sso/sso.md)
