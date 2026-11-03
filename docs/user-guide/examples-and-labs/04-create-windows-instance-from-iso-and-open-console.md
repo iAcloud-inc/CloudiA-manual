@@ -13,7 +13,7 @@
 1. [ISO 설치 유형으로 인스턴스 생성](#step-1)
 2. [인스턴스 실행 및 콘솔 접속](#step-2)
 3. [Windows 11 네트워크 연결 요구 사항 우회](#step-3)
-4. [VirtIO 드라이버 설치](#step-4)
+4. [VirtIO 드라이버 설치와 IP 직접 입력](#step-4)
 5. [직렬 콘솔(EMS) 사용 설정 (선택)](#step-5)
 
 <a id="step-1"></a>
@@ -87,12 +87,14 @@ OOBE\BYPASSNRO
 - 네트워크 요구 사항 화면을 통과해 로컬 계정으로 Windows에 진입할 수 있습니다.
 
 <a id="step-4"></a>
-## 4단계: VirtIO 드라이버 설치
+## 4단계: VirtIO 드라이버 설치와 IP 직접 입력
 **수행 계정/화면:** `인스턴스 콘솔` / `Windows`
 
-Windows에서는 `virtio-win.iso`를 이용해 네트워크, 스토리지, `QEMU Guest Agent`를 설치합니다. 가장 쉬운 방법은 통합 설치 파일을 실행하는 것이고, 필요한 경우에는 `장치 관리자`에서 개별 드라이버 경로를 지정합니다.
+Windows에서는 `virtio-win.iso`를 이용해 네트워크, 스토리지, `QEMU Guest Agent`를 설치합니다. 설치 직후에는 네트워크 드라이버가 없어 네트워크가 동작하지 않으므로 드라이버를 먼저 설치합니다. 드라이버 CD는 설치 미디어와 같은 스토리지 도메인에 드라이버 ISO가 등록되어 있어야 자동으로 연결됩니다.
 
-### 방법 A. 통합 설치 파일 사용
+통합 설치 파일(`virtio-win-guest-tools`)을 실행하는 방법을 권장합니다. 네트워크, 저장소(SCSI 포함), `Balloon`, `Serial` 드라이버와 `QEMU Guest Agent`가 한 번에 설치되며, 이 인스턴스로 골든 이미지를 만들 때 필요한 저장소 드라이버도 함께 들어갑니다. `장치 관리자`에서 드라이버를 하나씩 설치하는 방법은 특정 장치만 직접 설치해야 할 때 씁니다.
+
+### 방법 A. 통합 설치 파일 사용 (권장)
 1. Windows에 로그인합니다.
 2. `File Explorer > This PC`로 이동합니다.
 3. CD-ROM에 연결된 `virtio-win.iso`를 엽니다.
@@ -122,6 +124,29 @@ Windows에서는 `virtio-win.iso`를 이용해 네트워크, 스토리지, `QEMU
 > 참고
 >
 > `virtio-win-guest-tools`를 실행하면 주요 `VirtIO` 드라이버와 `QEMU Guest Agent`를 함께 설치할 수 있습니다. 특정 장치만 직접 설치해야 하면 `장치 관리자`에서 위 경로를 지정합니다.
+
+### IP 주소 직접 입력
+VPC는 DHCP로 IP를 주지 않습니다. 드라이버를 설치해도 네트워크 어댑터에 IP를 직접 입력해야 통신할 수 있습니다. 먼저 인스턴스 상세에서 배정 IP를, 서브넷 상세에서 게이트웨이와 DNS를 확인해 둡니다. 아래 두 방법 중 하나를 사용합니다.
+
+#### 방법 1. 네트워크 연결 화면에서 입력
+1. `Win + R`을 눌러 `ncpa.cpl`을 실행합니다.
+2. 네트워크 어댑터를 마우스 오른쪽 버튼으로 클릭하고 `속성`을 선택합니다.
+3. `인터넷 프로토콜 버전 4(TCP/IPv4)`를 선택하고 `속성`을 클릭합니다.
+4. IP 주소, 서브넷 마스크, 기본 게이트웨이, DNS 서버 주소를 수동으로 입력하고 `확인`을 클릭합니다. 서브넷 마스크는 서브넷 CIDR에 맞는 값을 입력합니다(예: `10.0.1.0/24`이면 `255.255.255.0`).
+
+#### 방법 2. PowerShell에서 입력
+관리자 권한 PowerShell에서 다음 명령을 실행합니다. 어댑터 이름이 `Ethernet`이 아니면 `Get-NetAdapter`로 확인한 이름을 씁니다. `-PrefixLength`는 서브넷 CIDR의 접두 길이입니다(예: `/24`이면 `24`).
+
+```powershell
+New-NetIPAddress -InterfaceAlias Ethernet -IPAddress <배정 IP> -PrefixLength 24 -DefaultGateway <게이트웨이>
+Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses <DNS>
+```
+
+#### 확인
+- `ipconfig`에서 입력한 IP가 표시됩니다.
+- 플로팅IP로는 보안그룹에서 허용한 TCP 포트로 접속해 확인합니다. 예를 들어 Windows에서 원격 데스크톱을 켜고 보안그룹에 `TCP 3389`를 허용하면 플로팅IP로 원격 데스크톱 연결이 됩니다. Windows 방화벽은 기본으로 `ping`에 응답하지 않으므로 `ping`이 실패해도 네트워크 설정이 틀린 것은 아닙니다.
+
+> ⚠️ **주의:** IP를 입력하지 않으면 드라이버를 설치해도 통신할 수 없습니다. 이 IP는 이 인스턴스에만 적용됩니다. 이 인스턴스로 골든 이미지를 만들면 Sysprep이 고정 IP를 지우므로, 그 이미지로 만든 인스턴스마다 다시 입력해야 합니다. 자세한 내용은 [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](./19-prepare-windows-instance-for-golden-image.md#step-4)를 참고하세요.
 
 <a id="step-5"></a>
 ## 5단계: 직렬 콘솔(EMS) 사용 설정 (선택)
