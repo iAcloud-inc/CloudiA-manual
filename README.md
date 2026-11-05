@@ -12,6 +12,9 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 이러한 기능을 통합해 Cloud:iA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
+## v1.6.2 주요 변경
+- **라이브 마이그레이션 데이터를 내부망으로 전송**: 라이브 마이그레이션 데이터를 기본으로 내부망에 실어 보냅니다. 대상 노드의 내부망 경로를 쓸 수 없으면 마이그레이션을 시작하지 않고 알려 주며, 메모리가 커서 제한 시간 안에 끝나지 않을 것으로 보이는 인스턴스는 콜드 마이그레이션만 허용합니다. 노드 유지관리 모드의 대피는 내부망 경로를 쓸 수 없으면 관리망으로, 라이브 마이그레이션에 실패하면 같은 대상 노드로 콜드 마이그레이션해 이어 갑니다. [인스턴스 마이그레이션](docs/administrator/host-machine/compute-node/compute-node.md#인스턴스-마이그레이션), [유지관리 모드](docs/administrator/host-machine/machine/machine.md#유지관리-모드) 참고.
+
 ## v1.6.0 주요 변경
 - **노드 유지관리 모드**: 관리자 `물리 머신 > 노드`에서 노드를 클러스터에서 잠시 떼어내 점검할 수 있습니다. 진입하면 그 노드의 인스턴스를 다른 노드로 옮기고, 점검이 끝나면 복귀 검증을 거쳐 되돌립니다. [유지관리 모드](docs/administrator/host-machine/machine/machine.md#유지관리-모드) 참고.
 - **ISO 업로드 시 OS 타입 자동 입력**: ISO 파일을 선택하면 `OS 타입`이 자동으로 채워집니다. 판별할 수 없는 ISO는 비어 있으며 직접 선택합니다. [ISO 업로드](docs/administrator/storage/iso/iso.md#iso-업로드) 참고.
@@ -35,6 +38,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
   - [컴퓨트 노드](docs/administrator/host-machine/compute-node/compute-node.md)
   - [네트워크 노드](docs/administrator/host-machine/network-node/network-node.md)
+  - [노드 접속 계정과 SSH 포트](docs/administrator/host-machine/node-access/node-access.md)
 - **네트워크**
   - [외부 IP 풀](docs/administrator/network/external-ip-pool/external-ip-pool.md)
   - [방화벽](docs/administrator/network/firewall/firewall.md)
@@ -151,8 +155,9 @@ Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026
   - [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기](docs/user-guide/examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
   - [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](docs/user-guide/examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
   - [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
-  - [Rocky Linux ISO 업로드 후 VM 설치 및 부팅 전환](docs/user-guide/examples-and-labs/20-install-rocky-instance-from-iso.md)
+  - [Rocky Linux ISO 업로드 후 VM 설치](docs/user-guide/examples-and-labs/20-install-rocky-instance-from-iso.md)
   - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](docs/user-guide/examples-and-labs/21-route-l7-requests-by-host-and-path.md)
   - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](docs/user-guide/examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
   - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/22-grow-boot-disk.md)
   - [콘솔로 부팅 실패 진단하기](docs/user-guide/examples-and-labs/23-troubleshoot-boot-with-console.md)
+  - [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/24-prepare-rocky-instance-for-golden-image.md)

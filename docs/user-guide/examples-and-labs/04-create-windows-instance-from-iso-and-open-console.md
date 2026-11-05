@@ -13,7 +13,8 @@
 1. [ISO 설치 유형으로 인스턴스 생성](#step-1)
 2. [인스턴스 실행 및 콘솔 접속](#step-2)
 3. [Windows 11 네트워크 연결 요구 사항 우회](#step-3)
-4. [VirtIO 드라이버 설치](#step-4)
+4. [VirtIO 드라이버 설치와 IP 직접 입력](#step-4)
+5. [직렬 콘솔(EMS) 사용 설정 (선택)](#step-5)
 
 <a id="step-1"></a>
 ## 1단계: ISO 설치 유형으로 인스턴스 생성
@@ -86,12 +87,14 @@ OOBE\BYPASSNRO
 - 네트워크 요구 사항 화면을 통과해 로컬 계정으로 Windows에 진입할 수 있습니다.
 
 <a id="step-4"></a>
-## 4단계: VirtIO 드라이버 설치
+## 4단계: VirtIO 드라이버 설치와 IP 직접 입력
 **수행 계정/화면:** `인스턴스 콘솔` / `Windows`
 
-Windows에서는 `virtio-win.iso`를 이용해 네트워크, 스토리지, `QEMU Guest Agent`를 설치합니다. 가장 쉬운 방법은 통합 설치 파일을 실행하는 것이고, 필요한 경우에는 `장치 관리자`에서 개별 드라이버 경로를 지정합니다.
+Windows에서는 `virtio-win.iso`를 이용해 네트워크, 스토리지, `QEMU Guest Agent`를 설치합니다. 설치 직후에는 네트워크 드라이버가 없어 네트워크가 동작하지 않으므로 드라이버를 먼저 설치합니다. 드라이버 CD는 설치 미디어와 같은 스토리지 도메인에 드라이버 ISO가 등록되어 있어야 자동으로 연결됩니다.
 
-### 방법 A. 통합 설치 파일 사용
+통합 설치 파일(`virtio-win-guest-tools`)을 실행하는 방법을 권장합니다. 네트워크, 저장소(SCSI 포함), `Balloon`, `Serial` 드라이버와 `QEMU Guest Agent`가 한 번에 설치되며, 이 인스턴스로 골든 이미지를 만들 때 필요한 저장소 드라이버도 함께 들어갑니다. `장치 관리자`에서 드라이버를 하나씩 설치하는 방법은 특정 장치만 직접 설치해야 할 때 씁니다.
+
+### 방법 A. 통합 설치 파일 사용 (권장)
 1. Windows에 로그인합니다.
 2. `File Explorer > This PC`로 이동합니다.
 3. CD-ROM에 연결된 `virtio-win.iso`를 엽니다.
@@ -121,3 +124,59 @@ Windows에서는 `virtio-win.iso`를 이용해 네트워크, 스토리지, `QEMU
 > 참고
 >
 > `virtio-win-guest-tools`를 실행하면 주요 `VirtIO` 드라이버와 `QEMU Guest Agent`를 함께 설치할 수 있습니다. 특정 장치만 직접 설치해야 하면 `장치 관리자`에서 위 경로를 지정합니다.
+
+### IP 주소 직접 입력
+VPC는 DHCP로 IP를 주지 않습니다. 드라이버를 설치해도 네트워크 어댑터에 IP를 직접 입력해야 통신할 수 있습니다. 먼저 인스턴스 상세에서 배정 IP를, 서브넷 상세에서 게이트웨이와 DNS를 확인해 둡니다. 아래 두 방법 중 하나를 사용합니다.
+
+#### 방법 1. 네트워크 연결 화면에서 입력
+1. `Win + R`을 눌러 `ncpa.cpl`을 실행합니다.
+2. 네트워크 어댑터를 마우스 오른쪽 버튼으로 클릭하고 `속성`을 선택합니다.
+3. `인터넷 프로토콜 버전 4(TCP/IPv4)`를 선택하고 `속성`을 클릭합니다.
+4. IP 주소, 서브넷 마스크, 기본 게이트웨이, DNS 서버 주소를 수동으로 입력하고 `확인`을 클릭합니다. 서브넷 마스크는 서브넷 CIDR에 맞는 값을 입력합니다(예: `10.0.1.0/24`이면 `255.255.255.0`).
+
+#### 방법 2. PowerShell에서 입력
+관리자 권한 PowerShell에서 다음 명령을 실행합니다. 어댑터 이름이 `Ethernet`이 아니면 `Get-NetAdapter`로 확인한 이름을 씁니다. `-PrefixLength`는 서브넷 CIDR의 접두 길이입니다(예: `/24`이면 `24`).
+
+```powershell
+New-NetIPAddress -InterfaceAlias Ethernet -IPAddress <배정 IP> -PrefixLength 24 -DefaultGateway <게이트웨이>
+Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses <DNS>
+```
+
+#### 확인
+- `ipconfig`에서 입력한 IP가 표시됩니다.
+- 플로팅IP로는 보안그룹에서 허용한 TCP 포트로 접속해 확인합니다. 예를 들어 Windows에서 원격 데스크톱을 켜고 보안그룹에 `TCP 3389`를 허용하면 플로팅IP로 원격 데스크톱 연결이 됩니다. Windows 방화벽은 기본으로 `ping`에 응답하지 않으므로 `ping`이 실패해도 네트워크 설정이 틀린 것은 아닙니다.
+
+> ⚠️ **주의:** IP를 입력하지 않으면 드라이버를 설치해도 통신할 수 없습니다. 이 IP는 이 인스턴스에만 적용됩니다. 이 인스턴스로 골든 이미지를 만들면 Sysprep이 고정 IP를 지우므로, 그 이미지로 만든 인스턴스마다 다시 입력해야 합니다. 자세한 내용은 [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](./19-prepare-windows-instance-for-golden-image.md#step-4)를 참고하세요.
+
+<a id="step-5"></a>
+## 5단계: 직렬 콘솔(EMS) 사용 설정 (선택)
+**수행 계정/화면:** `그래픽 콘솔` / `Windows 관리자 권한 CMD`
+
+Windows는 직렬 콘솔을 기본으로 쓰지 않아, 이대로 `직렬 콘솔`에 접속하면 빈 화면만 보입니다. EMS(Emergency Management Services)를 켜 두면 네트워크가 끊겨 원격 데스크톱이 안 될 때도 직렬 콘솔의 텍스트 관리 콘솔(SAC)로 들어가 명령을 실행할 수 있습니다.
+Windows 11 같은 클라이언트 Windows는 SAC가 기본으로 설치되어 있지 않아 1번부터 진행합니다. Windows Server는 SAC가 기본으로 들어 있으므로 2번부터 진행합니다.
+
+### 절차
+1. (Windows 11 등 클라이언트 Windows만) 관리자 권한 명령 프롬프트에서 SAC 구성 요소를 설치합니다. 이 명령은 Windows Update에서 파일을 받으므로 인터넷 연결이 필요합니다. 인터넷에 연결할 수 없는 환경이면 Windows 선택적 기능의 설치 원본을 따로 준비해야 합니다.
+
+   ```cmd
+   DISM /Online /Add-Capability /CapabilityName:Windows.Desktop.EMS-SAC.Tools~~~~0.0.1.0
+   ```
+
+2. 관리자 권한 명령 프롬프트에서 EMS를 켭니다.
+
+   ```cmd
+   bcdedit /ems {current} on
+   bcdedit /emssettings EMSPORT:1 EMSBAUDRATE:115200
+   ```
+
+3. 인스턴스를 재부팅합니다.
+4. 인스턴스 상세의 `콘솔` 메뉴에서 `직렬 콘솔`을 엽니다.
+
+### 확인
+- 직렬 콘솔에 `SAC>` 프롬프트가 나타납니다. 비어 있으면 `Enter`를 입력합니다.
+- `cmd`를 입력하면 새 명령 프롬프트 채널이 만들어지고 채널 이름(예: `Cmd0001`)이 표시됩니다. `ch`를 입력해 채널 목록에서 그 채널의 번호를 확인한 뒤 `ch -si <번호>`로 전환하고, 아무 키나 눌러 채널로 들어갑니다. 사용자 이름, 도메인, 암호를 차례로 입력하면 명령 프롬프트를 쓸 수 있습니다. 로컬 계정이면 도메인에 컴퓨터 이름을 입력합니다.
+- `SAC>`로 돌아오려면 `Esc`, `Tab`, `0`을 차례로 누르고, 채널 전환 화면이 나오면 아무 키나 한 번 더 누릅니다.
+
+> ⚠️ **주의:** `SAC>` 프롬프트에서는 Windows에 로그인하지 않아도 재시작, 종료, IP 설정 변경, 프로세스 종료 같은 명령을 실행할 수 있습니다. EMS를 켜면 이 인스턴스의 직렬 콘솔 접속 권한(`instanceconsole-edit`)을 가진 사용자는 누구나 이 명령을 쓸 수 있으므로, 권한을 누구에게 주었는지 함께 확인하세요.
+
+> 💡 SAC는 텍스트 전용입니다. 바탕 화면이나 설치 마법사처럼 그래픽 화면이 필요한 작업은 그래픽 콘솔을 사용하세요. 직렬 콘솔 사용법은 [콘솔로 부팅 문제 진단하기](23-troubleshoot-boot-with-console.md)를 참고하세요.

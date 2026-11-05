@@ -134,10 +134,10 @@ OS 미설치 디스크를 1순위로 올렸거나, 부팅 대상 디스크의 �
 
 ### Q. Ubuntu VM 스냅샷 전에 꼭 확인해야 할 것은 무엇인가요?
 #### 핵심 답변
-- 반드시 종료가 필요한 것은 아닙니다. `실행 중`에서도 스냅샷 생성은 가능합니다.
-- 스냅샷 정합성/성공률을 위해 `QEMU Guest Agent` 설치를 권장합니다.
+- `종료됨` 상태에서는 `QEMU Guest Agent`가 없어도 스냅샷을 만들 수 있습니다.
+- `실행 중`에서 만들려면 `QEMU Guest Agent`가 응답해야 합니다(파일 시스템 동결에 사용). 게스트 에이전트가 없으면 스냅샷 만들기가 실패합니다.
 - 기본 이미지에는 `QEMU Guest Agent`가 포함되지 않을 수 있습니다.
-- 다만 데이터 정합성이 중요한 서비스(DB, 트랜잭션 처리)는 종료 후 스냅샷을 권장합니다.
+- 데이터 정합성이 중요한 서비스(DB, 트랜잭션 처리)는 종료 후 스냅샷을 권장합니다.
 
 #### 점검 포인트
 1. 워크로드가 정합성 민감인지 확인합니다.
@@ -145,15 +145,23 @@ OS 미설치 디스크를 1순위로 올렸거나, 부팅 대상 디스크의 �
 3. 실행 중 생성 시 애플리케이션 flush 정책 적용 여부를 확인합니다.
 
 #### 조치 가이드
-1. 일반 워크로드: 실행 중 스냅샷 사용 가능
+1. 일반 워크로드: `QEMU Guest Agent`가 동작하면 실행 중 스냅샷 사용 가능
 2. 정합성 민감 워크로드: 유지보수 창에 종료 후 스냅샷 생성
 3. `QEMU Guest Agent`가 없으면 먼저 설치 후 스냅샷 진행
 4. 표준 이미지에 게스트 에이전트 설치 기본화
 
 #### 실무 체크 명령(예시)
+Ubuntu:
 ```bash
 sudo apt-get update
 sudo apt-get install -y qemu-guest-agent
+sudo systemctl enable --now qemu-guest-agent
+sudo systemctl status qemu-guest-agent
+```
+
+Rocky Linux:
+```bash
+sudo dnf install -y qemu-guest-agent
 sudo systemctl enable --now qemu-guest-agent
 sudo systemctl status qemu-guest-agent
 ```
@@ -183,7 +191,7 @@ sudo systemctl status qemu-guest-agent
 #### 조치 가이드
 1. 암호화가 켜져 있으면 복호화를 먼저 수행합니다.
 2. 복호화 완료 전 스냅샷/이미지 캡처를 진행하지 않습니다.
-3. 골든 이미지 전환 시 `Sysprep` 순서를 준수합니다.
+3. 골든 이미지 전환 시 `Sysprep` 순서를 준수합니다. `sysprep.exe /generalize /oobe /quit`으로 실행한 뒤 Cloud:iA 웹의 `종료`로 끄고, Windows 안에서 종료·재시작하지 않습니다.
 
 <a id="faq-windows-iso"></a>
 ## 3. Windows / ISO 설치
