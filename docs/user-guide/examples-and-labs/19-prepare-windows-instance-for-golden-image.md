@@ -95,6 +95,8 @@ manage-bde -status E:
 > 참고
 >
 > 이 이미지로 만든 인스턴스에서 직렬 콘솔을 쓰려면 Sysprep 전에 EMS를 켜 둡니다. EMS 설정은 Sysprep을 거쳐도 유지되어, 이 이미지로 만든 인스턴스의 `직렬 콘솔`에 `SAC>`가 나타납니다. 방법은 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 5단계](./04-create-windows-instance-from-iso-and-open-console.md#step-5)를 참고하세요.
+>
+> 골든 이미지에 `RealTimeIsUniversal` 레지스트리 값을 넣었다면 이 이미지로 만들 시작 템플릿과 인스턴스의 `하드웨어 시계`를 `UTC` 로 둡니다. `자동`이면 Windows 를 현지 시각으로 켜서 9시간 빠른 시각으로 뜹니다. 자세한 내용은 [인스턴스 — 가상머신 시계](../../project/vm/instance/instance.md#가상머신-시계)를 참고하세요.
 
 ### 절차
 1. `Sysprep` 폴더로 이동합니다.
