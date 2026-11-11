@@ -12,6 +12,9 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 
 이러한 기능을 통합해 Cloud:iA는 고성능과 높은 신뢰성을 갖춘 엔터프라이즈용 IaaS 플랫폼을 제공하여 조직의 클라우드 인프라 관리를 효율화합니다.
 
+## v1.7.0 주요 변경
+- **쿠버네티스 클러스터 생성 실패 복구와 구성 맞추기**: `생성 실패` 상태의 클러스터를 지우지 않고 `이어서 만들기`로 모자란 컨트롤 플레인만 채우거나, `처음부터 다시 만들기`로 저장된 설정대로 다시 만듭니다. 클러스터가 컨트롤 플레인 목표 수를 기억해 목록에 `정상/목표`로 표시하고, 수가 어긋나면 상세 화면의 `구성 맞추기`로 고아 노드·유령 etcd 멤버를 정리하고 목표 수를 맞춥니다. 스토리지 도메인을 자동으로 고른 클러스터는 컨트롤 플레인 VM 을 실행하지 못하면 다음 순위 스토리지 도메인으로 다시 만듭니다. [생성 실패 복구](docs/project/kubernetes/cluster/cluster.md#생성-실패-복구), [구성 맞추기](docs/project/kubernetes/cluster/cluster.md#구성-맞추기), [디스크 및 스토리지 도메인](docs/project/kubernetes/cluster/cluster.md#디스크-및-스토리지-도메인) 참고.
+
 ## v1.6.2 주요 변경
 - **라이브 마이그레이션 데이터를 내부망으로 전송**: 라이브 마이그레이션 데이터를 기본으로 내부망에 실어 보냅니다. 대상 노드의 내부망 경로를 쓸 수 없으면 마이그레이션을 시작하지 않고 알려 주며, 메모리가 커서 제한 시간 안에 끝나지 않을 것으로 보이는 인스턴스는 콜드 마이그레이션만 허용합니다. 노드 유지관리 모드의 대피는 내부망 경로를 쓸 수 없으면 관리망으로, 라이브 마이그레이션에 실패하면 같은 대상 노드로 콜드 마이그레이션해 이어 갑니다. [인스턴스 마이그레이션](docs/administrator/host-machine/compute-node/compute-node.md#인스턴스-마이그레이션), [유지관리 모드](docs/administrator/host-machine/machine/machine.md#유지관리-모드) 참고.
 
@@ -21,7 +24,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **쿠버네티스 클러스터 업그레이드**: 클러스터 상세의 **버전** 항목 옆 `업그레이드` 버튼으로 컨트롤 플레인·워커를 순차 교체해 상위 버전으로 올릴 수 있습니다. [클러스터 업그레이드](docs/project/kubernetes/cluster/cluster.md#클러스터-업그레이드) 참고. 제공 버전은 `1.36`, `1.37` 입니다.
 - **레지스트리 신뢰**: 사설·사용자 레지스트리의 CA 를 클러스터 노드에 신뢰 등록하고 노드별 적용 현황을 확인할 수 있습니다. [레지스트리 신뢰](docs/project/kubernetes/cluster/cluster.md#레지스트리-신뢰) 참고.
 - **클러스터 파일 시스템 연결/해제**: 클러스터 상세 스토리지 섹션에서 파일 시스템을 연결·해제합니다. 연결된 파일 시스템은 해제 전까지 삭제할 수 없습니다. [스토리지](docs/project/kubernetes/cluster/cluster.md#스토리지) 참고.
-- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [레지스트리](docs/administrator/kubernetes/registry/registry.md) 참고.
+- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [레지스트리](docs/administrator/repository/registry/registry.md) 참고. v1.7.0 부터는 `저장소 > 레지스트리`에 있습니다.
 
 ## v1.5.0 주요 변경
 - **스냅샷 사용성 개선**: 독립 `스토리지 > 스냅샷` 메뉴가 제거되었습니다. 블록 스냅샷은 [블록 상세](docs/project/storage/block/block.md#블록-스냅샷), 인스턴스 스냅샷·이미지 생성은 [인스턴스 상세](docs/project/vm/instance/instance.md#인스턴스-스냅샷)에서 관리합니다.
@@ -31,8 +34,9 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 ## 관리자 매뉴얼
 
 - **대시보드**
-  - [전체 대시보드](docs/administrator/dashboard/total-dashboard/total-dashboard.md)
-  - [컴퓨트 대시보드](docs/administrator/dashboard/compute-dashboard/compute-dashboard.md)
+  - [전체](docs/administrator/dashboard/total-dashboard/total-dashboard.md)
+  - [컴퓨트 노드](docs/administrator/dashboard/compute-dashboard/compute-dashboard.md)
+  - [네트워크 노드](docs/administrator/dashboard/network-dashboard/network-dashboard.md)
 - **물리머신**
   - [노드](docs/administrator/host-machine/machine/machine.md)
   - [노드 그룹](docs/administrator/host-machine/machine-group/machine-group.md)
@@ -48,8 +52,9 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [공용 이미지 관리](docs/administrator/storage/public-image/public-image.md)
   - [ISO](docs/administrator/storage/iso/iso.md)
   - [백업 서버](docs/administrator/storage/backup-server/backup-server.md)
-- **쿠버네티스**
-  - [레지스트리](docs/administrator/kubernetes/registry/registry.md)
+- **저장소**
+  - [레지스트리](docs/administrator/repository/registry/registry.md)
+  - [패키지 저장소](docs/administrator/repository/package/package.md)
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
 - **접근관리**
@@ -69,10 +74,12 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [정책 설정](docs/administrator/setting/policy-setting/policy-setting.md)
   - [알림 설정](docs/administrator/setting/alarm-setting/alarm-setting.md)
   - [사용자 연동](docs/administrator/setting/ldap/ldap.md)
+  - [SSO 연동 — Microsoft Entra](docs/administrator/setting/sso/sso.md)
 
 ---
 
 ## 프로젝트 매뉴얼
+- [로그인](docs/project/login/login.md)
 - [내 정보](docs/project/my-info/my-info.md)
 - [프로젝트 관리](docs/project/project-management/project-management.md)
 - [프로젝트 홈](docs/project/home/project-home.md)
@@ -95,7 +102,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [어플리케이션 타겟 그룹](docs/project/network/l7-target-group/l7-target-group.md)
   - [내부 DNS](docs/project/network/private-dns/private-dns.md)
 - **네트워크 보안**
-  - [Network ACL](docs/project/security/nacl/nacl.md)
+  - [네트워크 ACL](docs/project/security/nacl/nacl.md)
   - [보안그룹](docs/project/security/security-group/security-group.md)
 - **스토리지**
   - [이미지](docs/project/storage/image/image.md)
@@ -138,13 +145,13 @@ Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026
   - [예제 및 실습 가이드 홈](docs/user-guide/examples-and-labs/README.md)
   - [역할 만들기 및 권한 부여](docs/user-guide/examples-and-labs/01-create-role-and-assign-permissions.md)
   - [알림 설정 및 이벤트 트리거](docs/user-guide/examples-and-labs/02-configure-alert-and-event-trigger.md)
-  - [인스턴스 마이그레이션하기 (콜드, 라이브 둘의 차이점 설명 포함)](docs/user-guide/examples-and-labs/03-migrate-instance-cold-and-live.md)
+  - [인스턴스 마이그레이션하기 (호스트 마이그레이션)](docs/user-guide/examples-and-labs/03-migrate-instance-cold-and-live.md)
   - [윈도우 가상머신 ISO 생성 및 콘솔 확인](docs/user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)
-  - [시작 템플릿을 통한 빠른 인스턴스 구성하기](docs/user-guide/examples-and-labs/05-provision-instance-from-launch-template.md)
-  - [선호도 그룹을 통한 가상머신 배치하기](docs/user-guide/examples-and-labs/06-place-instances-with-affinity-group.md)
+  - [시작 템플릿을 통한 빠른 인스턴스 구성](docs/user-guide/examples-and-labs/05-provision-instance-from-launch-template.md)
+  - [선호도 그룹을 통한 가상머신 배치](docs/user-guide/examples-and-labs/06-place-instances-with-affinity-group.md)
   - [SSH 키를 사용한 인스턴스 접속하기](docs/user-guide/examples-and-labs/07-access-instance-with-ssh-key.md)
-  - [오토 스케일링 그룹을 통한 인스턴스 관리하기](docs/user-guide/examples-and-labs/08-manage-instances-with-auto-scaling-group.md)
-  - [로드 밸런서를 활용한 트래픽 분산하기](docs/user-guide/examples-and-labs/09-distribute-traffic-with-load-balancer.md)
+  - [오토 스케일링 그룹을 통한 인스턴스 관리](docs/user-guide/examples-and-labs/08-manage-instances-with-auto-scaling-group.md)
+  - [로드 밸런서를 활용한 트래픽 분산](docs/user-guide/examples-and-labs/09-distribute-traffic-with-load-balancer.md)
   - [포트 포워딩으로 인스턴스 연결하기](docs/user-guide/examples-and-labs/10-connect-instance-via-port-forwarding.md)
   - [내부 DNS 활용하기](docs/user-guide/examples-and-labs/11-use-private-dns-and-verify-with-dig.md)
   - [네트워크 ACL 커스터마이징하기](docs/user-guide/examples-and-labs/12-customize-nacl-and-bind-subnet.md)
@@ -152,12 +159,12 @@ Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026
   - [스케줄러를 통한 주기적인 인스턴스 스냅샷 생성](docs/user-guide/examples-and-labs/14-schedule-recurring-instance-snapshots.md)
   - [인스턴스 스냅샷 롤백하기](docs/user-guide/examples-and-labs/15-rollback-instance-to-snapshot.md)
   - [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](docs/user-guide/examples-and-labs/16-create-golden-image-from-snapshot.md)
-  - [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기](docs/user-guide/examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
-  - [쿠버네티스 스토리지 클래스 추가하기 & PVC 만들기](docs/user-guide/examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
+  - [파일 시스템으로 인스턴스 간 공유 볼륨 구성](docs/user-guide/examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
+  - [쿠버네티스 스토리지 클래스 추가 및 PVC 생성](docs/user-guide/examples-and-labs/18-add-kubernetes-storage-class-and-pvc.md)
   - [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
   - [Rocky Linux ISO 업로드 후 VM 설치](docs/user-guide/examples-and-labs/20-install-rocky-instance-from-iso.md)
   - [호스트 헤더와 경로 조건으로 L7 요청 라우팅하기](docs/user-guide/examples-and-labs/21-route-l7-requests-by-host-and-path.md)
   - [Windows 인스턴스 추가 블록 디스크 사용하기 (diskpart)](docs/user-guide/examples-and-labs/22-use-windows-additional-block-with-diskpart.md)
-  - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/22-grow-boot-disk.md)
-  - [콘솔로 부팅 실패 진단하기](docs/user-guide/examples-and-labs/23-troubleshoot-boot-with-console.md)
-  - [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/24-prepare-rocky-instance-for-golden-image.md)
+  - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/23-grow-boot-disk.md)
+  - [콘솔로 부팅 문제 진단하기](docs/user-guide/examples-and-labs/24-troubleshoot-boot-with-console.md)
+  - [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/25-prepare-rocky-instance-for-golden-image.md)

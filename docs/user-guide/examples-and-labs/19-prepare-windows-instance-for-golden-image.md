@@ -6,7 +6,7 @@
 - Cloud:iA 웹콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - Windows ISO로 설치한 인스턴스가 준비되어 있어야 함
-- Windows VM에서는 `virtio-win.iso`가 CloudiA에 의해 자동으로 바인드됨
+- Windows VM에서는 `virtio-win.iso`를 Cloud:iA가 자동으로 연결함
 - 관련 실습을 먼저 확인하면 진행이 쉬움
   - [윈도우 가상머신 ISO 생성 및 콘솔 확인](./04-create-windows-instance-from-iso-and-open-console.md)
   - [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](./16-create-golden-image-from-snapshot.md)
@@ -133,7 +133,7 @@ Windows 인스턴스를 복제 가능한 상태로 준비했다면, 다음 문�
 
 ### 권장 순서
 1. 인스턴스가 `종료됨` 상태인지 확인합니다.
-2. 필요하면 인스턴스 스냅샷을 생성합니다.
+2. 인스턴스 스냅샷을 생성합니다. 이미지는 스냅샷에서만 만들 수 있습니다.
 3. 스냅샷에서 이미지를 생성합니다.
 4. 생성한 이미지를 `OS 이미지`로 선택해 새 인스턴스를 생성합니다.
 
@@ -142,7 +142,7 @@ Windows 인스턴스를 복제 가능한 상태로 준비했다면, 다음 문�
 
 | 항목 | 표시 | 설명 |
 |---|---|---|
-| `OS 타입` | `알 수 없음` | ISO로 설치한 인스턴스에서 만든 Windows 이미지는 운영체제를 판별하지 못합니다. |
+| `OS 타입` | 설치에 쓴 ISO의 OS (예: `Windows Server 2022`) | 원본 인스턴스의 OS 타입을 따릅니다. 이 이미지로 만든 인스턴스는 Windows용 장치 구성으로 만들어집니다. |
 | `cloud-init`, `qemu-guest-agent` | `미확인` | 이 판별은 Linux 이미지에서만 합니다. |
 
 ### 새 인스턴스의 첫 부팅에서 할 일
@@ -152,7 +152,7 @@ Windows 인스턴스를 복제 가능한 상태로 준비했다면, 다음 문�
 |---|---|
 | 관리자 계정 설정 | 첫 설정 화면에서 정합니다(Windows Server는 `Administrator` 비밀번호, Windows 11은 새 계정). 인스턴스를 만들 때 `사용자 이름`·`비밀번호`를 입력했더라도 Windows에는 적용되지 않습니다. |
 | IP 주소 직접 입력 | 새 인스턴스는 IP가 비어 있습니다(`169.254`로 시작하는 자동 주소). `Sysprep`이 고정 IP를 지우므로 **인스턴스마다** 배정 IP, 서브넷의 게이트웨이와 DNS를 직접 입력합니다. 방법은 [VirtIO 드라이버 설치와 IP 직접 입력](./04-create-windows-instance-from-iso-and-open-console.md#step-4)을 참고합니다. EMS를 켜 두었다면 직렬 콘솔의 `SAC>`에서도 입력할 수 있습니다([직렬 콘솔(EMS) 사용 설정](./04-create-windows-instance-from-iso-and-open-console.md#step-5) 참고). |
-| `C:` 드라이브 확장 | 디스크 크기를 이미지보다 크게 지정해도 `C:` 드라이브는 자동으로 늘어나지 않습니다. [인스턴스 부팅 디스크 증설하기 — 5단계](./22-grow-boot-disk.md#step-5)의 Windows 수동 확장(`diskmgmt.msc`의 `볼륨 확장`)을 따릅니다. |
+| `C:` 드라이브 확장 | 디스크 크기를 이미지보다 크게 지정해도 `C:` 드라이브는 자동으로 늘어나지 않습니다. [인스턴스 부팅 디스크 증설하기 — 5단계](./23-grow-boot-disk.md#step-5)의 Windows 수동 확장(`diskmgmt.msc`의 `볼륨 확장`)을 따릅니다. |
 
 > 주의
 >

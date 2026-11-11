@@ -5,7 +5,8 @@
 
 * [대시보드](dashboard/README.md)
   * [전체](dashboard/total-dashboard/total-dashboard.md)
-  * [컴퓨트](dashboard/compute-dashboard/compute-dashboard.md)
+  * [컴퓨트 노드](dashboard/compute-dashboard/compute-dashboard.md)
+  * [네트워크 노드](dashboard/network-dashboard/network-dashboard.md)
 
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)
@@ -24,10 +25,11 @@
   * [공용 이미지 관리](storage/public-image/public-image.md)
   * [ISO](storage/iso/iso.md)
   * [백업 서버](storage/backup-server/backup-server.md)
-  * [게스트 부팅 디스크 복구 (CEPH)](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
+  * [게스트 부팅 디스크 복구](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
 
-* [쿠버네티스](kubernetes/README.md)
-  * [레지스트리](kubernetes/registry/registry.md)
+* [저장소](repository/README.md)
+  * [레지스트리](repository/registry/registry.md)
+  * [패키지 저장소](repository/package/package.md)
 
 * [프로젝트](project/README.md)
   * [프로젝트 관리](project/project-management/project-management.md)
@@ -50,3 +52,4 @@
   * [정책 설정](setting/policy-setting/policy-setting.md)
   * [알림 설정](setting/alarm-setting/alarm-setting.md)
   * [사용자 연동](setting/ldap/ldap.md)
+  * [SSO 연동 — Microsoft Entra](setting/sso/sso.md)
