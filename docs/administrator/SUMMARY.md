@@ -5,8 +5,8 @@
 
 * [대시보드](dashboard/README.md)
   * [전체](dashboard/total-dashboard/total-dashboard.md)
-  * [컴퓨트](dashboard/compute-dashboard/compute-dashboard.md)
-  * [네트워크](dashboard/network-dashboard/network-dashboard.md)
+  * [컴퓨트 노드](dashboard/compute-dashboard/compute-dashboard.md)
+  * [네트워크 노드](dashboard/network-dashboard/network-dashboard.md)
 
 * [물리 머신](host-machine/README.md)
   * [노드](host-machine/machine/machine.md)

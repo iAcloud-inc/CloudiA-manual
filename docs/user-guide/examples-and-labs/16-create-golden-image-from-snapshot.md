@@ -8,7 +8,7 @@
 - [인스턴스 스냅샷 롤백하기](./15-rollback-instance-to-snapshot.md)에서 생성한 스냅샷 또는 부팅 가능한 스냅샷 존재
 - Linux 게스트에서 `cloud-init`를 사용하는 경우, 골든 이미지 생성 전에 `cloud-init clean` 수행 가능
 - ISO로 설치한 인스턴스는 먼저 골든 이미지 준비 문서를 진행해야 함
-  - Linux: [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](./24-prepare-rocky-instance-for-golden-image.md)
+  - Linux: [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](./25-prepare-rocky-instance-for-golden-image.md)
   - Windows: [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](./19-prepare-windows-instance-for-golden-image.md)
 
 ## 개요
@@ -25,14 +25,14 @@ Golden Image에 `cloud-init` 상태가 그대로 포함되지 않도록, 이미�
 
 특히 `PER_ONCE` 단계의 사용자 스크립트가 이미 실행된 상태에서 이미지를 만들면, 해당 실행 이력이 이미지에 포함되어 새 인스턴스에서 `PER_ONCE` 스크립트가 기대대로 다시 실행되지 않을 수 있습니다.
 
-또한 게스트 OS에 남아 있는 사용자 계정은 이미지에 그대로 포함되어, 이 이미지로 만든 새 인스턴스에도 유지됩니다. CloudiA는 인스턴스 생성 시 지정한 계정 하나만 관리하므로, 이미지에 불필요한 계정이 남아 있지 않도록 골든 이미지 생성 전에 직접 정리합니다.
+또한 게스트 OS에 남아 있는 사용자 계정은 이미지에 그대로 포함되어, 이 이미지로 만든 새 인스턴스에도 유지됩니다. Cloud:iA는 인스턴스 생성 시 지정한 계정 하나만 관리하므로, 이미지에 불필요한 계정이 남아 있지 않도록 골든 이미지 생성 전에 직접 정리합니다.
 
-`백업 연동`이 허용인 채 시작한 적이 있는 인스턴스로 이미지를 만들면 열려 있는 명령 실행 설정이 이미지에 함께 담깁니다. 이 이미지로 만든 새 인스턴스는 첫 부팅에서 CloudiA가 정책을 적용하기 전까지 잠시 명령 실행이 열려 있으므로, 골든 이미지는 `미허용`(기본)으로만 시작한 인스턴스로 만듭니다. 자세한 내용은 [백업 연동](../../project/vm/instance/instance.md#백업-연동)을 확인합니다.
+`백업 연동`이 허용인 채 시작한 적이 있는 인스턴스로 이미지를 만들면 열려 있는 명령 실행 설정이 이미지에 함께 담깁니다. 이 이미지로 만든 새 인스턴스는 첫 부팅에서 Cloud:iA가 정책을 적용하기 전까지 잠시 명령 실행이 열려 있으므로, 골든 이미지는 `미허용`(기본)으로만 시작한 인스턴스로 만듭니다. 자세한 내용은 [백업 연동](../../project/vm/instance/instance.md#백업-연동)을 확인합니다.
 
 ### 절차
 1. 대상 Linux 인스턴스에 접속합니다.
 2. 필요한 애플리케이션/설정을 모두 마무리합니다.
-3. 직렬 콘솔이 동작하는지 확인합니다. `cat /proc/cmdline` 출력에 `console=ttyS0`이 없으면 [게스트에서 직렬 콘솔 켜기](23-troubleshoot-boot-with-console.md#guest-serial-setup)를 따라 설정합니다. ISO로 설치한 OS는 대부분 빠져 있습니다.
+3. 직렬 콘솔이 동작하는지 확인합니다. `cat /proc/cmdline` 출력에 `console=ttyS0`이 없으면 [게스트에서 직렬 콘솔 켜기](24-troubleshoot-boot-with-console.md#guest-serial-setup)를 따라 설정합니다. ISO로 설치한 OS는 대부분 빠져 있습니다.
 4. 이미지에 남길 필요가 없는 OS 사용자 계정이 있으면 정리합니다(예: `sudo userdel -r <계정>`).
 5. `sudo cloud-init clean`을 실행합니다.
 6. Cloud:iA 웹에서 인스턴스를 `종료`합니다. 게스트 안에서 `poweroff` 등으로 끄지 않습니다.
@@ -118,4 +118,4 @@ Golden Image에 `cloud-init` 상태가 그대로 포함되지 않도록, 이미�
 
 > 💡 **참고:** Windows 이미지는 인스턴스를 만들 때 입력한 계정 정보(`사용자 이름`, `비밀번호`)가 Windows에 적용되지 않습니다. 첫 부팅의 Windows 설정 화면에서 관리자 비밀번호를 정하고, IP는 직접 입력합니다. 자세한 내용은 [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기 — 4단계](./19-prepare-windows-instance-for-golden-image.md#step-4)를 참고합니다.
 
-> 💡 **참고:** 이미지보다 큰 `부팅 디스크 크기`로 만들면 루트가 LVM이어도(Rocky 설치 기본 분할) 첫 부팅에서 Cloud:iA가 파티션, LVM 물리 볼륨·논리 볼륨, 파일 시스템 순서로 늘립니다. 이미지에 `cloud-init`과 `cloud-utils-growpart`가 있어야 하며, 늘어나지 않았다면 [인스턴스 부팅 디스크 증설하기 — 4단계](./22-grow-boot-disk.md#step-4)로 직접 늘립니다.
+> 💡 **참고:** 이미지보다 큰 `부팅 디스크 크기`로 만들면 루트가 LVM이어도(Rocky 설치 기본 분할) 첫 부팅에서 Cloud:iA가 파티션, LVM 물리 볼륨·논리 볼륨, 파일 시스템 순서로 늘립니다. 이미지에 `cloud-init`과 `cloud-utils-growpart`가 있어야 하며, 늘어나지 않았다면 [인스턴스 부팅 디스크 증설하기 — 4단계](./23-grow-boot-disk.md#step-4)로 직접 늘립니다.
