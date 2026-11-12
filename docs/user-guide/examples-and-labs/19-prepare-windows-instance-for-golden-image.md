@@ -23,13 +23,14 @@
 
 ### 절차
 1. Windows에 로그인합니다.
-2. 드라이버 CD(`virtio-win`)에 있는 `virtio-win-guest-tools`를 실행합니다. `장치 관리자`에서 드라이버를 하나씩 설치하는 방법보다 권장합니다. 네트워크, 저장소(SCSI 포함), `Balloon`, `Serial` 드라이버와 `QEMU Guest Agent`가 한 번에 설치되며, 이미지로 만든 인스턴스가 부팅하는 데 필요한 저장소 드라이버가 함께 설치됩니다.
+2. 드라이버 CD(`virtio-win`)의 `virtio-win-guest-tools.exe`를 실행합니다. 절차는 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 4단계](./04-create-windows-instance-from-iso-and-open-console.md#step-4)와 같습니다. 네트워크, 저장소(SCSI 포함), `Balloon`, `Serial` 드라이버와 `QEMU Guest Agent`가 한 번에 설치되며, 이미지로 만든 인스턴스가 부팅하는 데 필요한 저장소 드라이버가 함께 설치됩니다.
 3. `장치 관리자`에서 네트워크, 스토리지 장치가 정상 인식되는지 확인합니다.
-4. 필요하면 `Services`에서 `QEMU Guest Agent`가 정상 실행 중인지 확인합니다.
+4. Cloud:iA 웹의 인스턴스 상세에서 `게스트 에이전트`가 `연결됨`인지 확인합니다.
+5. 시간대가 태평양 표준시 그대로면 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 5단계](./04-create-windows-instance-from-iso-and-open-console.md#step-5)를 따라 서울로 바꿉니다.
 
 ### 확인
 - 네트워크, 스토리지 장치에 경고 표시가 없습니다.
-- `QEMU Guest Agent` 서비스 상태를 확인할 수 있습니다.
+- 인스턴스 상세의 `게스트 에이전트`가 `연결됨`입니다.
 
 > 주의
 >
@@ -94,7 +95,7 @@ manage-bde -status E:
 
 > 참고
 >
-> 이 이미지로 만든 인스턴스에서 직렬 콘솔을 쓰려면 Sysprep 전에 EMS를 켜 둡니다. EMS 설정은 Sysprep을 거쳐도 유지되어, 이 이미지로 만든 인스턴스의 `직렬 콘솔`에 `SAC>`가 나타납니다. 방법은 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 5단계](./04-create-windows-instance-from-iso-and-open-console.md#step-5)를 참고하세요.
+> 이 이미지로 만든 인스턴스에서 직렬 콘솔을 쓰려면 Sysprep 전에 EMS를 켜 둡니다. EMS 설정은 Sysprep을 거쳐도 유지되어, 이 이미지로 만든 인스턴스의 `직렬 콘솔`에 `SAC>`가 나타납니다. 방법은 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 7단계](./04-create-windows-instance-from-iso-and-open-console.md#step-7)를 참고하세요.
 >
 > 골든 이미지에 `RealTimeIsUniversal` 레지스트리 값을 넣었다면 이 이미지로 만들 시작 템플릿과 인스턴스의 `하드웨어 시계`를 `UTC` 로 둡니다. `자동`이면 Windows 를 현지 시각으로 켜서 9시간 빠른 시각으로 뜹니다. 자세한 내용은 [인스턴스 — 가상머신 시계](../../project/vm/instance/instance.md#가상머신-시계)를 참고하세요.
 
@@ -153,7 +154,7 @@ Windows 인스턴스를 복제 가능한 상태로 준비했다면, 다음 문�
 | 할 일 | 방법 |
 |---|---|
 | 관리자 계정 설정 | 첫 설정 화면에서 정합니다(Windows Server는 `Administrator` 비밀번호, Windows 11은 새 계정). 인스턴스를 만들 때 `사용자 이름`·`비밀번호`를 입력했더라도 Windows에는 적용되지 않습니다. |
-| IP 주소 직접 입력 | 새 인스턴스는 IP가 비어 있습니다(`169.254`로 시작하는 자동 주소). `Sysprep`이 고정 IP를 지우므로 **인스턴스마다** 배정 IP, 서브넷의 게이트웨이와 DNS를 직접 입력합니다. 방법은 [VirtIO 드라이버 설치와 IP 직접 입력](./04-create-windows-instance-from-iso-and-open-console.md#step-4)을 참고합니다. EMS를 켜 두었다면 직렬 콘솔의 `SAC>`에서도 입력할 수 있습니다([직렬 콘솔(EMS) 사용 설정](./04-create-windows-instance-from-iso-and-open-console.md#step-5) 참고). |
+| IP 주소 직접 입력 | 새 인스턴스는 IP가 비어 있습니다(`169.254`로 시작하는 자동 주소). `Sysprep`이 고정 IP를 지우므로 **인스턴스마다** 배정 IP, 서브넷의 게이트웨이와 DNS를 직접 입력합니다. 방법은 [IP 주소 직접 입력](./04-create-windows-instance-from-iso-and-open-console.md#step-6)을 참고합니다. EMS를 켜 두었다면 직렬 콘솔의 `SAC>`에서도 입력할 수 있습니다([직렬 콘솔(EMS) 사용 설정](./04-create-windows-instance-from-iso-and-open-console.md#step-7) 참고). |
 | `C:` 드라이브 확장 | 디스크 크기를 이미지보다 크게 지정해도 `C:` 드라이브는 자동으로 늘어나지 않습니다. [인스턴스 부팅 디스크 증설하기 — 5단계](./23-grow-boot-disk.md#step-5)의 Windows 수동 확장(`diskmgmt.msc`의 `볼륨 확장`)을 따릅니다. |
 
 > 주의
