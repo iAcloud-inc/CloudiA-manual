@@ -47,6 +47,7 @@ SSH 키 목록 화면에서는 프로젝트에 등록된 SSH 키를 확인하고
   - 한 줄 문자열로 입력합니다.
   - 최대 10,240자까지 입력할 수 있습니다.
   - 입력 길이 카운트가 함께 표시됩니다.
+  - 입력칸 아래에 `공개 키(.pub)만 붙여 넣습니다. 키 만들기: ssh-keygen -t ed25519` 안내가 표시됩니다.
 
 ### 공개키 입력 시 확인할 점
 
@@ -57,6 +58,33 @@ SSH 키 목록 화면에서는 프로젝트에 등록된 SSH 키를 확인하고
 - comment: 일반 문자만 사용합니다. 이모지·제어문자는 사용할 수 없습니다.
 - 공백 규칙: 토큰 사이 공백은 1칸만 허용합니다. 탭이나 여러 칸은 사용할 수 없습니다.
 - 전체 길이는 최소 60자, 최대 10,240자 범위 내에서 입력합니다.
+
+### 키 만들기
+
+CloudiA 는 키를 만들어 주지 않습니다. 사용하는 PC 에서 키 쌍을 만들고 공개 키만 등록합니다. 개인 키는 PC 에 두고 어디에도 올리지 않습니다.
+
+**Linux·macOS·Windows(PowerShell)** — OpenSSH 의 `ssh-keygen` 을 씁니다. Windows 10(1809) 이상과 Windows 11 에는 기본으로 들어 있습니다.
+
+```bash
+# Ed25519(권장)
+ssh-keygen -t ed25519 -C "my-key"
+# RSA 가 필요할 때
+ssh-keygen -t rsa -b 4096 -C "my-key"
+```
+
+만든 뒤 공개 키 파일 내용을 그대로 복사해 `공개키`에 붙여 넣습니다. 기본 경로는 Ed25519 가 `~/.ssh/id_ed25519.pub`, RSA 가 `~/.ssh/id_rsa.pub` 입니다. 확장자가 없는 파일(`id_ed25519`)은 개인 키이므로 붙여 넣지 않습니다.
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+**PuTTY** — `PuTTYgen` 으로 만듭니다.
+
+1. `Type of key to generate` 에서 `EdDSA`(Ed25519) 또는 `RSA` 를 고르고 `Generate` 를 누릅니다.
+2. 창 위쪽 `Public key for pasting into OpenSSH authorized_keys file` 칸의 한 줄 전체를 복사해 `공개키`에 붙여 넣습니다.
+3. `Save private key` 로 개인 키(`.ppk`)를 PC 에 저장합니다. PuTTY 로 접속할 때 이 파일을 지정합니다.
+
+> 💡 **참고:** `PuTTYgen` 의 `Save public key` 로 저장한 파일은 OpenSSH 형식이 아니어서 그대로 붙여 넣으면 등록되지 않습니다. 2단계의 한 줄을 복사합니다.
 
 ### 하단 버튼
 
