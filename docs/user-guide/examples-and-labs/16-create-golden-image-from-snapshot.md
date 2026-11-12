@@ -102,7 +102,7 @@ Golden Image에 `cloud-init` 상태가 그대로 포함되지 않도록, 이미�
 | 인스턴스 이름 | `example-instance-from-golden-001` |
 | 인스턴스 타입 | `t2.medium`                               |
 | OS 이미지 | `example-golden-image-001` |
-| 디스크 크기 설정 | `30 GB`                                   |
+| 부팅 디스크 크기 | `30 GB`                                   |
 | VPC | `example-vpc`                             |
 | 서브넷 | `example-subnet`                          |
 | IP 주소 | `자동 할당`                                   |
@@ -118,4 +118,4 @@ Golden Image에 `cloud-init` 상태가 그대로 포함되지 않도록, 이미�
 
 > 💡 **참고:** Windows 이미지는 인스턴스를 만들 때 입력한 계정 정보(`사용자 이름`, `비밀번호`)가 Windows에 적용되지 않습니다. 첫 부팅의 Windows 설정 화면에서 관리자 비밀번호를 정하고, IP는 직접 입력합니다. 자세한 내용은 [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기 — 4단계](./19-prepare-windows-instance-for-golden-image.md#step-4)를 참고합니다.
 
-> 💡 **참고:** 이미지보다 큰 `디스크 크기 설정`으로 만들면 루트가 LVM이어도(Rocky 설치 기본 분할) 첫 부팅에서 Cloud:iA가 파티션, LVM 물리 볼륨·논리 볼륨, 파일 시스템 순서로 늘립니다. 이미지에 `cloud-init`과 `cloud-utils-growpart`가 있어야 하며, 늘어나지 않았다면 [인스턴스 부팅 디스크 증설하기 — 4단계](./22-grow-boot-disk.md#step-4)로 직접 늘립니다.
+> 💡 **참고:** 이미지보다 큰 `부팅 디스크 크기`로 만들면 루트가 LVM이어도(Rocky 설치 기본 분할) 첫 부팅에서 Cloud:iA가 파티션, LVM 물리 볼륨·논리 볼륨, 파일 시스템 순서로 늘립니다. 이미지에 `cloud-init`과 `cloud-utils-growpart`가 있어야 하며, 늘어나지 않았다면 [인스턴스 부팅 디스크 증설하기 — 4단계](./22-grow-boot-disk.md#step-4)로 직접 늘립니다.

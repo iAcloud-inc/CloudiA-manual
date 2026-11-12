@@ -75,7 +75,7 @@
 | 이름 | `example-instance-001`                    |
 | 인스턴스 타입 | `t2.medium`                               |
 | OS 이미지 | `Rocky-9-GenericCloud-Base.latest.x86_64` |
-| 디스크 크기 설정 | `30 GB`                                   |
+| 부팅 디스크 크기 | `30 GB`                                   |
 | VPC | `example-vpc`                             |
 | 서브넷 | `example-subnet`                          |
 | IP 주소 | `자동 할당`                                   |
