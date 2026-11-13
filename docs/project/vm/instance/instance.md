@@ -224,7 +224,7 @@ CloudiA의 `인스턴스` 메뉴에서는 가상머신을 생성하고, 상태�
 
 > 참고
 >
-> Windows를 `ISO 파일`로 설치할 때 부팅 장치 선택 화면이 보이면 `QEMU DVD-ROM` 항목을 선택합니다. Windows 11의 네트워크 요구 사항 우회와 VirtIO 드라이버 설치 예시는 [윈도우 가상머신 ISO 생성 및 콘솔 확인](../../../user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)을 확인합니다.
+> `ISO 파일` 설치 유형 인스턴스를 실행할 때 확인 창의 `실행 후 콘솔 열기`(기본 켬)를 켜 두면 그래픽 콘솔 창이 바로 열려 CD 부팅 키 입력을 놓치지 않습니다. UEFI 부팅 장치 선택 화면에서는 설치 ISO가 `UEFI QEMU DVD-ROM INSTALL-ISO`, 드라이버 CD가 `UEFI QEMU DVD-ROM VIRTIO-WIN`으로 보입니다. BIOS 부팅에서는 설치 ISO에 ISO 볼륨 이름이 괄호로 붙습니다. Windows 11의 네트워크 요구 사항 우회와 VirtIO 드라이버 설치 예시는 [윈도우 가상머신 ISO 생성 및 콘솔 확인](../../../user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)을 확인합니다.
 
 ### 3. 부팅 디스크 크기 설정
 
