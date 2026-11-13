@@ -6,7 +6,8 @@
 - Cloud:iA 웹콘솔 접근 가능
 - 프로젝트 계정(`project-owner`)으로 로그인 가능
 - Rocky Linux **DVD ISO**로 설치한 인스턴스가 준비되어 있어야 함
-  - DVD ISO에는 `cloud-init`, `cloud-utils-growpart`, `qemu-guest-agent`가 들어 있습니다. `minimal ISO`에는 이 세 패키지가 없습니다.
+  - DVD ISO로 기본 설치(`Server with GUI`)하면 `qemu-guest-agent`는 설치되지만 `cloud-init`은 설치되지 않습니다. `cloud-init`과 `cloud-utils-growpart`는 설치 DVD의 저장소로 2단계에서 설치합니다. `minimal ISO`에는 이 세 패키지가 모두 없습니다.
+  - 계정·IP 자동 설정이나 시작 템플릿 변환만 필요하면 [ISO 설치 인스턴스 운영](../../project/vm/instance/instance.md#iso-install-cloud-init)의 cloud-init 설치 절차를 따릅니다.
   - 설치 방법은 [Rocky Linux ISO 업로드 후 VM 설치](./20-install-rocky-instance-from-iso.md)을 참고합니다. 설치할 때 IPv4를 수동(`Manual`)으로 설정해야 접속할 수 있습니다.
   - 설치 CD(CD-ROM)는 설치 뒤에도 인스턴스에 붙어 있습니다. 2단계에서 이 DVD를 패키지 저장소로 씁니다.
 - 관련 실습을 먼저 확인하면 진행이 쉬움
