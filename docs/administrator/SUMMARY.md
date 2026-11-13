@@ -12,6 +12,7 @@
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
   * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
+    * [리밸런싱과 이동 이력](host-machine/compute-node-rebalancing/compute-node-rebalancing.md)
   * [네트워크 노드](host-machine/network-node/network-node.md)
   * [노드 접속 계정과 SSH 포트](host-machine/node-access/node-access.md)
 
