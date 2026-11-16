@@ -118,7 +118,7 @@
 
 ---
 ## 인스턴스에서 오브젝트 스토리지 접근
-오브젝트 스토리지를 사용하려면 인스턴스 생성 시 **오브젝트 스토리지 활성화** 옵션을 켜야 합니다. 활성화하면 Managed VNIC가 자동 추가되고, 인스턴스 내부에서 `object-storage.cloudia.internal` 도메인으로 접근할 수 있습니다.
+오브젝트 스토리지를 사용하려면 인스턴스 생성 시 **오브젝트 스토리지 활성화** 옵션을 켜야 합니다. 활성화하면 Managed VNIC가 자동 추가되고, 인스턴스 내부에서 `object-storage.cloudia.internal` 도메인으로 접근할 수 있습니다. 단, 이 도메인이 해석되려면 인스턴스의 기본 인터페이스가 속한 서브넷의 DNS 서버가 VPC 기본 DNS 서버여야 합니다.
 
 ### 접근 예시 (s5cmd)
 ```bash
@@ -134,4 +134,4 @@ AWS_ACCESS_KEY_ID={액세스키} AWS_SECRET_ACCESS_KEY={시크릿키} AWS_REGION
   s5cmd --endpoint-url http://object-storage.cloudia.internal:{포트번호} cp ./myfile.txt s3://my-bucket/myfile.txt
 ```
 
-> ⚠️ **참고:** 호스트 머신에서 직접 접근할 때는 `object-storage.cloudia.internal` 대신 스토리지 네트워크 VIP(예: `30.0.0.10`)를 endpoint로 사용해야 합니다. 이 DNS는 인스턴스 내부의 Managed VNIC 네트워크에서만 해석됩니다.
+> ⚠️ **참고:** 호스트 머신에서 직접 접근할 때는 `object-storage.cloudia.internal` 대신 스토리지 네트워크 VIP(예: `30.0.0.10`)를 endpoint로 사용해야 합니다. 이 도메인은 VPC 기본 DNS 서버만 해석하므로 호스트 머신에서는 해석되지 않습니다.
