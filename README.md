@@ -49,8 +49,8 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [보안그룹 템플릿](docs/administrator/network/security-group-template/security-group-template.md)
 - **스토리지**
   - [스토리지 도메인](docs/administrator/storage/storage-domain/storage-domain.md)
-  - [공용 이미지 관리](docs/administrator/storage/public-image/public-image.md)
-  - [ISO](docs/administrator/storage/iso/iso.md)
+  - [공용 이미지](docs/administrator/storage/public-image/public-image.md)
+  - [공용 ISO](docs/administrator/storage/iso/iso.md)
   - [백업 서버](docs/administrator/storage/backup-server/backup-server.md)
 - **저장소**
   - [레지스트리](docs/administrator/repository/registry/registry.md)

@@ -23,8 +23,8 @@
 
 * [스토리지](storage/README.md)
   * [스토리지 도메인](storage/storage-domain/storage-domain.md)
-  * [공용 이미지 관리](storage/public-image/public-image.md)
-  * [ISO](storage/iso/iso.md)
+  * [공용 이미지](storage/public-image/public-image.md)
+  * [공용 ISO](storage/iso/iso.md)
   * [백업 서버](storage/backup-server/backup-server.md)
   * [게스트 부팅 디스크 복구](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
 
