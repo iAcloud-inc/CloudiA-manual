@@ -320,7 +320,7 @@ CloudiA의 `인스턴스` 메뉴에서는 가상머신을 생성하고, 상태�
 | --- | --- | --- |
 | `블록` | 프로젝트의 블록 자원을 인스턴스에 연결합니다. | 운영 데이터와 OS 디스크를 분리할 때 사용합니다. 블록 목록의 `공유 방식` 열로 공유 블록을 구분합니다. 자세한 내용은 [블록 공유](../../storage/block/block.md#블록-공유)를 확인합니다. |
 | `CD/DVD 드라이브` | 데이터 CD 같은 사용자 `ISO 파일`을 연결합니다. | 설치 미디어와 드라이버 CD는 플랫폼이 자동으로 연결하므로 여기에 넣지 않습니다. `ISO 파일`로 만들 때는 목록 위에 자동으로 연결되는 매체가 안내됩니다. `CEPH`(RBD) 스토리지 도메인의 `ISO 파일`은 선택할 수 없습니다. Ceph 클러스터의 `ISO 파일`은 `CEPHFS` 도메인에 올려 사용합니다. 생성 이후에는 상세 화면 `인스턴스 구성 요소 > 디스크 및 CD/DVD`에서 `ISO 파일`을 연결·해제할 수 있고, 이 작업은 `실행 중`에도 가능합니다. 드라이브 추가·제거는 인스턴스를 정지한 뒤 같은 화면에서 하며, `종료됨` 상태라면 편집 화면에서도 할 수 있습니다. |
-| `파일 시스템` | 파일 시스템 자원을 선택하고 마운트 포인트를 지정합니다. | `NFS`, `virtiofs` 같은 공유 저장소 연결에 사용합니다. Windows 이미지는 자동 마운트를 지원하지 않아 이 항목을 사용할 수 없으며, 게스트에서 직접 마운트해야 합니다. `ISO 파일` 설치 유형은 게스트에 cloud-init을 설치하고 `사용자 계정`을 입력해야 자동으로 마운트됩니다. 그렇지 않으면 게스트에서 직접 마운트합니다. |
+| `파일 시스템` | 파일 시스템 자원을 선택하고 마운트 포인트를 지정합니다. | `NFS`, `virtiofs` 같은 공유 저장소 연결에 사용합니다. `ISO 파일` 설치 유형은 게스트에 cloud-init을 설치하고 `사용자 계정`을 입력해야 자동으로 마운트됩니다. 그렇지 않으면 게스트에서 직접 마운트합니다. Windows는 `virtiofs` 파일 시스템만 연결하고 마운트 포인트를 입력하지 않습니다. 게스트에서 할 일은 [Windows 인스턴스에서 파일 시스템 쓰기](#windows-file-system)를 확인합니다. |
 | `오브젝트 스토리지` | 오브젝트 스토리지 접근용 네트워크를 함께 사용하도록 설정합니다. | 활성화하면 네트워크 인터페이스 목록 맨 앞에 `Managed VNIC`가 자동 추가됩니다. 별도 디스크를 붙이는 기능은 아닙니다. `ISO 파일` 설치 유형에서는 사용할 수 없습니다. |
 | `AI 가속기` | AI 가속기를 연결합니다. | `GPU` 또는 `NPU` 가속기를 선택할 수 있습니다. 인스턴스 스펙을 `직접 입력`으로 구성할 때 선택할 수 있으며, 카드 수는 장치별 `노드당 최대 카드 수`까지만 입력할 수 있습니다. 자세한 내용은 상세 화면의 `AI 가속기 탭`을 참고합니다. |
 | `선호도 그룹` | 인스턴스를 배치할 선호(preferred) 또는 반선호(anti-affinity) 그룹을 선택합니다. | 선호 그룹은 지정한 인스턴스들을 같은 호스트에 배치하고, 반선호 그룹은 서로 다른 호스트에 배치합니다. 자세한 내용은 [선호도 그룹](../affinity-group/affinity-group.md)을 확인합니다. |
@@ -348,6 +348,56 @@ CloudiA의 `인스턴스` 메뉴에서는 가상머신을 생성하고, 상태�
 > 연결할 수 있는 CD/DVD 드라이브 수는 `SATA` 포트 6개를 `블록`·설치 미디어·드라이버 CD와 나눠 쓰는 만큼으로 정해집니다. 남은 포트가 없으면 `추가` 버튼이 비활성화되며, 추가 `블록`을 줄이면 다시 연결할 수 있습니다. 자세한 배경은 아래 `SATA 포트와 추가 블록 개수` 참고를 확인합니다.
 >
 > 이미지·`ISO 파일`·`블록`·`파일 시스템`은 각각 특정 호스트에 전속된 스토리지 도메인에 속할 수 있습니다. 이미 선택한 항목과 같은 호스트에 둘 수 없는 항목은 선택 목록에서 비활성화되며, 모달 제목 옆 `ⓘ` 아이콘에 마우스를 올리면 안내 문구를 확인할 수 있습니다.
+
+<a id="windows-file-system"></a>
+#### Windows 인스턴스에서 파일 시스템 쓰기
+
+Windows에는 cloud-init이 없어 마운트 포인트를 입력하지 않습니다. `virtiofs` 파일 시스템을 연결하면 게스트에 장치만 붙고, 게스트 안에서 아래를 한 번 설정하면 드라이브로 보입니다. `NFS` 파일 시스템은 Windows에 연결할 수 없습니다.
+
+1. 게스트 드라이버를 먼저 설치합니다. `ISO 파일`로 설치했다면 [윈도우 가상머신 ISO 생성 및 콘솔 확인](../../../user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)의 guest tools 설치에서 `VirtIO-FS` 드라이버와 서비스가 함께 들어갑니다. 이미지로 만든 인스턴스는 PowerShell 에서 `Get-Service VirtioFsSvc`로 서비스가 있는지 보고, 없으면 `virtio-win` CD 의 `virtio-win-guest-tools.exe`를 실행합니다.
+2. [WinFsp](https://github.com/winfsp/winfsp/releases) 설치 파일(`winfsp-<버전>.msi`)을 받아 설치합니다. 게스트가 인터넷에 나가지 못하면 다른 PC에서 받아 옮깁니다.
+3. 관리자 PowerShell에서 `VirtIO-FS` 서비스를 자동 시작으로 바꾸고 시작합니다.
+
+   ```powershell
+   sc.exe config VirtioFsSvc start= auto
+   Start-Service VirtioFsSvc
+   ```
+
+4. 탐색기에서 `Z:` 드라이브를 엽니다. 볼륨 이름은 `fs_<파일 시스템 ID>_<파일 시스템 이름>`입니다(예: ID가 `264`, 이름이 `share`면 `fs_264_share`). 파일 시스템 ID는 파일 시스템 목록의 `ID` 열에 있습니다. 재부팅해도 다시 붙습니다.
+
+드라이브 문자를 바꾸려면 레지스트리 `HKLM\SOFTWARE\VirtIO-FS`에 문자열 값 `MountPoint`를 만들어 `V:`처럼 넣고 `Restart-Service VirtioFsSvc`를 실행합니다. 아직 없는 폴더 경로를 넣으면 그 폴더가 만들어져 붙습니다. 이미 있는 폴더를 넣으면 서비스가 멈추므로 다른 경로를 넣습니다.
+
+기본 서비스는 파일 시스템 하나만 붙이고, 둘 이상을 연결했을 때 어느 것을 붙일지는 정할 수 없습니다. 둘 이상을 쓰려면 기본 서비스를 끄고 WinFsp 실행기로 파일 시스템마다 드라이브를 붙입니다. 실행기에는 위의 볼륨 이름(`fs_<파일 시스템 ID>_<파일 시스템 이름>`)을 넣습니다.
+
+1. 관리자 명령 프롬프트에서 기본 서비스를 끄고 `virtiofs`를 실행기에 한 번 등록합니다.
+
+   ```bat
+   sc.exe stop VirtioFsSvc
+   sc.exe config VirtioFsSvc start= disabled
+   "C:\Program Files (x86)\WinFsp\bin\fsreg.bat" virtiofs "C:\Program Files\Virtio-Win\VioFS\virtiofs.exe" "-t %1 -m %2"
+   ```
+
+2. 파일 시스템마다 실행 이름(예: `fs1`), 볼륨 이름, 드라이브 문자를 넣어 붙입니다.
+
+   ```bat
+   "C:\Program Files (x86)\WinFsp\bin\launchctl-x64.exe" start virtiofs fs1 fs_264_share Y:
+   "C:\Program Files (x86)\WinFsp\bin\launchctl-x64.exe" start virtiofs fs2 fs_265_backup X:
+   ```
+
+3. 실행기로 붙인 드라이브는 재부팅하면 사라집니다. 관리자 PowerShell에서 파일 시스템마다 시작 작업을 등록하면 부팅 30초 뒤 다시 붙습니다.
+
+   ```powershell
+   $a = New-ScheduledTaskAction -Execute 'C:\Program Files (x86)\WinFsp\bin\launchctl-x64.exe' -Argument 'start virtiofs fs1 fs_264_share Y:'
+   $t = New-ScheduledTaskTrigger -AtStartup
+   $t.Delay = 'PT30S'
+   Register-ScheduledTask -TaskName 'virtiofs-fs1' -Action $a -Trigger $t -User 'SYSTEM' -RunLevel Highest
+   ```
+
+파일 시스템 이름을 바꾸면 다음 시작부터 볼륨 이름도 바뀝니다. 실행기로 붙였다면 새 볼륨 이름으로 시작 작업을 다시 등록합니다.
+
+> ⚠️ **주의:** 게스트에서는 모든 파일과 폴더의 소유자가 `Everyone`으로 보이고, 게스트의 모든 사용자가 읽고 쓸 수 있습니다. 노드에서 정한 소유자와 권한은 게스트에 반영되지 않습니다. 사용자별로 나눠야 하는 자료는 넣지 않습니다.
+>
+> 파일 시스템 연결과 해제는 인스턴스가 `종료됨`일 때 편집에서 합니다.
 
 ### 7. 사용자 스크립트 입력
 
@@ -423,7 +473,7 @@ CloudiA의 `인스턴스` 메뉴에서는 가상머신을 생성하고, 상태�
 | `시작 템플릿으로 변환` | 됩니다. | Linux는 인스턴스를 종료한 뒤 편집에서 `사용자 계정`을 입력하면 됩니다. **Windows는 안 됩니다.** | 계정을 입력합니다. 템플릿으로 만든 인스턴스에 계정이 적용되려면 게스트에 cloud-init이 있어야 하므로 Rocky Linux는 [cloud-init 설치](#iso-install-cloud-init)를 따릅니다. |
 | `보안 유형`(SEV)·`오브젝트 스토리지` | 됩니다. | **안 됩니다.** | 방법이 없습니다. |
 | 편집에서 `AI 가속기` 변경 | 됩니다. | 됩니다. `종료됨` 상태에서 편집합니다. | - |
-| 편집에서 `가상 CPU 피닝`·`파일 시스템` 변경 | 됩니다. | 됩니다. `종료됨` 상태에서 편집합니다. `파일 시스템`은 게스트에 cloud-init을 설치하고 `사용자 계정`을 입력해야 자동으로 마운트됩니다. Windows는 `파일 시스템`을 연결할 수 없습니다. | `파일 시스템`을 자동으로 마운트하려면 Rocky Linux는 [cloud-init 설치](#iso-install-cloud-init)를 따릅니다. |
+| 편집에서 `가상 CPU 피닝`·`파일 시스템` 변경 | 됩니다. | 됩니다. `종료됨` 상태에서 편집합니다. `파일 시스템`은 게스트에 cloud-init을 설치하고 `사용자 계정`을 입력해야 자동으로 마운트됩니다. Windows는 `virtiofs` 파일 시스템을 마운트 포인트 없이 연결하고 게스트에서 드라이브로 붙입니다. | `파일 시스템`을 자동으로 마운트하려면 Rocky Linux는 [cloud-init 설치](#iso-install-cloud-init)를 따릅니다. Windows는 [Windows 인스턴스에서 파일 시스템 쓰기](#windows-file-system)를 따릅니다. |
 | `종료됨` 상태 스냅샷 | 됩니다. | 됩니다. | - |
 | 실행 중 스냅샷 | 됩니다. | Rocky Linux DVD 기본 설치(`Server with GUI`)는 처음부터 됩니다. 최소 설치와 Windows는 게스트 에이전트를 설치해야 합니다. | Rocky Linux 최소 설치는 [설치 DVD 저장소](#iso-install-cloud-init)로 `qemu-guest-agent`를 설치합니다. Windows는 [윈도우 가상머신 ISO 생성 및 콘솔 확인](../../../user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)의 드라이버 설치를 따릅니다. |
 | 계정·비밀번호·SSH 키·`사용자 스크립트` | 됩니다. | Rocky Linux는 cloud-init을 설치하면 됩니다. **Windows는 안 됩니다.** | [cloud-init 설치](#iso-install-cloud-init)를 따릅니다. |
@@ -1159,7 +1209,7 @@ GPU는 장치를 그대로 인스턴스에 연결합니다. 인스턴스를 실�
 >
 > MAC 주소와 실행 상태는 템플릿에 보존되지 않습니다. 원본에 vTPM 이 있으면 vTPM 상태도 보존되지 않아 이 템플릿으로 생성한 인스턴스는 빈 TPM 으로 기동하므로, BitLocker 등 TPM 을 사용하는 디스크 암호화를 켜 두었다면 복구 키가 필요합니다.
 >
-> 네트워크 인터페이스와 보안그룹은 토글과 무관하게 항상 템플릿에 보존되고, 부팅 디스크는 새 이미지로 캡처됩니다. 사용자 계정·`SSH 키`·`사용자 스크립트`(cloud-init)도 함께 보존되지만, **Windows 인스턴스는 cloud-init 을 쓰지 않으므로 이 항목과 `파일 시스템`이 템플릿에 담기지 않습니다.**
+> 네트워크 인터페이스와 보안그룹은 토글과 무관하게 항상 템플릿에 보존되고, 부팅 디스크는 새 이미지로 캡처됩니다. 사용자 계정·`SSH 키`·`사용자 스크립트`(cloud-init)도 함께 보존되지만, **Windows 인스턴스는 cloud-init 을 쓰지 않으므로 이 항목이 템플릿에 담기지 않습니다.** `파일 시스템`은 Windows도 담깁니다.
 
 ### 변환할 수 없는 경우
 
