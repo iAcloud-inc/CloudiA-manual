@@ -213,7 +213,7 @@ sudo restorecon -v /data01
 #### 조치 가이드
 1. 골든 이미지로 만들 인스턴스는 암호화가 켜져 있으면 복호화를 먼저 수행합니다.
 2. 복호화가 끝나기 전에는 골든 이미지용 스냅샷·이미지를 만들지 않습니다.
-3. 골든 이미지 전환 시 `Sysprep` 순서를 준수합니다. `sysprep.exe /generalize /oobe /quit`으로 실행한 뒤 Cloud:iA 웹의 `종료`로 끄고, Windows 안에서 종료·재시작하지 않습니다.
+3. 골든 이미지 전환 시 `Sysprep` 순서를 준수합니다. `sysprep.exe /generalize /oobe /quit`으로 실행한 뒤 Cloud:iA 웹의 `종료`로 끄고, Windows 안에서 재시작하지 않습니다.
 
 <a id="faq-windows-iso"></a>
 ## 3. Windows / ISO 설치
