@@ -40,6 +40,16 @@
   * [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](examples-and-labs/25-prepare-rocky-instance-for-golden-image.md)
 
 <!--
+CLI 섹션 — cloudiactl 출시 전이라 비공개(2026-11-17). 출시 때 이 주석의 시작·끝 표시만 제거.
+* [Cloud:iA CLI (cloudiactl)](cli/README.md)
+  * [설치하기](cli/install.md)
+  * [로그인](cli/login.md)
+  * [기본 사용법](cli/usage.md)
+  * [AI 에이전트와 함께 쓰기](cli/agents.md)
+  * [문제 해결](cli/troubleshooting.md)
+-->
+
+<!--
 Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026-08-31). 복원 시 이 주석의 시작·끝 표시만 제거.
 * [Terraform Provider 가이드](terraform-provider/README.md)
   * [가이드](terraform-provider/guides/README.md)
