@@ -13,11 +13,10 @@
 | `CLOUDIA_AUTH_CLIENT_ID must not be cloudia-secure-login` | 웹 콘솔 로그인용 클라이언트를 환경 변수에 넣음 | `CLOUDIA_AUTH_*` 환경 변수를 지우고 `cloudiactl login` 을 씁니다 |
 | `the keychain is not available` 경고 | 키 저장소를 쓸 수 없는 환경 | 로그인 정보가 소유자 전용 파일에 저장됩니다. 그 기기를 다른 사람과 같이 쓰지 마세요 |
 | macOS 에서 실행이 막힘 | 브라우저로 받은 파일의 격리 표시 | [설치하기](./install.md)의 `xattr` 명령 |
-| Windows 에서 설치 스크립트가 연결 단계에서 실패 | Windows 10 은 TLS 1.3 을 지원하지 않음 | [설치하기](./install.md)의 "파일로 받기" |
-| `curl … install.sh \| sh` 가 `SSL certificate problem` | 설치 스크립트를 브라우저 대신 `curl` 로 직접 받았다 | **CLI 다운로드** 창에서 스크립트를 받아 실행([설치하기](./install.md)) |
-| 설치 중 `SSL certificate problem` 뒤 `cannot download …/SHA256SUMS` | 웹 콘솔 인증서가 바뀌었거나(재설치), 회사 프록시가 TLS 를 가로챈다 | 이전에 받은 `cloudiactl-install` 파일을 지우고 창에서 다시 받아 실행. 프록시를 거친다면 관리자에게 문의 |
-| 설치 중 `Could not resolve host` | 스크립트는 웹 콘솔 도메인으로 접속하는데 이 컴퓨터가 그 도메인을 찾지 못한다(웹 콘솔에 IP 로 들어온 경우 등) | 관리자에게 웹 콘솔 도메인의 DNS 등록을 요청하거나, `/etc/hosts` 에 도메인과 IP 를 추가 |
-| 창에서 "설치 스크립트를 받지 못했습니다" | 웹 콘솔이 설치 스크립트나 CA 인증서를 내주지 못했다 | 창을 다시 열어 시도. 계속되면 아래 "파일로 받기"를 쓰고 관리자에게 알립니다 |
+| Windows 에서 `irm … \| iex` 가 연결 단계에서 실패 | Windows 10 은 TLS 1.3 을 지원하지 않음 | [설치하기](./install.md)의 "다른 방법: 파일로 받기" |
+| `curl … install.sh` 가 `SSL certificate problem` | 지문이 없는 옛 명령을 썼다 | **CLI 다운로드** 창에서 명령을 다시 복사해 실행([설치하기](./install.md)) |
+| `cannot read …/ca.crt (curl and openssl are required)` | `openssl` 이 없거나 웹 콘솔에 닿지 않는다 | `openssl` 을 설치하거나 웹 콘솔 주소에 접속되는지 확인 |
+| `CA certificate fingerprint does not match` | 받은 CA 인증서가 창이 본 것과 다르다(중간에서 바뀌었거나 다른 서버) | 설치하지 말고 관리자에게 알린다 |
 | `cloudiactl update` 가 `cannot write to …` | 설치된 파일의 폴더에 쓸 권한이 없음 | `cloudiactl install` 로 사용자 폴더에 다시 설치하고 그 파일을 씁니다 |
 | `cloudiactl update` 가 `does not serve cloudiactl downloads` | 이 Cloud:iA 에 CLI 다운로드가 없음 | 관리자에게 문의합니다 |
 
