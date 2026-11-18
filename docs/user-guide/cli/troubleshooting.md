@@ -13,7 +13,7 @@
 | `CLOUDIA_AUTH_CLIENT_ID must not be cloudia-secure-login` | 웹 콘솔 로그인용 클라이언트를 환경 변수에 넣음 | `CLOUDIA_AUTH_*` 환경 변수를 지우고 `cloudiactl login` 을 씁니다 |
 | `the keychain is not available` 경고 | 키 저장소를 쓸 수 없는 환경 | 로그인 정보가 소유자 전용 파일에 저장됩니다. 그 기기를 다른 사람과 같이 쓰지 마세요 |
 | macOS 에서 실행이 막힘 | 브라우저로 받은 파일의 격리 표시 | [설치하기](./install.md)의 `xattr` 명령 |
-| Windows 에서 `irm … \| iex` 가 연결 단계에서 실패 | Windows 10 은 TLS 1.3 을 지원하지 않음 | [설치하기](./install.md)의 "다른 방법: 파일로 받기" |
+| Windows 에서 `irm … \| iex` 가 연결 단계에서 실패 | Windows 10 은 TLS 1.3 을 지원하지 않음 | [설치하기](./install.md)의 "파일로 받기" |
 | `curl … install.sh` 가 `SSL certificate problem` | 지문이 없는 옛 명령을 썼다 | **CLI 다운로드** 창에서 명령을 다시 복사해 실행([설치하기](./install.md)) |
 | `cannot read …/ca.crt (curl and openssl are required)` | `openssl` 이 없거나 웹 콘솔에 닿지 않는다 | `openssl` 을 설치하거나 웹 콘솔 주소에 접속되는지 확인 |
 | `CA certificate fingerprint does not match` | 받은 CA 인증서가 창이 본 것과 다르다(중간에서 바뀌었거나 다른 서버) | 설치하지 말고 관리자에게 알린다 |

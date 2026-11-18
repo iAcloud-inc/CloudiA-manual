@@ -24,52 +24,46 @@
 - 설치하면서 웹 콘솔 주소와 CA 인증서를 cloudiactl 설정에 남깁니다. 이어서 `cloudiactl login` 만 실행하면 됩니다. 이미 다른 웹 콘솔을 가리키는 설정이 있으면 바꾸지 않고, 이 웹 콘솔에 로그인할 명령을 안내합니다.
 - 이미 설치돼 있어도 같은 명령을 다시 실행하면 됩니다. 웹 콘솔이 내주는 버전으로 덮어써 설치하고(재설치·업데이트), 로그인 정보는 그대로 둡니다.
 - Linux·macOS 명령은 `curl` 과 `openssl` 이 필요합니다. 셸 종류(bash·zsh·fish 등)와 상관없이 붙여 넣으면 됩니다.
-- Windows 명령은 `curl.exe` 8 이상이 필요합니다. 최신 업데이트를 받은 Windows 11·Server 2022 이상이 해당합니다. `curl.exe --version` 으로 확인하고, 안 되면 아래 "다른 방법: 파일로 받기"를 씁니다.
-- Windows 10 은 웹 콘솔이 쓰는 TLS 1.3 을 지원하지 않아 이 명령이 연결되지 않습니다. 아래 "다른 방법: 파일로 받기"를 씁니다.
+- Windows 명령은 `curl.exe` 8 이상이 필요합니다. 최신 업데이트를 받은 Windows 11·Server 2022 이상이 해당합니다. `curl.exe --version` 으로 확인하고, 안 되면 아래 "파일로 받기"를 씁니다.
+- Windows 10 은 웹 콘솔이 쓰는 TLS 1.3 을 지원하지 않아 이 명령이 연결되지 않습니다. 아래 "파일로 받기"를 씁니다.
 
-## 다른 방법: 파일로 받기
+## 파일로 받기
 
-**CLI 다운로드** 창 아래쪽의 **다른 방법: 파일로 받기**를 펼쳐 운영체제에 맞는 파일과 `SHA256SUMS` 를 받습니다. 웹 콘솔이 내려주는 CLI 는 그 Cloud:iA 와 같은 버전입니다.
+명령을 쓸 수 없을 때(인터넷이 막힌 PC로 옮겨 설치하는 경우 등) 씁니다. **CLI 다운로드** 창의 **파일로 받기**에서 운영체제와 칩 종류에 맞는 파일(예: macOS (Apple Silicon))을 고르면 그 파일의 설치 단계가 나옵니다. 단계의 명령은 고른 파일 이름으로 채워져 있으니 **복사**해 씁니다. 웹 콘솔이 내려주는 CLI 는 그 Cloud:iA 와 같은 버전입니다.
 
-### 파일 확인
+1. 실행 파일, `SHA256SUMS`, CA 인증서(`cloudia-ca.crt`)를 받습니다. CA 인증서는 웹 콘솔이 사설 CA 를 쓸 때만 보입니다. 다운로드 폴더에 같은 이름의 옛 파일이 있으면 먼저 지웁니다(남아 있으면 브라우저가 새 파일 이름에 `(1)` 을 붙여 명령이 옛 파일을 씁니다).
+2. 터미널에서 파일을 받은 폴더로 이동해 파일이 손상되지 않았는지 확인합니다.
+3. 실행할 수 있게 준비하고, `install --endpoint <웹 콘솔 주소> --ca-bundle cloudia-ca.crt` 로 설치합니다. 웹 콘솔 주소와 CA 가 설정에 남아 이어서 `cloudiactl login` 만 실행하면 됩니다. 웹 콘솔이 공인 인증서를 써서 창에 CA 인증서 버튼이 없으면 `--ca-bundle cloudia-ca.crt` 를 빼고 실행합니다(창의 명령은 이미 맞춰져 있습니다).
 
 ```bash
-# Linux
-sha256sum -c SHA256SUMS --ignore-missing
-
-# macOS
+# macOS (Apple Silicon 예)
+cd ~/Downloads
 shasum -a 256 -c SHA256SUMS --ignore-missing
-```
+xattr -c cloudiactl-<버전>-darwin-arm64   # 브라우저가 붙인 격리 표시를 지운다. 지우지 않으면 macOS 가 실행을 막는다
+chmod +x cloudiactl-<버전>-darwin-arm64
+./cloudiactl-<버전>-darwin-arm64 install --endpoint https://<웹 콘솔 주소> --ca-bundle cloudia-ca.crt
+cloudiactl login
 
-Windows PowerShell 에서는 아래 값이 `SHA256SUMS` 의 같은 파일 줄과 같은지 봅니다.
+# Linux (x86_64 예)
+cd ~/Downloads
+sha256sum -c SHA256SUMS --ignore-missing
+chmod +x cloudiactl-<버전>-linux-amd64
+./cloudiactl-<버전>-linux-amd64 install --endpoint https://<웹 콘솔 주소> --ca-bundle cloudia-ca.crt
+cloudiactl login
+```
 
 ```powershell
-Get-FileHash .\cloudiactl-<버전>-windows-amd64.exe -Algorithm SHA256
+# Windows PowerShell (x64 예)
+cd "$env:USERPROFILE\Downloads"
+if ((Get-FileHash .\cloudiactl-<버전>-windows-amd64.exe -Algorithm SHA256).Hash -eq ((Select-String -Path SHA256SUMS -SimpleMatch 'cloudiactl-<버전>-windows-amd64.exe').Line -split '\s+')[0]) { 'OK' } else { 'MISMATCH' }
+.\cloudiactl-<버전>-windows-amd64.exe install --endpoint https://<웹 콘솔 주소> --ca-bundle cloudia-ca.crt
+# 새 PowerShell 창에서
+cloudiactl login
 ```
 
-### 실행해서 설치
-
-받은 파일을 인자 없이 실행하면 설치할지 묻습니다. `Enter`(또는 `y`)를 누르면 위 설치 폴더에 `cloudiactl` 로 설치합니다.
-
-```bash
-# Linux: 먼저 실행 권한을 줍니다
-chmod +x cloudiactl-<버전>-linux-amd64
-./cloudiactl-<버전>-linux-amd64
-
-# macOS: 브라우저로 받은 파일의 격리 표시를 먼저 지웁니다
-xattr -d com.apple.quarantine cloudiactl-<버전>-darwin-arm64
-chmod +x cloudiactl-<버전>-darwin-arm64
-./cloudiactl-<버전>-darwin-arm64
-```
-
-Windows 는 받은 `.exe` 를 더블클릭합니다. 처음 실행할 때 SmartScreen 경고가 나오면 **추가 정보 → 실행**을 누릅니다.
-
-묻지 않고 바로 설치하려면 `install` 명령을 씁니다.
-
-```bash
-./cloudiactl-<버전>-linux-amd64 install            # 기본 폴더
-./cloudiactl-<버전>-linux-amd64 install --dir /opt/bin
-```
+- Windows 는 PowerShell 에서 실행하므로 탐색기에서 더블클릭할 때 나오는 SmartScreen 경고를 거치지 않습니다.
+- macOS 에서 `xattr` 대신 실행이 막혔을 때 시스템 설정 > 개인정보 보호 및 보안에서 **그래도 열기**를 눌러도 됩니다.
+- 다른 폴더에 설치하려면 `install` 에 `--dir <폴더>` 를 붙입니다.
 
 ## 업데이트
 
