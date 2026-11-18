@@ -14,22 +14,16 @@
 
 1. Cloud:iA 웹 콘솔에 로그인합니다.
 2. 오른쪽 위 계정 메뉴에서 **CLI 다운로드**를 엽니다.
-3. 창의 명령 옆 **복사**를 눌러 터미널에 붙여 넣습니다.
+3. 창의 명령 옆 **복사**를 눌러 터미널에 붙여 넣습니다. 명령은 손으로 입력하지 말고 창에서 복사합니다.
 
-```bash
-# Linux·macOS
-curl -fsSL https://<웹 콘솔 주소>/downloads/cli/install.sh | sh
-```
-
-```powershell
-# Windows PowerShell
-irm https://<웹 콘솔 주소>/downloads/cli/install.ps1 | iex
-```
+웹 콘솔 인증서는 Cloud:iA 가 설치할 때 만든 사설 CA 가 발급합니다. 창의 명령은 이 CA 인증서를 먼저 받아 창에 들어 있는 지문(SHA-256)과 맞춰 보고, 같을 때만 그 CA 로 나머지 파일을 검증하며 받습니다. CA 인증서를 미리 설치할 필요가 없습니다. 지문이 다르면 `cloudiactl: CA certificate fingerprint does not match` 가 나오고 설치하지 않습니다.
 
 스크립트는 운영체제에 맞는 파일을 받아 체크섬을 확인한 뒤 설치합니다. 설치 폴더는 Linux·macOS 가 `~/.local/bin`, Windows 가 `%LOCALAPPDATA%\Programs\cloudiactl` 입니다. 다른 폴더에 두려면 `CLOUDIA_INSTALL_DIR` 환경 변수를 지정합니다.
 
 - 설치 폴더가 `PATH` 에 없으면 Linux·macOS 는 셸 설정 파일에 넣을 줄을 안내합니다. Windows 는 사용자 `PATH` 에 자동으로 넣습니다. 새 터미널을 열면 `cloudiactl` 을 쓸 수 있습니다.
-- 웹 콘솔이 사설 인증서를 쓰면 관리자에게 CA 인증서를 받아 `CURL_CA_BUNDLE=<CA 파일>` 을 붙여 실행하고, 첫 `curl` 에도 `--cacert <CA 파일>` 을 줍니다.
+- 설치하면서 웹 콘솔 주소와 CA 인증서를 cloudiactl 설정에 남깁니다. 이어서 `cloudiactl login` 만 실행하면 됩니다. 이미 다른 웹 콘솔을 가리키는 설정이 있으면 바꾸지 않고, 이 웹 콘솔에 로그인할 명령을 안내합니다.
+- Linux·macOS 명령은 `curl` 과 `openssl` 이 필요합니다. 셸 종류(bash·zsh·fish 등)와 상관없이 붙여 넣으면 됩니다.
+- Windows 명령은 `curl.exe` 8 이상이 필요합니다. 최신 업데이트를 받은 Windows 11·Server 2022 이상이 해당합니다. `curl.exe --version` 으로 확인하고, 안 되면 아래 "파일로 받기"를 씁니다.
 - Windows 10 은 웹 콘솔이 쓰는 TLS 1.3 을 지원하지 않아 이 명령이 연결되지 않습니다. 아래 "파일로 받기"를 씁니다.
 
 ## 파일로 받기

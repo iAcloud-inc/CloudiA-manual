@@ -14,7 +14,9 @@
 | `the keychain is not available` 경고 | 키 저장소를 쓸 수 없는 환경 | 로그인 정보가 소유자 전용 파일에 저장됩니다. 그 기기를 다른 사람과 같이 쓰지 마세요 |
 | macOS 에서 실행이 막힘 | 브라우저로 받은 파일의 격리 표시 | [설치하기](./install.md)의 `xattr` 명령 |
 | Windows 에서 `irm … \| iex` 가 연결 단계에서 실패 | Windows 10 은 TLS 1.3 을 지원하지 않음 | [설치하기](./install.md)의 "파일로 받기" |
-| `curl … install.sh` 가 `SSL certificate problem` | 사설 인증서를 쓰는 설치 | `CURL_CA_BUNDLE=<CA 파일>` 을 붙여 실행([설치하기](./install.md)) |
+| `curl … install.sh` 가 `SSL certificate problem` | 지문이 없는 옛 명령을 썼다 | **CLI 다운로드** 창에서 명령을 다시 복사해 실행([설치하기](./install.md)) |
+| `cannot read …/ca.crt (curl and openssl are required)` | `openssl` 이 없거나 웹 콘솔에 닿지 않는다 | `openssl` 을 설치하거나 웹 콘솔 주소에 접속되는지 확인 |
+| `CA certificate fingerprint does not match` | 받은 CA 인증서가 창이 본 것과 다르다(중간에서 바뀌었거나 다른 서버) | 설치하지 말고 관리자에게 알린다 |
 | `cloudiactl update` 가 `cannot write to …` | 설치된 파일의 폴더에 쓸 권한이 없음 | `cloudiactl install` 로 사용자 폴더에 다시 설치하고 그 파일을 씁니다 |
 | `cloudiactl update` 가 `does not serve cloudiactl downloads` | 이 Cloud:iA 에 CLI 다운로드가 없음 | 관리자에게 문의합니다 |
 
