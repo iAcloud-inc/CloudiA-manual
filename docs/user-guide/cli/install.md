@@ -86,18 +86,26 @@ cloudiactl version
 - 설치된 파일의 폴더에 쓸 권한이 없으면(예: `sudo` 로 `/usr/local/bin` 에 둔 경우) 바꾸지 않고 `cloudiactl install` 로 사용자 폴더에 다시 설치하라고 안내합니다.
 - Windows 는 업데이트 뒤 같은 폴더에 `cloudiactl.exe.old` 가 남았다가 다음 실행 때 지워집니다.
 
-## 셸 자동 완성 (선택)
+## 셸 자동 완성
+
+`cloudiactl install` 이 지금 쓰는 셸을 보고 Tab 자동 완성 파일도 함께 설치합니다. 셸 설정 파일은 고치지 않습니다. 하위 명령과 옵션이 완성됩니다(예: `cloudiactl inst` Tab Tab → `install`·`instance`·`instance-snapshot`·`instance-type`, `cloudiactl instance` Tab Tab → `create`·`list`·`start` …).
+
+| 셸 | 설치 위치 | 할 일 |
+|---|---|---|
+| bash | `~/.local/share/bash-completion/completions/cloudiactl` | 새 터미널을 엽니다. bash 4.2 이상과 `bash-completion` 2.x 가 있어야 합니다. macOS 기본 bash(3.2)에서는 동작하지 않으므로 `brew install bash bash-completion@2` 뒤에 씁니다 |
+| zsh | `~/.local/share/zsh/site-functions/_cloudiactl` | 설치가 끝날 때 안내하는 한 줄을 실행하고 새 터미널을 엽니다 |
+| fish | `~/.config/fish/completions/cloudiactl.fish` | 새 터미널을 엽니다 |
+
+zsh 에서 안내하는 한 줄은 다음 꼴입니다. 폴더는 설치 출력에 나온 실제 경로를 씁니다. `ZDOTDIR` 을 설정했으면 그 폴더의 `.zshrc` 를 안내합니다. 안내한 줄을 그대로 붙여 두었으면 다시 설치할 때 안내하지 않습니다. 다른 꼴로 직접 설정했으면 안내가 계속 나오지만 무시해도 됩니다.
 
 ```bash
-# bash (bash-completion 이 설치돼 있어야 합니다)
-mkdir -p ~/.local/share/bash-completion/completions
-cloudiactl completion bash > ~/.local/share/bash-completion/completions/cloudiactl
-
-# zsh (~/.zshrc 에 autoload -U compinit; compinit 이 있어야 합니다)
-mkdir -p ~/.zsh/completions
-cloudiactl completion zsh > ~/.zsh/completions/_cloudiactl
-# ~/.zshrc 의 compinit 앞에 다음 줄을 넣습니다: fpath=(~/.zsh/completions $fpath)
+echo 'fpath=("/Users/<사용자>/.local/share/zsh/site-functions" $fpath); autoload -Uz compinit && compinit' >> ~/.zshrc
 ```
+
+- `XDG_DATA_HOME`·`XDG_CONFIG_HOME` 을 설정했으면 그 폴더를 씁니다.
+- 자동 완성 파일을 쓰지 못해도 설치는 끝나고 `warning:` 한 줄만 나옵니다.
+- Windows PowerShell 은 `cloudiactl completion powershell --help` 의 안내대로 프로필에 등록합니다.
+- 리소스 이름·ID(`cloudiactl instance get` 뒤의 인스턴스 이름)는 아직 완성되지 않습니다.
 
 ## 관리자: 다운로드를 내부망으로 제한하기
 
