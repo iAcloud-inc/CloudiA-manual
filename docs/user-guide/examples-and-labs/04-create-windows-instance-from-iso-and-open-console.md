@@ -54,7 +54,7 @@
 ### 절차
 1. 인스턴스를 선택하고 `실행`을 클릭합니다.
 2. 실행 확인 창에서 `실행 후 콘솔 열기`가 켜진 것을 확인하고 `실행`을 클릭합니다. 그래픽 콘솔 창이 바로 열립니다. 창이 열리지 않으면 브라우저의 팝업 차단을 풀거나, 인스턴스 상세 화면 상단의 `콘솔`을 클릭하고 `그래픽 콘솔`을 선택합니다.
-3. `Press any key to boot from CD or DVD` 문구가 보이면 바로 아무 키나 누릅니다. 시간을 놓쳐 부팅 장치 선택 화면이 보이면 설치 ISO 항목을 선택합니다. UEFI 부팅이면 `UEFI QEMU DVD-ROM INSTALL-ISO`이고 `VIRTIO-WIN` 항목은 드라이버 CD입니다. BIOS 부팅이면 ISO 볼륨 이름이 괄호로 붙은 `DVD/CD` 항목입니다.
+3. `Press any key to boot from CD or DVD` 문구가 보이면 바로 아무 키나 누릅니다. 시간을 놓쳐 부팅 장치 선택 화면이 보이면 설치 ISO 항목을 선택합니다. UEFI 부팅이면 설치 ISO 이름이 붙은 `UEFI QEMU DVD-ROM <ISO 이름>`이고 `VIRTIO-WIN` 항목은 드라이버 CD입니다. BIOS 부팅이면 ISO 볼륨 이름이 괄호로 붙은 `DVD/CD` 항목입니다.
 4. 그래픽 콘솔 화면에서 Windows 설치 초기 화면을 확인합니다.
 
 ### 입력 예시
@@ -62,7 +62,7 @@
 |---|---|
 | 대상 인스턴스 | `example-instance-win-iso-001` |
 | 목표 상태 | `실행 중` |
-| 부팅 장치 | `UEFI QEMU DVD-ROM INSTALL-ISO`(UEFI 부팅) |
+| 부팅 장치 | `UEFI QEMU DVD-ROM <설치 ISO 이름>`(UEFI 부팅) |
 
 ### 확인
 - 그래픽 콘솔 창이 정상 열립니다.
