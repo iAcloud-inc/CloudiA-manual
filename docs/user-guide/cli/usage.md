@@ -74,7 +74,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `redeploy`, `replace`, `resize`, `resume`, `suspend` |
+| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend` |
 | 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `scale` |
 | 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `kubeconfig` |
 
@@ -91,6 +91,22 @@ cloudiactl k8s cluster kubeconfig my-cluster --output-file ~/.kube/my-cluster.ya
 ```
 
 `--output-file` 로 저장한 kubeconfig 는 Linux·macOS 에서 소유자만 읽을 수 있습니다. 이미 있는 파일은 `--force` 없이 덮어쓰지 않습니다. `--force` 는 내용을 합치지 않고 파일을 통째로 바꾸므로, 다른 클러스터 정보가 든 `~/.kube/config` 에는 쓰지 마세요.
+
+## 스토리지
+
+```bash
+cloudiactl file-system create --name shared --type nfs --size 100Gi --subnet app --ssh-key my-key --wait
+cloudiactl file-system create --name scratch --type virtiofs --size 20Gi
+cloudiactl file-system instances shared                 # 이 파일 시스템을 마운트한 인스턴스
+cloudiactl object-storage get logs                      # 엔드포인트 확인
+cloudiactl object-storage credential logs               # S3 액세스 키·시크릿 키
+cloudiactl project-iso list                             # 이 프로젝트에서 쓸 수 있는 ISO
+```
+
+- NFS 파일 시스템은 서버가 NFS 서버 인스턴스를 만들어 `--subnet` 에 둡니다. 마운트용 보안 그룹(tcp 2049)은 서버가 붙입니다.
+- 사용 중인 파일 시스템은 지울 수 없습니다. `file-system instances|clusters` 로 쓰는 곳을 확인하고 웹 콘솔에서 먼저 분리합니다.
+- 오브젝트 스토리지 키는 사용자 단위입니다. `renew-credential` 로 새 키를 받으면 이전 키는 모든 오브젝트 스토리지에서 쓸 수 없습니다. 시크릿 키는 채팅·티켓·로그에 남기지 마세요.
+- 파일 시스템 수정과 ISO 업로드는 아직 CLI 에 없습니다. 웹 콘솔에서 합니다.
 
 ## 종료 코드
 
