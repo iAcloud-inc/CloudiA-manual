@@ -74,9 +74,9 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend` |
-| 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `scale` |
-| 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig` |
+| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
+| 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig` |
+| 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator` |
 
 - 서버 기능에 따라 생기는 그 밖의 변경 동작(예: 되돌리기)도 항상 확인합니다.
 - 대상이 여럿이면 `--confirm-target` 을 대상마다 반복합니다.
@@ -89,6 +89,18 @@ cloudiactl k8s cluster list
 cloudiactl k8s node-pool list --cluster my-cluster
 cloudiactl k8s cluster kubeconfig my-cluster --output-file ~/.kube/my-cluster.yaml
 ```
+
+GPU Operator 는 클러스터마다 하나라 클러스터의 동작으로 다룹니다.
+
+```bash
+cloudiactl k8s cluster gpu-operator-status my-cluster              # 설치 여부·버전·GPU 노드 수
+cloudiactl k8s cluster install-gpu-operator my-cluster --wait      # 노드에 드라이버가 있으면 --preinstalled-driver
+cloudiactl k8s cluster set-gpu-time-slicing my-cluster --replicas 4 --confirm-target 11=my-cluster
+cloudiactl k8s cluster set-gpu-mig my-cluster --strategy single --profile all-1g.10gb --confirm-target 11=my-cluster
+cloudiactl k8s cluster uninstall-gpu-operator my-cluster --confirm-target 11=my-cluster
+```
+
+설치 전에 `gpu-operator-status` 의 `attachedGpuNodeCount`(GPU 가 붙은 노드 수)가 1 이상인지 확인하세요. time-slicing·MIG 변경과 제거는 실행 중인 GPU 워크로드에 영향을 줄 수 있어 대상 확인을 받습니다. `--replicas` 는 1~10 이고 1 은 공유 해제입니다. `--profile all-disabled` 는 MIG 해제입니다.
 
 `--output-file` 로 저장한 kubeconfig 는 Linux·macOS 에서 소유자만 읽을 수 있습니다. 이미 있는 파일은 `--force` 없이 덮어쓰지 않습니다. `--force` 는 내용을 합치지 않고 파일을 통째로 바꾸므로, 다른 클러스터 정보가 든 `~/.kube/config` 에는 쓰지 마세요.
 
