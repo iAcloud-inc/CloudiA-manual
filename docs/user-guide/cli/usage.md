@@ -75,7 +75,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 | 확인 | 동작 |
 |---|---|
 | 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
-| 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig` |
+| 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `reconfigure`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig` |
 | 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator` |
 
 - 서버 기능에 따라 생기는 그 밖의 변경 동작(예: 되돌리기)도 항상 확인합니다.
@@ -110,15 +110,20 @@ cloudiactl k8s cluster uninstall-gpu-operator my-cluster --confirm-target 11=my-
 cloudiactl file-system create --name shared --type nfs --size 100Gi --subnet app --ssh-key my-key --wait
 cloudiactl file-system create --name scratch --type virtiofs --size 20Gi
 cloudiactl file-system instances shared                 # 이 파일 시스템을 마운트한 인스턴스
+cloudiactl file-system resize shared --size 200Gi --confirm-target 61=shared
+cloudiactl file-system reconfigure shared --export-write-mode sync --confirm-target 61=shared
 cloudiactl object-storage get logs                      # 엔드포인트 확인
 cloudiactl object-storage credential logs               # S3 액세스 키·시크릿 키
 cloudiactl project-iso list                             # 이 프로젝트에서 쓸 수 있는 ISO
+cloudiactl project-iso create --file ./rocky-9.iso --wait   # ISO 업로드
 ```
 
 - NFS 파일 시스템은 서버가 NFS 서버 인스턴스를 만들어 `--subnet` 에 둡니다. 마운트용 보안 그룹(tcp 2049)은 서버가 붙입니다.
 - 사용 중인 파일 시스템은 지울 수 없습니다. `file-system instances|clusters` 로 쓰는 곳을 확인하고 웹 콘솔에서 먼저 분리합니다.
 - 오브젝트 스토리지 키는 사용자 단위입니다. `renew-credential` 로 새 키를 받으면 이전 키는 모든 오브젝트 스토리지에서 쓸 수 없습니다. 시크릿 키는 채팅·티켓·로그에 남기지 마세요.
-- 파일 시스템 수정과 ISO 업로드는 아직 CLI 에 없습니다. 웹 콘솔에서 합니다.
+- NFS 파일 시스템의 크기 확장(`resize`)과 설정 변경(`reconfigure`)은 NFS 서버 인스턴스를 껐다 켜서 반영합니다. 그동안 마운트한 인스턴스·클러스터의 입출력이 멈추므로 대상 확인을 받습니다. 크기는 늘리기만 할 수 있고, virtiofs 는 크기를 바꿀 수 없습니다(이름만 `reconfigure --name`).
+- `reconfigure` 는 준 옵션만 바꿉니다. `--ssh-key`·`--security-group` 은 지금 목록을 준 것으로 통째 바꿉니다(NFS 전용 보안 그룹은 서버가 남깁니다). 비밀번호는 `--password-stdin` 으로만 받습니다.
+- `project-iso create` 는 `--os-variant` 를 주지 않으면 웹 콘솔처럼 파일 앞부분으로 OS 를 감지합니다. 확실하지 않으면 멈추고 `--os-variant` 를 요구합니다. 설치 미디어가 아니면 `--os-variant unknown` 을 씁니다. ISO 는 RBD(Ceph) 스토리지 도메인에 둘 수 없어 도메인을 고를 때 뺍니다.
 
 ## 종료 코드
 
