@@ -12,7 +12,6 @@
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
   * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
-    * [리밸런싱과 이동 이력](host-machine/compute-node-rebalancing/compute-node-rebalancing.md)
   * [네트워크 노드](host-machine/network-node/network-node.md)
   * [노드 접속 계정과 SSH 포트](host-machine/node-access/node-access.md)
 
@@ -48,6 +47,7 @@
   * [이벤트 트리거](monitoring/event-trigger/event-trigger.md)
   * [상태 점검](monitoring/status-check/status-check.md)
   * [로그 전송](monitoring/log-export/log-export.md)
+  * [리밸런싱과 이동 이력](host-machine/compute-node-rebalancing/compute-node-rebalancing.md)
 
 * [환경설정](setting/README.md)
   * [정책 설정](setting/policy-setting/policy-setting.md)
