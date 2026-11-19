@@ -74,7 +74,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
+| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `replace-listeners`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
 | 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `reconfigure`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig` |
 | 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator` |
 
@@ -124,6 +124,21 @@ cloudiactl project-iso create --file ./rocky-9.iso --wait   # ISO 업로드
 - NFS 파일 시스템의 크기 확장(`resize`)과 설정 변경(`reconfigure`)은 NFS 서버 인스턴스를 껐다 켜서 반영합니다. 그동안 마운트한 인스턴스·클러스터의 입출력이 멈추므로 대상 확인을 받습니다. 크기는 늘리기만 할 수 있고, virtiofs 는 크기를 바꿀 수 없습니다(이름만 `reconfigure --name`).
 - `reconfigure` 는 준 옵션만 바꿉니다. `--ssh-key`·`--security-group` 은 지금 목록을 준 것으로 통째 바꿉니다(NFS 전용 보안 그룹은 서버가 남깁니다). 비밀번호는 `--password-stdin` 으로만 받습니다.
 - `project-iso create` 는 `--os-variant` 를 주지 않으면 웹 콘솔처럼 파일 앞부분으로 OS 를 감지합니다. 확실하지 않으면 멈추고 `--os-variant` 를 요구합니다. 설치 미디어가 아니면 `--os-variant unknown` 을 씁니다. ISO 는 RBD(Ceph) 스토리지 도메인에 둘 수 없어 도메인을 고를 때 뺍니다.
+
+## L7 로드 밸런서
+
+```bash
+cloudiactl l7-load-balancer create --name web-l7 --subnet app --type EXTERNAL --listener HTTP:80=web-tg
+cloudiactl l7-load-balancer create --name tls-l7 --subnet app --type EXTERNAL --listener HTTPS:443=web-tg --default-certificate site.pem
+cloudiactl l7-load-balancer update web-l7 --description "public web"   # 리스너는 그대로 둔다
+cloudiactl l7-load-balancer listeners web-l7 -o json > listeners.json   # 고쳐서 replace-listeners 로 보낸다
+cloudiactl l7-load-balancer replace-listeners web-l7 --from-file listeners.json --certificate api=api.pem --confirm-target 94=web-l7
+```
+
+- `update` 는 이름·설명만 바꿉니다. 유형·IP 변경은 이전 주소를 반납하므로 웹 콘솔에서 합니다.
+- 서버는 리스너 목록(규칙·동작·인증서 포함)을 통째로 받습니다. `replace-listeners` 는 파일에 없는 리스너·규칙·인증서를 지우므로 항상 대상 확인을 받습니다. 남길 항목은 `listeners` 출력의 id 를 그대로 둡니다.
+- 규칙·리다이렉트·고정 응답·SNI 인증서는 `--from-file`(JSON 또는 YAML)로 줍니다. 전달 대상은 `targetGroupId` 대신 `targetGroup`(ID 또는 이름)으로 적어도 됩니다.
+- 인증서는 인증서 체인과 개인 키를 담은 `.pem` 파일입니다. 파일의 `fileKey` 와 `--certificate <fileKey>=<파일>` 로 잇습니다. 이미 있는 인증서(id 만 있고 fileKey 가 없음)는 PEM 을 그대로 둡니다. CLI 는 파일 내용을 출력하지 않습니다.
 
 ## 종료 코드
 
