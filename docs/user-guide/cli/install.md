@@ -20,8 +20,12 @@
 
 스크립트는 운영체제에 맞는 파일을 받아 체크섬을 확인한 뒤 설치합니다. 설치 폴더는 Linux·macOS 가 `~/.local/bin`, Windows 가 `%LOCALAPPDATA%\Programs\cloudiactl` 입니다. 다른 폴더에 두려면 `CLOUDIA_INSTALL_DIR` 환경 변수를 지정합니다.
 
+- 설치가 끝나면 마지막에 `Next steps:` 아래 번호를 붙여 할 일을 모아 보여 줍니다. 위에서부터 차례로 합니다.
 - 설치 폴더가 `PATH` 에 없으면 Linux·macOS 는 셸 설정 파일에 넣을 줄을 안내합니다. Windows 는 사용자 `PATH` 에 자동으로 넣습니다. 새 터미널을 열면 `cloudiactl` 을 쓸 수 있습니다.
-- 설치하면서 웹 콘솔 주소와 CA 인증서를 cloudiactl 설정에 남깁니다. 이어서 `cloudiactl login` 만 실행하면 됩니다. 이미 다른 웹 콘솔을 가리키는 설정이 있으면 바꾸지 않고, 이 웹 콘솔에 로그인할 명령을 안내합니다.
+- 설치하면서 웹 콘솔 주소와 CA 인증서를 cloudiactl 설정에 남깁니다. 이어서 `cloudiactl login` 만 실행하면 됩니다. 지금 쓰는 프로필이 다른 웹 콘솔을 가리키면(다른 Cloud:iA 에서 다시 받아 설치한 경우) 이 웹 콘솔용 프로필로 바꿉니다.
+  - 이 웹 콘솔 주소를 가진 프로필이 이미 있으면 그 프로필을, 없으면 웹 콘솔 주소(예: `console.example`)를 이름으로 새 프로필을 만들어 현재 프로필로 씁니다.
+  - 원래 프로필과 그 로그인은 그대로 남습니다. 돌아가려면 `cloudiactl config use <원래 프로필>` 을 실행합니다.
+  - 프로필을 바꾸지 않으려면 `--keep-profile`(또는 `CLOUDIA_KEEP_PROFILE=1`)로 설치합니다. `--profile`·`CLOUDIA_PROFILE` 로 프로필을 직접 고른 경우에도 바꾸지 않습니다. 이때는 이 웹 콘솔에 로그인할 명령만 안내합니다.
 - 이미 설치돼 있어도 같은 명령을 다시 실행하면 됩니다. 웹 콘솔이 내주는 버전으로 덮어써 설치하고(재설치·업데이트), 로그인 정보는 그대로 둡니다.
 - Linux·macOS 명령은 `curl` 과 `openssl` 이 필요합니다. 셸 종류(bash·zsh·fish 등)와 상관없이 붙여 넣으면 됩니다.
 - Windows 명령은 `curl.exe` 8 이상이 필요합니다. 최신 업데이트를 받은 Windows 11·Server 2022 이상이 해당합니다. `curl.exe --version` 으로 확인하고, 안 되면 아래 "파일로 받기"를 씁니다.
@@ -88,19 +92,25 @@ cloudiactl version
 
 ## 셸 자동 완성
 
-`cloudiactl install` 이 지금 쓰는 셸을 보고 Tab 자동 완성 파일도 함께 설치합니다. 셸 설정 파일은 고치지 않습니다. 하위 명령과 옵션이 완성됩니다(예: `cloudiactl inst` Tab Tab → `install`·`instance`·`instance-snapshot`·`instance-type`, `cloudiactl instance` Tab Tab → `create`·`list`·`start` …).
+`cloudiactl install` 이 지금 쓰는 셸을 보고 Tab 자동 완성 파일도 함께 설치합니다. zsh 는 `~/.zshrc` 에 두 줄을 붙여 자동 완성을 켭니다. bash·fish 는 셸 설정 파일을 고치지 않습니다. 하위 명령과 옵션이 완성됩니다(예: `cloudiactl inst` Tab Tab → `install`·`instance`·`instance-snapshot`·`instance-type`, `cloudiactl instance` Tab Tab → `create`·`list`·`start` …).
 
 | 셸 | 설치 위치 | 할 일 |
 |---|---|---|
 | bash | `~/.local/share/bash-completion/completions/cloudiactl` | 새 터미널을 엽니다. bash 4.2 이상과 `bash-completion` 2.x 가 있어야 합니다. macOS 기본 bash(3.2)에서는 동작하지 않으므로 `brew install bash bash-completion@2` 뒤에 씁니다 |
-| zsh | `~/.local/share/zsh/site-functions/_cloudiactl` | 설치가 끝날 때 안내하는 한 줄을 실행하고 새 터미널을 엽니다 |
+| zsh | `~/.local/share/zsh/site-functions/_cloudiactl` | 새 터미널을 열거나 `exec zsh` 를 실행합니다. 설치가 `~/.zshrc` 에 등록해 둡니다 |
 | fish | `~/.config/fish/completions/cloudiactl.fish` | 새 터미널을 엽니다 |
 
-zsh 에서 안내하는 한 줄은 다음 꼴입니다. 폴더는 설치 출력에 나온 실제 경로를 씁니다. `ZDOTDIR` 을 설정했으면 그 폴더의 `.zshrc` 를 안내합니다. 안내한 줄을 그대로 붙여 두었으면 다시 설치할 때 안내하지 않습니다. 다른 꼴로 직접 설정했으면 안내가 계속 나오지만 무시해도 됩니다.
+zsh 는 설치가 `~/.zshrc`(`ZDOTDIR` 을 설정했으면 그 폴더의 `.zshrc`) 끝에 다음 두 줄을 붙입니다. 폴더는 실제 경로입니다. 다시 설치해도 같은 줄이 있으면 더 붙이지 않습니다. `.zshrc` 가 심볼릭 링크면 링크가 가리키는 파일에 붙습니다.
 
 ```bash
-echo 'fpath=("/Users/<사용자>/.local/share/zsh/site-functions" $fpath); autoload -Uz compinit && compinit' >> ~/.zshrc
+# cloudiactl Tab completion (added by cloudiactl install; delete these two lines to undo)
+fpath=("/Users/<사용자>/.local/share/zsh/site-functions" $fpath); autoload -Uz compinit && compinit
 ```
+
+- 되돌리려면 이 두 줄을 지웁니다. 다시 설치하면 다시 붙으므로, 계속 끄려면 아래처럼 고치지 않는 설치를 씁니다.
+- 이미 다른 방법(oh-my-zsh 등)으로 자동 완성을 켰다면 고치지 않는 설치를 써도 됩니다.
+- `.zshrc` 를 고치지 않으려면 `cloudiactl install --no-shell-config` 로 설치하거나, 웹 콘솔에서 복사한 명령 맨 앞에 `CLOUDIA_NO_SHELL_CONFIG=1 ` 을 붙여 실행합니다(예: `CLOUDIA_NO_SHELL_CONFIG=1 sh -c '…'`). 그러면 붙일 줄을 `Next steps:` 에 안내만 합니다.
+- `.zshrc` 에 쓰지 못하면 `warning:` 한 줄과 함께 붙일 명령을 안내하고 설치는 그대로 끝납니다.
 
 - `XDG_DATA_HOME`·`XDG_CONFIG_HOME` 을 설정했으면 그 폴더를 씁니다.
 - 자동 완성 파일을 쓰지 못해도 설치는 끝나고 `warning:` 한 줄만 나옵니다.
