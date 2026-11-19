@@ -74,7 +74,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-rule` |
+| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `redeploy`, `replace`, `resize`, `resume`, `suspend` |
 | 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `scale` |
 | 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `kubeconfig` |
 
