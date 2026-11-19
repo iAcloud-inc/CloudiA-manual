@@ -74,9 +74,9 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend` |
+| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `resize`, `resume`, `suspend` |
 | 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `scale` |
-| 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `kubeconfig` |
+| 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig` |
 
 - 서버 기능에 따라 생기는 그 밖의 변경 동작(예: 되돌리기)도 항상 확인합니다.
 - 대상이 여럿이면 `--confirm-target` 을 대상마다 반복합니다.
