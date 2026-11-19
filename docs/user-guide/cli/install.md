@@ -32,13 +32,13 @@
 명령을 쓸 수 없을 때(인터넷이 막힌 PC로 옮겨 설치하는 경우 등) 씁니다. **CLI 다운로드** 창의 **파일로 받기**에서 운영체제와 칩 종류에 맞는 파일(예: macOS (Apple Silicon))을 고르면 그 파일의 설치 단계가 나옵니다. 단계의 명령은 고른 파일 이름으로 채워져 있으니 **복사**해 씁니다. 웹 콘솔이 내려주는 CLI 는 그 Cloud:iA 와 같은 버전입니다.
 
 1. 실행 파일, `SHA256SUMS`, CA 인증서(`cloudia-ca.crt`)를 받습니다. CA 인증서는 웹 콘솔이 사설 CA 를 쓸 때만 보입니다. 다운로드 폴더에 같은 이름의 옛 파일이 있으면 먼저 지웁니다(남아 있으면 브라우저가 새 파일 이름에 `(1)` 을 붙여 명령이 옛 파일을 씁니다).
-2. 터미널에서 파일을 받은 폴더로 이동해 파일이 손상되지 않았는지 확인합니다.
+2. 터미널에서 파일을 받은 폴더로 이동합니다. 파일이 손상되지 않았는지 확인하는 단계는 선택입니다. 명령으로 설치하면 체크섬을 자동으로 확인하고, 파일로 받을 때는 다운로드가 끊겨 파일이 깨졌는지 보는 용도입니다. BusyBox 를 쓰는 시스템(Alpine 등)은 `sha256sum` 에 `--ignore-missing` 이 없으므로 건너뜁니다.
 3. 실행할 수 있게 준비하고, `install --endpoint <웹 콘솔 주소> --ca-bundle cloudia-ca.crt` 로 설치합니다. 웹 콘솔 주소와 CA 가 설정에 남아 이어서 `cloudiactl login` 만 실행하면 됩니다. 웹 콘솔이 공인 인증서를 써서 창에 CA 인증서 버튼이 없으면 `--ca-bundle cloudia-ca.crt` 를 빼고 실행합니다(창의 명령은 이미 맞춰져 있습니다).
 
 ```bash
 # macOS (Apple Silicon 예)
 cd ~/Downloads
-shasum -a 256 -c SHA256SUMS --ignore-missing
+shasum -a 256 -c SHA256SUMS --ignore-missing   # (선택) 파일 손상 확인
 xattr -c cloudiactl-<버전>-darwin-arm64   # 브라우저가 붙인 격리 표시를 지운다. 지우지 않으면 macOS 가 실행을 막는다
 chmod +x cloudiactl-<버전>-darwin-arm64
 ./cloudiactl-<버전>-darwin-arm64 install --endpoint https://<웹 콘솔 주소> --ca-bundle cloudia-ca.crt
@@ -46,7 +46,7 @@ cloudiactl login
 
 # Linux (x86_64 예)
 cd ~/Downloads
-sha256sum -c SHA256SUMS --ignore-missing
+sha256sum -c SHA256SUMS --ignore-missing   # (선택) 파일 손상 확인. BusyBox(Alpine 등)는 건너뛴다
 chmod +x cloudiactl-<버전>-linux-amd64
 ./cloudiactl-<버전>-linux-amd64 install --endpoint https://<웹 콘솔 주소> --ca-bundle cloudia-ca.crt
 cloudiactl login
@@ -55,7 +55,7 @@ cloudiactl login
 ```powershell
 # Windows PowerShell (x64 예)
 cd "$env:USERPROFILE\Downloads"
-if ((Get-FileHash .\cloudiactl-<버전>-windows-amd64.exe -Algorithm SHA256).Hash -eq ((Select-String -Path SHA256SUMS -SimpleMatch 'cloudiactl-<버전>-windows-amd64.exe').Line -split '\s+')[0]) { 'OK' } else { 'MISMATCH' }
+if ((Get-FileHash .\cloudiactl-<버전>-windows-amd64.exe -Algorithm SHA256).Hash -eq ((Select-String -Path SHA256SUMS -SimpleMatch 'cloudiactl-<버전>-windows-amd64.exe').Line -split '\s+')[0]) { 'OK' } else { 'MISMATCH' }   # (선택) 파일 손상 확인
 .\cloudiactl-<버전>-windows-amd64.exe install --endpoint https://<웹 콘솔 주소> --ca-bundle cloudia-ca.crt
 # 새 PowerShell 창에서
 cloudiactl login
