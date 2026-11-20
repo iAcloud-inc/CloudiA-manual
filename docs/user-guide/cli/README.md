@@ -20,6 +20,7 @@
 3. [기본 사용법](./usage.md)
 4. [AI 에이전트와 함께 쓰기](./agents.md)
 5. [문제 해결](./troubleshooting.md)
+6. [서버 버전 호환](./compatibility.md)
 
 ## 알아 둘 점
 

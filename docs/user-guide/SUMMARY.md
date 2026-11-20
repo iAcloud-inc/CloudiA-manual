@@ -47,6 +47,7 @@ CLI 섹션 — cloudiactl 출시 전이라 비공개(2026-11-17). 출시 때 이
   * [기본 사용법](cli/usage.md)
   * [AI 에이전트와 함께 쓰기](cli/agents.md)
   * [문제 해결](cli/troubleshooting.md)
+  * [서버 버전 호환](cli/compatibility.md)
 -->
 
 <!--
