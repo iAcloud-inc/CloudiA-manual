@@ -22,6 +22,7 @@ CLI 는 서버가 알리는 기능 목록도 읽어, 옛 서버에서는 새 방
 | 다음 마이너 버전으로 클러스터 업그레이드 | `k8s cluster upgrade --k8s-image` | 1.7.0 | 서버가 현재 마이너 버전 이미지만 받습니다. CLI 가 그 사실을 안내합니다 |
 | 보안 그룹 규칙 하나씩 추가·회수 | `security-group add-rule`, `remove-rule` | 1.8.0 | 규칙 목록 전체를 바꾸는 방식으로 동작합니다. 보내기 직전에 목록을 다시 읽어, 그사이 바뀌었으면 보내지 않고 종료 코드 10 으로 멈춥니다 |
 | 블록 하나씩 붙이기·떼기 | `block attach`, `block detach` | 1.8.0 | 인스턴스의 블록 목록 전체를 바꾸는 방식으로 동작합니다. 보내기 직전에 목록이 바뀌었으면 보내지 않고 종료 코드 10 으로 멈춥니다 |
+| 인스턴스 파일 시스템 하나씩 연결·해제 | `instance attach-file-system`, `instance detach-file-system` | 1.8.0 | 쓸 수 없습니다. `does not support attaching or detaching a single file system` 으로 멈추고 아무것도 보내지 않습니다. 인스턴스 수정 API 는 보내지 않은 GPU·NPU 설정까지 지우므로 CLI 가 대신 쓰지 않습니다. 웹 콘솔에서 바꿉니다 |
 | 이미지 파일 나눠 올리기 | `image create --file` | 1.8.0 | 파일을 한 번에 올립니다. 실패하면 명령을 다시 실행해 처음부터 올립니다 |
 | 프로젝트 ISO | `project-iso create`, `list`, `get` | 1.8.0 | 쓸 수 없습니다. 서버에 API 가 없어 `permission denied`(종료 코드 4)나 `target not found` 로 끝납니다. 권한 문제가 아닙니다 |
 | 노드 풀 ID 로 바로 조회 | `k8s node-pool get <ID>`(`--cluster` 없이) | 1.8.0 | `--cluster` 를 붙이라고 안내합니다 |
