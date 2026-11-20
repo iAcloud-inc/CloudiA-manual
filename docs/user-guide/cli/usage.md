@@ -87,6 +87,8 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 ```bash
 cloudiactl k8s cluster list
 cloudiactl k8s node-pool list --cluster my-cluster
+cloudiactl k8s file-system attach shared --cluster my-cluster      # NFS 파일 시스템을 클러스터에 연결
+cloudiactl k8s file-system detach shared --cluster my-cluster --confirm-target 61=shared
 cloudiactl k8s cluster kubeconfig my-cluster --output-file ~/.kube/my-cluster.yaml
 ```
 
@@ -119,7 +121,8 @@ cloudiactl project-iso create --file ./rocky-9.iso --wait   # ISO 업로드
 ```
 
 - NFS 파일 시스템은 서버가 NFS 서버 인스턴스를 만들어 `--subnet` 에 둡니다. 마운트용 보안 그룹(tcp 2049)은 서버가 붙입니다.
-- 사용 중인 파일 시스템은 지울 수 없습니다. `file-system instances|clusters` 로 쓰는 곳을 확인하고 웹 콘솔에서 먼저 분리합니다.
+- 사용 중인 파일 시스템은 지울 수 없습니다. `file-system instances|clusters` 로 쓰는 곳을 확인하고 먼저 분리합니다. 클러스터에서는 `k8s file-system detach` 로, 인스턴스에서는 웹 콘솔에서 분리합니다.
+- `k8s file-system detach` 는 연결 기록만 지웁니다. 클러스터에 이미 만든 스토리지 클래스·PV 는 남고 워크로드도 계속 씁니다. 다만 분리하면 파일 시스템을 지울 수 있게 되므로, `--confirm-target` 없이 실행해 클러스터 안에서 아직 참조하는 것을 먼저 확인합니다.
 - 오브젝트 스토리지 키는 사용자 단위입니다. `renew-credential` 로 새 키를 받으면 이전 키는 모든 오브젝트 스토리지에서 쓸 수 없습니다. 시크릿 키는 채팅·티켓·로그에 남기지 마세요.
 - NFS 파일 시스템의 크기 확장(`resize`)과 설정 변경(`reconfigure`)은 NFS 서버 인스턴스를 껐다 켜서 반영합니다. 그동안 마운트한 인스턴스·클러스터의 입출력이 멈추므로 대상 확인을 받습니다. 크기는 늘리기만 할 수 있고, virtiofs 는 크기를 바꿀 수 없습니다(이름만 `reconfigure --name`).
 - `reconfigure` 는 준 옵션만 바꿉니다. `--ssh-key`·`--security-group` 은 지금 목록을 준 것으로 통째 바꿉니다(NFS 전용 보안 그룹은 서버가 남깁니다). 비밀번호는 `--password-stdin` 으로만 받습니다.
