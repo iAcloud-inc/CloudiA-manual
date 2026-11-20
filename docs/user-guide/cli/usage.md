@@ -74,7 +74,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `replace-listeners`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
+| 항상 확인 | `delete`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `change-type`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `replace-listeners`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
 | 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `reconfigure`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig` |
 | 확인 없음 | `create`, `update`, `start`, `attach`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator` |
 
@@ -133,9 +133,16 @@ cloudiactl l7-load-balancer create --name tls-l7 --subnet app --type EXTERNAL --
 cloudiactl l7-load-balancer update web-l7 --description "public web"   # 리스너는 그대로 둔다
 cloudiactl l7-load-balancer listeners web-l7 -o json > listeners.json   # 고쳐서 replace-listeners 로 보낸다
 cloudiactl l7-load-balancer replace-listeners web-l7 --from-file listeners.json --certificate api=api.pem --confirm-target 94=web-l7
+cloudiactl l7-load-balancer change-type web-l7 --type INTERNAL --confirm-target 94=web-l7 --dry-run   # 반납할 외부 IP 확인
+cloudiactl l7-load-balancer change-type web-l7 --type INTERNAL --confirm-target 94=web-l7
+cloudiactl l7-load-balancer change-type web-l7 --type EXTERNAL --public-ip 203.0.113.20 --confirm-target 94=web-l7
 ```
 
-- `update` 는 이름·설명만 바꿉니다. 유형·IP 변경은 이전 주소를 반납하므로 웹 콘솔에서 합니다.
+- `update` 는 이름·설명만 바꿉니다.
+- `change-type` 은 타입(외부·내부)과 외부 IP 주소만 바꾸고 이름·설명·내부 IP·리스너는 그대로 둡니다. 내부 IP 변경은 웹 콘솔에서 합니다.
+  - 내부로 바꾸거나 다른 외부 IP 로 바꾸면 이전 외부 IP 는 로드 밸런서에서 풀리고 프로젝트에서도 삭제됩니다. 그래서 항상 대상 확인을 받고, `--dry-run` 과 확인 안내에 삭제될 주소를 보여 줍니다.
+  - 내부에서 외부로 바꿀 때 `--public-ip` 를 주지 않으면 프로젝트의 미사용 외부 IP 를 쓰고, 없으면 새로 할당합니다.
+  - `--public-ip` 는 프로젝트의 미사용 외부 IP 이거나 아직 할당되지 않은 주소여야 합니다. 할당되지 않은 주소는 새 외부 IP 로 할당되어 프로젝트 할당량에 들어가고, 다른 프로젝트가 가진 주소는 서버가 거절합니다.
 - 서버는 리스너 목록(규칙·동작·인증서 포함)을 통째로 받습니다. `replace-listeners` 는 파일에 없는 리스너·규칙·인증서를 지우므로 항상 대상 확인을 받습니다. 남길 항목은 `listeners` 출력의 id 를 그대로 둡니다.
 - 규칙·리다이렉트·고정 응답·SNI 인증서는 `--from-file`(JSON 또는 YAML)로 줍니다. 전달 대상은 `targetGroupId` 대신 `targetGroup`(ID 또는 이름)으로 적어도 됩니다.
 - 인증서는 인증서 체인과 개인 키를 담은 `.pem` 파일입니다. 파일의 `fileKey` 와 `--certificate <fileKey>=<파일>` 로 잇습니다. 이미 있는 인증서(id 만 있고 fileKey 가 없음)는 PEM 을 그대로 둡니다. CLI 는 파일 내용을 출력하지 않습니다.
