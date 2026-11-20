@@ -168,3 +168,4 @@ Terraform Provider 섹션 — OpenTofu 개발 중단으로 일시 비공개(2026
   - [인스턴스 부팅 디스크 증설하기](docs/user-guide/examples-and-labs/23-grow-boot-disk.md)
   - [콘솔로 부팅 문제 진단하기](docs/user-guide/examples-and-labs/24-troubleshoot-boot-with-console.md)
   - [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](docs/user-guide/examples-and-labs/25-prepare-rocky-instance-for-golden-image.md)
+  - [원격 데스크톱(RDP)으로 Windows 인스턴스 접속하기](docs/user-guide/examples-and-labs/26-access-windows-instance-with-rdp.md)

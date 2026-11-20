@@ -32,3 +32,4 @@
 - [인스턴스 부팅 디스크 증설하기](./23-grow-boot-disk.md)
 - [콘솔로 부팅 문제 진단하기](./24-troubleshoot-boot-with-console.md)
 - [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](./25-prepare-rocky-instance-for-golden-image.md)
+- [원격 데스크톱(RDP)으로 Windows 인스턴스 접속하기](./26-access-windows-instance-with-rdp.md)

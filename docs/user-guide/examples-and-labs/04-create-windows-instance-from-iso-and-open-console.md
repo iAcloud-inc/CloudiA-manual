@@ -170,7 +170,7 @@ Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses <DNS>
 
 ### 확인
 - `ipconfig`에서 입력한 IP가 표시됩니다.
-- 플로팅 IP로는 보안그룹에서 허용한 TCP 포트로 접속해 확인합니다. 예를 들어 Windows에서 원격 데스크톱을 켜고 보안그룹에 `TCP 3389`를 허용하면 플로팅 IP로 원격 데스크톱 연결이 됩니다. Windows 방화벽은 기본으로 `ping`에 응답하지 않으므로 `ping`이 실패해도 네트워크 설정이 틀린 것은 아닙니다.
+- 플로팅 IP로는 보안그룹에서 허용한 TCP 포트로 접속해 확인합니다. 예를 들어 Windows에서 원격 데스크톱을 켜고 보안그룹에 `TCP 3389`를 허용하면 플로팅 IP로 원격 데스크톱 연결이 됩니다. 자세한 절차는 [원격 데스크톱(RDP)으로 Windows 인스턴스 접속하기](./26-access-windows-instance-with-rdp.md)를 확인합니다. Windows 방화벽은 기본으로 `ping`에 응답하지 않으므로 `ping`이 실패해도 네트워크 설정이 틀린 것은 아닙니다.
 
 > ⚠️ **주의:** IP를 입력하지 않으면 드라이버를 설치해도 통신할 수 없습니다. 이 IP는 이 인스턴스에만 적용됩니다. 이 인스턴스로 골든 이미지를 만들면 Sysprep이 고정 IP를 지우므로, 그 이미지로 만든 인스턴스마다 다시 입력해야 합니다. 자세한 내용은 [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](./19-prepare-windows-instance-for-golden-image.md#step-4)를 참고하세요.
 
