@@ -120,7 +120,34 @@ sysprep.exe /generalize /oobe /quit
 
 > 주의
 >
-> `Sysprep`을 `/reboot` 옵션으로 실행하거나, `Sysprep` 창의 기본값 `다시 시작`을 쓰지 않습니다. 다시 켜지는 순간 Windows가 첫 부팅 설정을 진행해 일반화 상태가 사라집니다. `/shutdown`으로 Windows 안에서 끈 인스턴스는 Cloud:iA가 다시 켜지 않고 `종료됨`으로 둡니다. 다만 그때 노드가 꺼지는 중이었다면 다시 켤 수 있으므로 `/quit`으로 마치고 Cloud:iA 웹의 `종료`로 끄는 방법을 권합니다. 실수로 켜졌다면 `Sysprep`을 다시 실행합니다. 스냅샷은 인스턴스를 다시 켜기 전에 만듭니다.
+> `Sysprep`을 `/reboot` 옵션으로 실행하거나, `Sysprep` 창의 기본값 `다시 시작`을 쓰지 않습니다. 다시 켜지는 순간 Windows가 첫 부팅 설정을 진행해 일반화 상태가 사라집니다. `/shutdown`으로 Windows 안에서 끈 인스턴스는 Cloud:iA가 다시 켜지 않고 `종료됨`으로 둡니다. 다만 그때 노드가 꺼지는 중이었다면 다시 켤 수 있으므로 `/quit`으로 마치고 Cloud:iA 웹의 `종료`로 끄는 방법을 권합니다. 실수로 켜졌다면 `Sysprep`을 다시 실행합니다(아래 재무장 횟수가 한 번 더 쓰입니다). 스냅샷은 인스턴스를 다시 켜기 전에 만듭니다.
+
+> 주의
+>
+> 같은 Windows에서 `Sysprep /generalize`를 실행할 수 있는 횟수에는 한도가 있습니다. 실행할 때마다 Windows 정품 인증 상태를 처음으로 되돌리는 재무장(rearm)이 한 번씩 쓰이기 때문입니다. 볼륨·리테일 라이선스 키를 쓴 Windows 10·11과 Windows Server 2012 이후 판은 1001번까지 실행할 수 있지만, 평가판(Evaluation)은 훨씬 적습니다. 새로 설치한 Windows Server 2022 Standard 평가판의 남은 횟수는 6번이었습니다.
+>
+> 골든 이미지는 새로 설치한 Windows에서 만듭니다. 골든 이미지로 만든 인스턴스를 고쳐 다시 골든 이미지로 만드는 일을 반복하지 않습니다. 다시 만들어야 하면 `Sysprep` 전에 떠 둔 스냅샷으로 되돌린 뒤 고쳐서 진행합니다. 되돌리면 남은 횟수도 그때 상태로 돌아갑니다.
+
+### 남은 재무장 횟수 확인
+관리자 권한 명령 프롬프트에서 실행합니다.
+
+```cmd
+cscript //nologo %windir%\system32\slmgr.vbs /dlv
+```
+
+`Remaining Windows rearm count` 값이 남은 횟수입니다. `0`이면 이 Windows에서는 더 이상 `Sysprep /generalize`를 실행할 수 없습니다. `Description`에 `TIMEBASED_EVAL`이 보이면 평가판입니다.
+
+### Sysprep 실패 원인 확인
+`Sysprep`이 `A fatal error occurred while trying to sysprep the machine` 또는 `Sysprep에서 Windows 설치의 유효성을 검사할 수 없습니다`로 멈추면 오류 로그 끝을 봅니다.
+
+```cmd
+powershell -c "Get-Content C:\Windows\System32\Sysprep\Panther\setuperr.log -Tail 20"
+```
+
+| 로그에 보이는 내용 | 원인 | 조치 |
+|---|---|---|
+| `SLReArmWindows` 와 `0xc004d307` | 재무장 횟수를 다 썼습니다. | 새로 설치한 Windows에서 다시 만들거나, `Sysprep` 전 스냅샷으로 되돌린 뒤 진행합니다. |
+| `BitLocker is on for the OS volume` 과 `0x80310039` | 시스템 드라이브가 BitLocker로 암호화돼 있습니다. | [2단계](#step-2)대로 복호화를 끝낸 뒤 다시 실행합니다. |
 
 > 참고
 >
