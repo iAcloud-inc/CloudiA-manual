@@ -62,6 +62,7 @@ cloudiactl instance stop web-1 --confirm-target <ID>=web-1 --wait --timeout 10m
 - 크기는 단위를 붙여 정수로 씁니다: `--size 100Gi`. `100`, `100G`, `1.5Gi` 는 받지 않습니다.
 - 시간도 단위를 붙입니다: `--timeout 10m`.
 - 다른 곳에서 시작한 작업은 `cloudiactl request wait <요청 ID>` 나 `cloudiactl instance wait <대상> --for status=UP` 으로 기다립니다.
+- 응답을 잃은 `instance create` 를 같은 `--client-token` 으로 다시 실행하면 첫 실행이 만든 인스턴스를 돌려주고, 시작 요청은 다시 보내지 않습니다. 결과 상태가 `TERMINATED` 이면(`--wait` 를 붙였으면 종료 코드 11) `cloudiactl instance get <ID>` 로 확인한 뒤 `cloudiactl instance start <ID> --wait` 로 시작합니다.
 
 ## 위험한 작업의 대상 확인
 
