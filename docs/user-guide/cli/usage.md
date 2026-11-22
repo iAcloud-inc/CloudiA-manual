@@ -51,7 +51,7 @@ cloudiactl instance list --all                         # 상한 없이 전부
 
 ## 만들기와 기다리기
 
-시간이 걸리는 작업은 대부분 접수만 하고 바로 돌아옵니다. `--wait` 를 붙이면 대상이 목표 상태가 될 때까지 기다립니다. `instance create`, `block attach|detach`, 스냅샷 `restore`, `k8s node-pool scale` 은 `--wait` 가 없어도 요청이 끝날 때까지는 기다립니다.
+시간이 걸리는 작업은 대부분 접수만 하고 바로 돌아옵니다. `--wait` 를 붙이면 대상이 목표 상태가 될 때까지 기다립니다. `instance create`, `block attach|detach`, 스냅샷 `restore`, `file-system resize|reconfigure`, `k8s node-pool scale` 은 `--wait` 가 없어도 요청이 끝날 때까지는 기다립니다.
 
 ```bash
 cloudiactl instance create --name web-1 --image rocky-9 --type t2.large \
@@ -62,7 +62,19 @@ cloudiactl instance stop web-1 --confirm-target <ID>=web-1 --wait --timeout 10m
 - 크기는 단위를 붙여 정수로 씁니다: `--size 100Gi`. `100`, `100G`, `1.5Gi` 는 받지 않습니다.
 - 시간도 단위를 붙입니다: `--timeout 10m`.
 - 다른 곳에서 시작한 작업은 `cloudiactl request wait <요청 ID>` 나 `cloudiactl instance wait <대상> --for status=UP` 으로 기다립니다.
-- 응답을 잃은 `instance create` 를 같은 `--client-token` 으로 다시 실행하면 첫 실행이 만든 인스턴스를 돌려주고, 시작 요청은 다시 보내지 않습니다. 결과 상태가 `TERMINATED` 이면(`--wait` 를 붙였으면 종료 코드 11) `cloudiactl instance get <ID>` 로 확인한 뒤 `cloudiactl instance start <ID> --wait` 로 시작합니다.
+- `instance create --file-system <이름>=<마운트 경로>` 로 만들면서 파일 시스템을 붙일 수 있습니다(Linux). Windows 이미지는 VirtioFS 파일 시스템만 받고 마운트 경로 없이 `--file-system <이름>` 으로 씁니다.
+
+### 응답을 잃었을 때 다시 보내기 (`--client-token`)
+
+생성 명령은 서버가 지원하면 요청마다 재시도 키를 붙이고, 결과에 `clientToken` 으로 보여 줍니다. 응답을 잃어 종료 코드 11 이 나왔을 때 오류의 `hint` 가 `--client-token <값>` 을 알려 주면, 같은 명령에 그 값을 붙여 다시 실행합니다. 서버는 새로 만들지 않고 첫 실행의 결과를 돌려줍니다. 키를 직접 정해 처음부터 붙여도 됩니다.
+
+```bash
+cloudiactl instance create --name web-1 --image rocky-9 --type t2.large \
+  --subnet web --login-user cloudia --ssh-key my-key --client-token web-1-0001 --wait
+```
+
+- 다시 실행한 `instance create` 는 첫 실행이 만든 인스턴스를 돌려주고, 시작 요청은 다시 보내지 않습니다. 결과에 이 사실이 `note` 로 나옵니다. 결과 상태가 `TERMINATED` 이면(`--wait` 를 붙였으면 종료 코드 11) `cloudiactl instance get <ID>` 로 확인한 뒤 `cloudiactl instance start <ID> --wait` 로 시작합니다. `create` 를 또 보내지 않습니다.
+- 재시도 키를 지원하지 않는 서버나 리소스에서 `--client-token` 을 주면 아무것도 보내지 않고 종료 코드 2 로 끝납니다.
 
 ## 위험한 작업의 대상 확인
 
@@ -84,6 +96,15 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 - 서버 기능에 따라 생기는 그 밖의 변경 동작(예: 되돌리기)도 항상 확인합니다.
 - 대상이 여럿이면 `--confirm-target` 을 대상마다 반복합니다.
 - `--dry-run=client` 를 붙이면 보낼 요청만 보여 주고 실행하지 않습니다. 이때도 `--confirm-target` 이 필요합니다.
+
+## 목록을 통째로 바꾸는 동작
+
+서버가 항목 하나만 바꾸는 API 를 주지 않는 리소스는, CLI 가 지금 목록을 읽어 한 항목만 고친 뒤 목록 전체를 보냅니다. 내부 DNS 레코드(`dns-zone add-record|remove-record`), 포트 포워딩 규칙(`port-forwarding add-rule|remove-rule`), L4 리스너(`l4-load-balancer add-listener|remove-listener`), L4·L7 대상 그룹 멤버(`add-member|remove-member`)가 이렇게 동작합니다. 서버 버전에 따라 `block attach|detach` 와 `security-group add-rule|remove-rule` 도 같습니다([서버 버전 호환](./compatibility.md)). 리스너 전체를 함께 보내는 `l7-load-balancer update|replace-listeners|change-type` 도 같은 보호를 거칩니다.
+
+- 보내기 직전에 목록을 다시 읽어, 처음 읽은 뒤 누군가 목록을 바꿨으면 아무것도 보내지 않고 종료 코드 10 으로 멈춥니다(`the list changed after it was read; nothing was sent`). 목록을 다시 보고, 하려던 변경이 여전히 맞으면 같은 명령을 다시 실행합니다.
+- 다시 읽은 뒤 보내기 전 사이에 끼어든 변경은 막지 못하고 덮어씁니다. 같은 목록을 바꾸는 명령을 동시에 여러 개 실행하지 마세요.
+- `--dry-run` 은 바뀌는 부분(`change`)만 보여 줍니다.
+- `file-system resize|reconfigure` 도 보내기 직전에 파일 시스템을 다시 읽어, 그사이 이름이나 크기가 바뀌었으면 `the file system changed after it was read (…); nothing was sent` 로 종료 코드 10 입니다.
 
 ## 쿠버네티스
 
@@ -115,6 +136,9 @@ cloudiactl k8s cluster uninstall-gpu-operator my-cluster --confirm-target 11=my-
 cloudiactl file-system create --name shared --type nfs --size 100Gi --subnet app --ssh-key my-key --wait
 cloudiactl file-system create --name scratch --type virtiofs --size 20Gi
 cloudiactl file-system instances shared                 # 이 파일 시스템을 마운트한 인스턴스
+cloudiactl file-system clusters shared                  # 이 파일 시스템을 쓰는 쿠버네티스 클러스터
+cloudiactl instance attach-file-system web-1 --file-system shared --mountpoint /mnt/shared   # 꺼진 인스턴스에 연결
+cloudiactl instance detach-file-system web-1 --file-system shared --confirm-target 812=web-1
 cloudiactl file-system resize shared --size 200Gi --confirm-target 61=shared
 cloudiactl file-system reconfigure shared --export-write-mode sync --confirm-target 61=shared
 cloudiactl object-storage get logs                      # 엔드포인트 확인
@@ -124,12 +148,39 @@ cloudiactl project-iso create --file ./rocky-9.iso --wait   # ISO 업로드
 ```
 
 - NFS 파일 시스템은 서버가 NFS 서버 인스턴스를 만들어 `--subnet` 에 둡니다. 마운트용 보안 그룹(tcp 2049)은 서버가 붙입니다.
-- 사용 중인 파일 시스템은 지울 수 없습니다. `file-system instances|clusters` 로 쓰는 곳을 확인하고 먼저 분리합니다. 클러스터에서는 `k8s file-system detach` 로, 인스턴스에서는 웹 콘솔에서 분리합니다.
+- 사용 중인 파일 시스템은 지울 수 없습니다. `file-system instances|clusters` 로 쓰는 곳을 확인하고 먼저 분리합니다. 클러스터에서는 `k8s file-system detach` 로, 인스턴스에서는 `instance detach-file-system` 으로 분리합니다.
+- `instance attach-file-system|detach-file-system` 은 꺼진(`TERMINATED`) 인스턴스에만 쓸 수 있고, 다음에 켤 때 게스트에 반영됩니다. 파일 시스템 하나만 바꾸고 인스턴스의 다른 설정은 건드리지 않습니다. 분리해도 파일 시스템의 데이터는 남습니다. 분리의 대상 확인은 인스턴스의 ID 와 이름입니다.
+- Linux 인스턴스는 `--mountpoint` 에 다른 마운트와 겹치지 않는 절대 경로를 줍니다. Windows 인스턴스는 VirtioFS 파일 시스템만 붙일 수 있고 드라이브로 마운트됩니다. NFS 파일 시스템은 인스턴스와 같은 VPC 에 있어야 합니다.
 - `k8s file-system detach` 는 연결 기록만 지웁니다. 클러스터에 이미 만든 스토리지 클래스·PV 는 남고 워크로드도 계속 씁니다. 다만 분리하면 파일 시스템을 지울 수 있게 되므로, `--confirm-target` 없이 실행해 클러스터 안에서 아직 참조하는 것을 먼저 확인합니다.
 - 오브젝트 스토리지 키는 사용자 단위입니다. `renew-credential` 로 새 키를 받으면 이전 키는 모든 오브젝트 스토리지에서 쓸 수 없습니다. 시크릿 키는 채팅·티켓·로그에 남기지 마세요.
 - NFS 파일 시스템의 크기 확장(`resize`)과 설정 변경(`reconfigure`)은 NFS 서버 인스턴스를 껐다 켜서 반영합니다. 그동안 마운트한 인스턴스·클러스터의 입출력이 멈추므로 대상 확인을 받습니다. 크기는 늘리기만 할 수 있고, virtiofs 는 크기를 바꿀 수 없습니다(이름만 `reconfigure --name`).
 - `reconfigure` 는 준 옵션만 바꿉니다. `--ssh-key`·`--security-group` 은 지금 목록을 준 것으로 통째 바꿉니다(NFS 전용 보안 그룹은 서버가 남깁니다). 비밀번호는 `--password-stdin` 으로만 받습니다.
 - `project-iso create` 는 `--os-variant` 를 주지 않으면 웹 콘솔처럼 파일 앞부분으로 OS 를 감지합니다. 확실하지 않으면 멈추고 `--os-variant` 를 요구합니다. 설치 미디어가 아니면 `--os-variant unknown` 을 씁니다. ISO 는 RBD(Ceph) 스토리지 도메인에 둘 수 없어 도메인을 고를 때 뺍니다.
+
+## 네트워크: 내부 DNS·포트 포워딩·L4 대상 그룹
+
+```bash
+cloudiactl dns-zone list                                               # 내부 DNS 존(이름은 domainName)
+cloudiactl dns-zone records app.internal
+cloudiactl dns-zone add-record app.internal --name www --type A --value 10.0.1.11
+cloudiactl dns-zone remove-record app.internal --name www --type A --confirm-target 61=app.internal
+cloudiactl dns-zone recover app.internal --confirm-target 61=app.internal   # DNS 서버 다시 만들기
+
+cloudiactl port-forwarding create --vpc app-vpc --name web-pf          # 외부 IP 를 주지 않으면 서버가 고른다
+cloudiactl port-forwarding add-rule web-pf --protocol tcp --external-port 2222 --instance web-1 --internal-port 22
+cloudiactl port-forwarding rules web-pf
+cloudiactl port-forwarding remove-rule web-pf --protocol tcp --external-port 2222 --confirm-target 71=web-pf
+
+cloudiactl l4-target-group members web-tg
+cloudiactl l4-target-group add-member web-tg --instance web-1 --port 80
+cloudiactl l4-target-group remove-member web-tg --instance web-1 --confirm-target 105=web-tg
+```
+
+- DNS 존은 웹 콘솔에서 만들고 지웁니다. CLI 는 레코드를 다룹니다. 레코드 종류는 `A`, `CNAME`, `TXT`, `SRV` 이고, 값이 여럿이면 `--value` 를 반복합니다. `--ttl` 은 60~172800 초(기본 300)입니다.
+- `dns-zone recover` 는 존의 DNS 서버를 다시 만들고 점검합니다. 그동안 VPC 안의 이름 풀이가 멈추므로 대상 확인을 받습니다. `dns-zone get` 의 `dnsServerState` 가 `ACTIVE` 가 아닐 때 씁니다.
+- 포트 포워딩 규칙의 `--protocol` 은 `TCP`, `UDP`, `ALL` 이고 포트는 하나 또는 범위로 씁니다. 대상은 `--instance` 나 VPC 안의 `--ip` 로 줍니다. `--internal-port` 를 비우면 외부 포트와 같습니다.
+- `port-forwarding create --external-ip` 에 프로젝트에 아직 없는 주소를 주면 그 주소를 프로젝트에 할당합니다.
+- 레코드·규칙·멤버를 더하고 빼는 명령은 목록을 통째로 바꿉니다(위 "목록을 통째로 바꾸는 동작"). 빼는 명령의 대상 확인은 존·포트 포워딩·대상 그룹의 ID 와 이름입니다.
 
 ## L7 로드 밸런서
 
@@ -142,6 +193,14 @@ cloudiactl l7-load-balancer replace-listeners web-l7 --from-file listeners.json 
 cloudiactl l7-load-balancer change-type web-l7 --type INTERNAL --confirm-target 94=web-l7 --dry-run   # 반납할 외부 IP 확인
 cloudiactl l7-load-balancer change-type web-l7 --type INTERNAL --confirm-target 94=web-l7
 cloudiactl l7-load-balancer change-type web-l7 --type EXTERNAL --public-ip 203.0.113.20 --confirm-target 94=web-l7
+```
+
+L7 대상 그룹의 멤버도 같은 방식으로 다룹니다. `--port` 를 비우면 대상 그룹의 포트를 씁니다.
+
+```bash
+cloudiactl l7-target-group members api-l7-tg
+cloudiactl l7-target-group add-member api-l7-tg --instance web-1 --port 8080
+cloudiactl l7-target-group remove-member api-l7-tg --instance web-1 --confirm-target 105=api-l7-tg
 ```
 
 - `update` 는 이름·설명만 바꿉니다.
@@ -170,6 +229,6 @@ cloudiactl l7-load-balancer change-type web-l7 --type EXTERNAL --public-ip 203.0
 | 8 | 여러 대상 중 일부 실패. 결과의 대상별 `exitCode` 를 봅니다 |
 | 9 | 요청 하나가 일부만 수행됨 |
 | 10 | 잠시 뒤 다시 시도할 수 있음(다른 작업 진행 중 등) |
-| 11 | 결과를 알 수 없음(응답 유실). 같은 명령을 다시 보내기 전에 `get` 으로 반영 여부를 확인하세요 |
+| 11 | 결과를 알 수 없음(응답 유실). 같은 명령을 다시 보내기 전에 `get` 으로 반영 여부를 확인하세요. 오류의 `hint` 가 `--client-token` 을 알려 줄 때만 그 값으로 같은 명령을 다시 실행합니다 |
 
 JSON 출력이면 오류는 표준 오류(stderr)에 `errorCode`, `message`, `hint` 와 함께 나옵니다.

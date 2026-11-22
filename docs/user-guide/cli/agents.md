@@ -27,6 +27,8 @@
     cloudiactl agent-guide
     ```
 
+    자주 하는 작업은 주제별 안내가 따로 있습니다. `cloudiactl agent-guide create-vm`(인스턴스 만들기), `cloudiactl agent-guide connect-vm`(인스턴스에 접속하기)처럼 주제를 붙여 실행합니다. 없는 주제를 주면 쓸 수 있는 주제 목록과 함께 종료 코드 2 로 끝납니다.
+
     Claude Code 라면 프로젝트의 `CLAUDE.md` 에 아래처럼 적어 두면 작업을 시작할 때마다 읽습니다.
 
     ```markdown

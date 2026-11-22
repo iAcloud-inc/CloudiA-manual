@@ -9,6 +9,10 @@
 | 승인 화면에서 **허용**이 눌리지 않음 | 코드 확인란 미선택, 비밀번호 또는 일회용 코드 칸이 비어 있음 | 터미널 코드와 같은지 확인하고 확인란을 선택, 빈 칸을 채움 |
 | 승인 화면이 "요청이 만료됐습니다" | 10분이 지남 | 터미널에서 `cloudiactl login` 을 다시 실행 |
 | 승인 화면이 "비밀번호를 세 번 틀려 요청을 폐기했습니다" | 비밀번호나 일회용 코드를 세 번 틀림 | 터미널에서 다시 로그인을 시작 |
+| `no project with name …` 또는 `no project with id …` (종료 코드 5) | 프로젝트 이름·ID 가 틀렸거나 이 계정이 구성원이 아님 | `cloudiactl project list` 로 쓸 수 있는 프로젝트를 확인합니다 |
+| `no project selected` (종료 코드 2) | 프로젝트를 지정하지 않음 | `--project`, `CLOUDIA_PROJECT`, `cloudiactl config set project <이름>` 중 하나로 지정합니다 |
+| `the list changed after it was read; nothing was sent` (종료 코드 10) | 목록을 통째로 바꾸는 명령을 실행하는 사이 다른 사람이 같은 목록을 바꿈 | 목록을 다시 보고, 하려던 변경이 여전히 맞으면 같은 명령을 다시 실행합니다([기본 사용법](./usage.md)의 "목록을 통째로 바꾸는 동작") |
+| `the file system changed after it was read (…); nothing was sent` (종료 코드 10) | `file-system resize`·`reconfigure` 를 실행하는 사이 파일 시스템의 이름이나 크기가 바뀜 | `cloudiactl file-system get` 으로 다시 확인하고 같은 명령을 다시 실행합니다 |
 | 종료 코드 4 (권한 없음) | 그 작업 권한이 없거나 프로젝트 구성원이 아님 | 오류의 `requiredPermissions` 를 관리자에게 전달 |
 | `CLOUDIA_AUTH_CLIENT_ID must not be cloudia-secure-login` | 웹 콘솔 로그인용 클라이언트를 환경 변수에 넣음 | `CLOUDIA_AUTH_*` 환경 변수를 지우고 `cloudiactl login` 을 씁니다 |
 | `the keychain is not available` 경고 | 키 저장소를 쓸 수 없는 환경 | 로그인 정보가 소유자 전용 파일에 저장됩니다. 그 기기를 다른 사람과 같이 쓰지 마세요 |

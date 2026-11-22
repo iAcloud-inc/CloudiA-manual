@@ -94,7 +94,7 @@ cloudiactl version
 
 ## 셸 자동 완성
 
-`cloudiactl install` 이 지금 쓰는 셸을 보고 Tab 자동 완성 파일도 함께 설치합니다. zsh 는 `~/.zshrc` 에 두 줄을 붙여 자동 완성을 켭니다. bash·fish 는 셸 설정 파일을 고치지 않습니다. 하위 명령과 옵션이 완성됩니다(예: `cloudiactl inst` Tab Tab → `install`·`instance`·`instance-snapshot`·`instance-type`, `cloudiactl instance` Tab Tab → `create`·`list`·`start` …).
+`cloudiactl install` 이 지금 쓰는 셸을 보고 Tab 자동 완성 파일도 함께 설치합니다. zsh 는 `~/.zshrc` 에 두 줄을 붙여 자동 완성을 켭니다. bash·fish 는 셸 설정 파일을 고치지 않습니다. 하위 명령과 옵션이 완성됩니다(예: `cloudiactl inst` Tab Tab → `install`·`instance`·`instance-snapshot`·`instance-type`(서버에 따라 `instance-cdrom` 도), `cloudiactl instance` Tab Tab → `create`·`list`·`start` …).
 
 | 셸 | 설치 위치 | 할 일 |
 |---|---|---|
