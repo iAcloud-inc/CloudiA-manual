@@ -74,9 +74,11 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 | 확인 | 동작 |
 |---|---|
-| 항상 확인 | `delete`, `detach-file-system`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `change-type`, `clone`, `copy`, `create-image`, `create-instance`, `disable`, `disable-backup`, `enable`, `enable-backup`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `replace-listeners`, `resize`, `resume`, `suspend`, `uninstall-gpu-operator` |
-| 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `reconfigure`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig` |
-| 확인 없음 | `create`, `update`, `start`, `attach`, `attach-file-system`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator` |
+| 항상 확인 | `delete`, `detach-file-system`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `change-type`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `replace-listeners`, `resize`, `uninstall-gpu-operator` |
+| 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `reconfigure`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig`, `enable`, `suspend`, `resume`, `enable-backup`, `disable-backup` |
+| 확인 없음 | `create`, `update`, `start`, `attach`, `attach-file-system`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator`, `clone`, `copy`, `create-image`, `create-instance`, `disable` |
+
+- `vpc update` 는 `--cidr` 를 줄 때만 기본으로 확인합니다. 대역을 바꾸면 NACL 규칙을 다시 쓰고 VPC DNS 서버 주소가 바뀔 수 있습니다.
 
 - 서버 기능에 따라 생기는 그 밖의 변경 동작(예: 되돌리기)도 항상 확인합니다.
 - 대상이 여럿이면 `--confirm-target` 을 대상마다 반복합니다.
