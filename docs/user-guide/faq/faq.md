@@ -200,10 +200,10 @@ sudo restorecon -v /data01
 2. `인스턴스 상세 > 인스턴스 구성 요소 > 스냅샷`에서 `롤백` 수행
 3. 재기동 후 핵심 파일/서비스 검증
 
-### Q. `BitLocker`를 켠 Windows VM은 스냅샷이나 골든 이미지를 만들 때 무엇을 확인해야 하나요?
+### Q. `BitLocker`를 켠 Windows VM은 스냅샷이나 이미지를 만들 때 무엇을 확인해야 하나요?
 #### 핵심 답변
 스냅샷은 그대로 만들어도 됩니다. vTPM을 쓰는 인스턴스의 스냅샷은 디스크와 함께 TPM 상태를 저장하고, 롤백하면 TPM 상태도 되살리므로 `BitLocker` 때문에 스냅샷이 실패하지 않습니다.
-골든 이미지(스냅샷으로 만드는 이미지)를 만들 때는 `BitLocker`를 먼저 복호화합니다.
+스냅샷으로 이미지를 만들어 다른 인스턴스에 쓸 때는 `BitLocker`를 먼저 복호화합니다.
 시작 템플릿으로 변환하거나 인스턴스를 복제하면 vTPM 상태가 따라가지 않습니다.
 
 #### 점검 포인트
@@ -211,9 +211,9 @@ sudo restorecon -v /data01
 2. 복호화 진행률이 완료(`0%`)인지 확인합니다.
 
 #### 조치 가이드
-1. 골든 이미지로 만들 인스턴스는 암호화가 켜져 있으면 복호화를 먼저 수행합니다.
-2. 복호화가 끝나기 전에는 골든 이미지용 스냅샷·이미지를 만들지 않습니다.
-3. 골든 이미지 전환 시 `Sysprep` 순서를 준수합니다. `sysprep.exe /generalize /oobe /quit`으로 실행한 뒤 Cloud:iA 웹의 `종료`로 끄고, Windows 안에서 재시작하지 않습니다.
+1. 이미지로 만들 인스턴스에 암호화가 켜져 있으면 먼저 복호화합니다.
+2. 복호화가 끝나기 전에는 이미지로 쓸 스냅샷을 뜨거나 이미지를 만들지 않습니다.
+3. 이미지로 만들 때는 `Sysprep` 순서를 지킵니다. `sysprep.exe /generalize /oobe /quit`으로 실행한 뒤 Cloud:iA 웹의 `종료`로 끄고, Windows 안에서 재시작하지 않습니다.
 
 <a id="faq-windows-iso"></a>
 ## 3. Windows / ISO 설치
@@ -603,5 +603,5 @@ CPU 오버커밋 비율은 슬라이더로 바꾸고, 메모리 오버커밋은 
 - [인스턴스 마이그레이션하기](../examples-and-labs/03-migrate-instance-cold-and-live.md)
 - [인스턴스 스냅샷 롤백하기](../examples-and-labs/15-rollback-instance-to-snapshot.md)
 - [윈도우 가상머신 ISO 생성 및 콘솔 확인](../examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)
-- [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](../examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
+- [ISO로 설치한 Windows 인스턴스를 이미지로 만들기 전 준비하기](../examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
 - [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기](../examples-and-labs/17-share-volumes-between-instances-with-nfs.md)

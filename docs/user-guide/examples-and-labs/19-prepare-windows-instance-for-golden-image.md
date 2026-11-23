@@ -1,6 +1,6 @@
-# ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기
+# ISO로 설치한 Windows 인스턴스를 이미지로 만들기 전 준비하기
 
-이 문서는 `ISO 파일`로 설치한 Windows 인스턴스를 골든 이미지로 사용할 수 있도록 준비하는 실습입니다. `BitLocker` 확인, `Sysprep` 적용, 이미지 생성 전 종료 상태 정리까지 설명합니다.
+이 문서는 `ISO 파일`로 설치한 Windows 인스턴스를 이미지로 만들 수 있도록 준비하는 실습입니다. `BitLocker` 확인, `Sysprep` 적용, 이미지 생성 전 종료 상태 정리까지 설명합니다.
 
 ## 사전 준비
 - Cloud:iA 웹콘솔 접근 가능
@@ -9,7 +9,7 @@
 - Windows VM에서는 `virtio-win.iso`를 Cloud:iA가 자동으로 연결함
 - 관련 실습을 먼저 확인하면 진행이 쉬움
   - [윈도우 가상머신 ISO 생성 및 콘솔 확인](./04-create-windows-instance-from-iso-and-open-console.md)
-  - [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](./16-create-golden-image-from-snapshot.md)
+  - [준비한 인스턴스를 이미지로 만들어 새 인스턴스 실행하기](./16-create-golden-image-from-snapshot.md)
 
 ## 개요
 1. [VirtIO 드라이버와 Guest Agent 확인](#step-1)
@@ -34,13 +34,13 @@
 
 > 주의
 >
-> 골든 이미지로 만들기 전에 반드시 `virtio-win-guest-tools`를 설치합니다. 설치하지 않은 채 만든 이미지로 인스턴스를 만들면 부팅하지 못할 수 있습니다.
+> 이미지로 만들기 전에 반드시 `virtio-win-guest-tools`를 설치합니다. 설치하지 않은 채 만든 이미지로 인스턴스를 만들면 부팅하지 못할 수 있습니다.
 
 <a id="step-2"></a>
 ## 2단계: BitLocker 상태 확인 및 복호화
 **수행 계정/화면:** `인스턴스 콘솔` / `관리자 권한 CMD 또는 PowerShell`
 
-Windows 11 템플릿 또는 골든 이미지 생성 전에는 `BitLocker` 자동 암호화 여부를 확인합니다. 암호화가 켜져 있으면 복호화가 끝날 때까지 기다린 뒤 다음 단계로 진행합니다.
+Windows 11 템플릿이나 이미지를 만들기 전에는 `BitLocker` 자동 암호화 여부를 확인합니다. 암호화가 켜져 있으면 복호화가 끝날 때까지 기다린 뒤 다음 단계로 진행합니다.
 
 > 참고
 >
@@ -97,7 +97,7 @@ manage-bde -status E:
 >
 > 이 이미지로 만든 인스턴스에서 직렬 콘솔을 쓰려면 Sysprep 전에 EMS를 켜 둡니다. EMS 설정은 Sysprep을 거쳐도 유지되어, 이 이미지로 만든 인스턴스의 `직렬 콘솔`에 `SAC>`가 나타납니다. 방법은 [윈도우 가상머신 ISO 생성 및 콘솔 확인 — 7단계](./04-create-windows-instance-from-iso-and-open-console.md#step-7)를 참고하세요.
 >
-> 골든 이미지에 `RealTimeIsUniversal` 레지스트리 값을 넣었다면 이 이미지로 만들 시작 템플릿과 인스턴스의 `하드웨어 시계`를 `UTC` 로 둡니다. `자동`이면 Windows 를 현지 시각으로 켜서 9시간 빠른 시각으로 뜹니다. 자세한 내용은 [인스턴스 — 가상머신 시계](../../project/vm/instance/instance.md#가상머신-시계)를 참고하세요.
+> 이미지에 `RealTimeIsUniversal` 레지스트리 값을 넣었다면 이 이미지로 만들 시작 템플릿과 인스턴스의 `하드웨어 시계`를 `UTC` 로 둡니다. `자동`이면 Windows 를 현지 시각으로 켜서 9시간 빠른 시각으로 뜹니다. 자세한 내용은 [인스턴스 — 가상머신 시계](../../project/vm/instance/instance.md#가상머신-시계)를 참고하세요.
 
 ### 절차
 1. `Sysprep` 폴더로 이동합니다.
@@ -116,7 +116,7 @@ sysprep.exe /generalize /oobe /quit
 
 ### 확인
 - `Sysprep`이 완료되었습니다.
-- 인스턴스가 골든 이미지 생성 전 종료 상태로 정리되었습니다. 상태가 `종료됨`이고 다시 `실행 중`으로 바뀌지 않습니다.
+- 인스턴스가 이미지를 만들 수 있는 종료 상태가 됩니다. 상태가 `종료됨`이고 다시 `실행 중`으로 바뀌지 않습니다.
 
 > 주의
 >
@@ -126,7 +126,7 @@ sysprep.exe /generalize /oobe /quit
 >
 > 같은 Windows에서 `Sysprep /generalize`를 실행할 수 있는 횟수에는 한도가 있습니다. 실행할 때마다 Windows 정품 인증 상태를 처음으로 되돌리는 재무장(rearm)이 한 번씩 쓰이기 때문입니다. 볼륨·리테일 라이선스 키를 쓴 Windows 10·11과 Windows Server 2012 이후 판은 1001번까지 실행할 수 있지만, 평가판(Evaluation)은 훨씬 적습니다. 새로 설치한 Windows Server 2022 Standard 평가판의 남은 횟수는 6번이었습니다.
 >
-> 골든 이미지는 새로 설치한 Windows에서 만듭니다. 골든 이미지로 만든 인스턴스를 고쳐 다시 골든 이미지로 만드는 일을 반복하지 않습니다. 다시 만들어야 하면 `Sysprep` 전에 떠 둔 스냅샷으로 되돌린 뒤 고쳐서 진행합니다. 되돌리면 남은 횟수도 그때 상태로 돌아갑니다.
+> 이미지는 새로 설치한 Windows에서 만듭니다. 이미지로 만든 인스턴스를 고쳐 다시 이미지로 만드는 일을 반복하지 않습니다. 다시 만들어야 하면 `Sysprep` 전에 떠 둔 스냅샷으로 되돌린 뒤 고쳐서 진행합니다. 되돌리면 남은 횟수도 그때 상태로 돌아갑니다.
 
 ### 남은 재무장 횟수 확인
 관리자 권한 명령 프롬프트에서 실행합니다.
@@ -159,7 +159,7 @@ powershell -c "Get-Content C:\Windows\System32\Sysprep\Panther\setuperr.log -Tai
 
 Windows 인스턴스를 복제 가능한 상태로 준비했다면, 다음 문서로 이어서 스냅샷과 이미지를 생성합니다.
 
-- [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](./16-create-golden-image-from-snapshot.md)
+- [준비한 인스턴스를 이미지로 만들어 새 인스턴스 실행하기](./16-create-golden-image-from-snapshot.md)
 
 ### 권장 순서
 1. 인스턴스가 `종료됨` 상태인지 확인합니다.

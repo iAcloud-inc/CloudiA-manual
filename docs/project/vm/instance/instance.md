@@ -208,13 +208,13 @@ CloudiA의 `인스턴스` 메뉴에서는 가상머신을 생성하고, 상태�
 | 설치 유형 | 사용할 때 | 알아둘 점 |
 | --- | --- | --- |
 | `OS 이미지` | 표준 이미지로 빠르게 인스턴스를 만들 때 사용합니다. | Cloud-init 기반 사용자 계정과 초기 설정을 함께 적용할 수 있습니다. 생성 후 이미지 변경은 불가합니다. |
-| `ISO 파일` | OS를 직접 설치하거나 골든 이미지를 만들기 위한 초기 VM을 만들 때 사용합니다. | 설치 자유도는 높지만 제한사항이 많습니다. 생성 후 ISO 변경은 불가합니다. |
+| `ISO 파일` | OS를 직접 설치하거나 이미지로 만들 초기 VM을 만들 때 사용합니다. | 설치 자유도는 높지만 제한사항이 많습니다. 생성 후 ISO 변경은 불가합니다. |
 
 `선택`을 누르면 이미지나 `ISO 파일`을 고르는 창이 열립니다. 목록이 길면 창 위쪽 검색 줄에 이름 일부를 넣어 찾습니다.
 
 > 중요
 >
-> `ISO 파일` 설치 유형은 일반적인 사용자 워크로드보다 OS 설치 후 골든 이미지를 만드는 초기 작업에 적합합니다. 일반적인 인스턴스 생성은 `OS 이미지` 사용을 권장합니다.
+> `ISO 파일` 설치 유형은 OS를 설치해 이미지로 만드는 초기 작업에 씁니다. 보통 인스턴스는 `OS 이미지`로 만듭니다.
 >
 > `ISO 파일` 설치 유형의 주요 제한사항은 다음과 같습니다.
 >
@@ -461,7 +461,7 @@ Windows에는 cloud-init이 없어 마운트 포인트를 입력하지 않습니
 > - 새 인스턴스를 만들 때마다 초기화 작업이 필요하면 `PER_INSTANCE`를 기본으로 사용합니다.
 > - 스크립트 변경 여부와 무관하게 단 한 번만 실행되어야 하는 이미지 생명주기 작업에만 `PER_ONCE`를 사용합니다. 일반적인 초기화에는 `PER_INSTANCE`가 더 적합합니다.
 >
-> Linux 인스턴스를 골든 이미지로 만들기 전에 `PER_ONCE` 스크립트가 이미 실행된 상태라면, 그 실행 이력이 이미지에 포함될 수 있습니다. 골든 이미지 생성 전에는 게스트 OS에서 `cloud-init clean`을 수행한 뒤 종료하는 절차를 표준으로 권장합니다. 자세한 예시는 [스냅샷 이미지 생성으로 골든 이미지 만들기 및 인스턴스 실행](../../../user-guide/examples-and-labs/16-create-golden-image-from-snapshot.md)을 확인합니다.
+> Linux 인스턴스를 이미지로 만들기 전에 `PER_ONCE` 스크립트가 이미 실행된 상태라면, 그 실행 이력이 이미지에 포함될 수 있습니다. 이미지를 만들기 전에 게스트 OS에서 `cloud-init clean`을 실행하고 종료합니다. 자세한 예시는 [준비한 인스턴스를 이미지로 만들어 새 인스턴스 실행하기](../../../user-guide/examples-and-labs/16-create-golden-image-from-snapshot.md)을 확인합니다.
 
 #### 시스템 스크립트
 
@@ -479,7 +479,7 @@ Windows에는 cloud-init이 없어 마운트 포인트를 입력하지 않습니
 | --- | --- | --- | --- |
 | 실행 중 사양 변경(vCPU·메모리·디스크·네트워크 인터페이스) | 됩니다. 게스트에 바로 반영됩니다. Windows는 실행 중 vCPU를 늘리거나 디스크를 추가·제거할 수 없으므로 인스턴스를 종료한 뒤 편집합니다. | 됩니다. vCPU·메모리 증설, 네트워크 인터페이스·추가 `블록` 연결을 이미지 인스턴스와 같은 조건으로 할 수 있고 게스트가 바로 인식합니다. 실행 중에 추가한 네트워크 인터페이스는 DHCP로 IP를 받지 못하므로 게스트 안에서 IP를 직접 설정합니다. Windows는 실행 중 vCPU를 늘리거나 디스크를 추가·제거할 수 없으므로 인스턴스를 종료한 뒤 편집합니다. | - |
 | 콘솔에서 `재부팅` | 됩니다. | 됩니다. | - |
-| `인스턴스 복제` | 됩니다. | **안 됩니다.** | 새로 설치합니다. 같은 구성이 여러 개 필요하면 골든 이미지로 만듭니다. |
+| `인스턴스 복제` | 됩니다. | **안 됩니다.** | 새로 설치합니다. 같은 구성이 여러 개 필요하면 이미지로 만듭니다. |
 | `시작 템플릿으로 변환` | 됩니다. | Linux는 인스턴스를 종료한 뒤 편집에서 `사용자 계정`을 입력하면 됩니다. **Windows는 안 됩니다.** | 계정을 입력합니다. 템플릿으로 만든 인스턴스에 계정이 적용되려면 게스트에 cloud-init이 있어야 하므로 Rocky Linux는 [cloud-init 설치](#iso-install-cloud-init)를 따릅니다. |
 | `보안 유형`(SEV)·`오브젝트 스토리지` | 됩니다. | **안 됩니다.** | 방법이 없습니다. |
 | 편집에서 `AI 가속기` 변경 | 됩니다. | 됩니다. `종료됨` 상태에서 편집합니다. | - |
@@ -561,7 +561,7 @@ cloud-init을 설치하면 다음을 쓸 수 있습니다.
 >
 > 콘솔에서 지정한 계정 이름이 OS를 설치할 때 만든 첫 계정과 달라도, 설치할 때 만든 계정은 지워지지 않습니다. 두 계정이 모두 남습니다.
 >
-> 설치 DVD는 인스턴스에서 떼지 않습니다. 저장소가 필요한 작업을 마치면 `/etc/yum.repos.d/dvd.repo`를 지워도 됩니다. 이 인스턴스로 골든 이미지를 만들 때는 [ISO로 설치한 Rocky 인스턴스를 골든 이미지로 준비하기](../../../user-guide/examples-and-labs/25-prepare-rocky-instance-for-golden-image.md)를 따릅니다.
+> 설치 DVD는 인스턴스에서 떼지 않습니다. 저장소가 필요한 작업을 마치면 `/etc/yum.repos.d/dvd.repo`를 지워도 됩니다. 이 인스턴스로 이미지를 만들 때는 [ISO로 설치한 Rocky 인스턴스를 이미지로 만들기 전 준비하기](../../../user-guide/examples-and-labs/25-prepare-rocky-instance-for-golden-image.md)를 따릅니다.
 
 <a id="iso-prepare-backup"></a>
 ### ISO 설치 인스턴스의 백업 켜기 준비
@@ -1358,7 +1358,7 @@ SELinux 를 쓰는 게스트(Rocky Linux 등)에서 디스크를 새로 포맷�
 
 ### 스냅샷으로 이미지 생성(이미지화)
 
-부팅 가능한 인스턴스 스냅샷을 기반으로 새 OS 이미지(골든 이미지)를 생성할 수 있습니다. (기존 `스토리지 > 스냅샷` 목록 화면의 이미지 생성 기능이 이 위치로 이동했습니다.)
+부팅 가능한 인스턴스 스냅샷을 기반으로 새 OS 이미지를 생성할 수 있습니다. (기존 `스토리지 > 스냅샷` 목록 화면의 이미지 생성 기능이 이 위치로 이동했습니다.)
 
 1. 인스턴스 상세 화면에서 `인스턴스 구성 요소 > 스냅샷`을 선택합니다.
 2. 부팅 가능한 스냅샷 1개를 선택합니다.
@@ -1778,7 +1778,7 @@ Windows 는 하드웨어 시계를 자기 시간대의 현지 시각으로 읽�
 메뉴 사용법보다 시나리오와 OS별 명령이 중요한 항목은 `예제 및 실습 가이드`에서 별도로 설명합니다.
 
 - Windows ISO 설치, 첫 번째 `QEMU DVD-ROM` 선택, Windows 11 네트워크 요구 사항 우회, VirtIO 드라이버 설치: [윈도우 가상머신 ISO 생성 및 콘솔 확인](../../../user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md)
-- Windows 인스턴스를 골든 이미지로 준비하는 절차: [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](../../../user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
+- Windows 인스턴스를 이미지로 만들기 전 준비 절차: [ISO로 설치한 Windows 인스턴스를 이미지로 만들기 전 준비하기](../../../user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)
 - NFS 파일 시스템 공유 볼륨 구성, 패키지 설치, `/etc/fstab` 적용, 마운트 검증: [파일 시스템을 통한 인스턴스 간 공유 볼륨 구성하기](../../../user-guide/examples-and-labs/17-share-volumes-between-instances-with-nfs.md)
 - 외부 접속과 내부 통신 점검 시나리오: [플로팅 IP로 인스턴스 외부 접속하기](../../../user-guide/quickstarts/04-access-instance-via-floating-ip.md), [인스턴스 포트 포워딩으로 외부 접속하기](../../../user-guide/examples-and-labs/10-connect-instance-via-port-forwarding.md), [보안그룹으로 인스턴스 트래픽 정책 구성하기](../../../user-guide/examples-and-labs/13-create-security-group-traffic-policy.md)
 
@@ -1974,9 +1974,9 @@ sudo systemctl status qemu-guest-agent
 
 Windows 게스트의 `ISO 파일` 설치, 첫 번째 `QEMU DVD-ROM` 선택, Windows 11 네트워크 요구 사항 우회, `virtio-win.iso`를 사용한 `VirtIO` 드라이버 설치는 [윈도우 가상머신 ISO 생성 및 콘솔 확인](../../../user-guide/examples-and-labs/04-create-windows-instance-from-iso-and-open-console.md) 문서에서 함께 안내합니다.
 
-#### Windows 골든 이미지 준비
+#### Windows 이미지로 만들기 전 준비
 
-Windows 인스턴스의 `BitLocker` 확인, 복호화, `Sysprep` 적용, 이미지 생성 전 종료 절차는 [ISO로 설치한 Windows 인스턴스를 골든 이미지로 준비하기](../../../user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)를 확인합니다.
+Windows 인스턴스의 `BitLocker` 확인, 복호화, `Sysprep` 적용, 이미지 생성 전 종료 절차는 [ISO로 설치한 Windows 인스턴스를 이미지로 만들기 전 준비하기](../../../user-guide/examples-and-labs/19-prepare-windows-instance-for-golden-image.md)를 확인합니다.
 
 <a id="appendix-d-block-disk-and-filesystem-checks"></a>
 ### 부록 D. 추가 블록 디스크와 파일 시스템 확인 명령
