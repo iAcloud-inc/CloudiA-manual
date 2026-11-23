@@ -28,7 +28,7 @@
   * [게스트 부팅 디스크 복구](storage/guest-boot-disk-recovery/guest-boot-disk-recovery.md)
 
 * [저장소](repository/README.md)
-  * [레지스트리](repository/registry/registry.md)
+  * [쿠버네티스 레지스트리](repository/registry/registry.md)
   * [패키지 저장소](repository/package/package.md)
 
 * [프로젝트](project/README.md)

@@ -24,7 +24,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
 - **쿠버네티스 클러스터 업그레이드**: 클러스터 상세의 **버전** 항목 옆 `업그레이드` 버튼으로 컨트롤 플레인·워커를 순차 교체해 상위 버전으로 올릴 수 있습니다. [클러스터 업그레이드](docs/project/kubernetes/cluster/cluster.md#클러스터-업그레이드) 참고. 제공 버전은 `1.36`, `1.37` 입니다.
 - **레지스트리 신뢰**: 사설·사용자 레지스트리의 CA 를 클러스터 노드에 신뢰 등록하고 노드별 적용 현황을 확인할 수 있습니다. [레지스트리 신뢰](docs/project/kubernetes/cluster/cluster.md#레지스트리-신뢰) 참고.
 - **클러스터 파일 시스템 연결/해제**: 클러스터 상세 스토리지 섹션에서 파일 시스템을 연결·해제합니다. 연결된 파일 시스템은 해제 전까지 삭제할 수 없습니다. [스토리지](docs/project/kubernetes/cluster/cluster.md#스토리지) 참고.
-- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [레지스트리](docs/administrator/repository/registry/registry.md) 참고. v1.7.0 부터는 `저장소 > 레지스트리`에 있습니다.
+- **관리 쿠버네티스 레지스트리 관리**: 관리자 `쿠버네티스 > 레지스트리`에서 레지스트리를 생성·삭제하고 전원을 제어합니다. [쿠버네티스 레지스트리](docs/administrator/repository/registry/registry.md) 참고. v1.7.0 부터는 `저장소 > 쿠버네티스 레지스트리`에 있습니다.
 
 ## v1.5.0 주요 변경
 - **스냅샷 사용성 개선**: 독립 `스토리지 > 스냅샷` 메뉴가 제거되었습니다. 블록 스냅샷은 [블록 상세](docs/project/storage/block/block.md#블록-스냅샷), 인스턴스 스냅샷·이미지 생성은 [인스턴스 상세](docs/project/vm/instance/instance.md#인스턴스-스냅샷)에서 관리합니다.
@@ -53,7 +53,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [공용 ISO](docs/administrator/storage/iso/iso.md)
   - [백업 서버](docs/administrator/storage/backup-server/backup-server.md)
 - **저장소**
-  - [레지스트리](docs/administrator/repository/registry/registry.md)
+  - [쿠버네티스 레지스트리](docs/administrator/repository/registry/registry.md)
   - [패키지 저장소](docs/administrator/repository/package/package.md)
 - **프로젝트**
   - [프로젝트 관리](docs/administrator/project/project-management/project-management.md)
