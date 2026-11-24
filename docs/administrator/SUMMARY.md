@@ -12,6 +12,7 @@
   * [노드](host-machine/machine/machine.md)
   * [노드 그룹](host-machine/machine-group/machine-group.md)
   * [컴퓨트 노드](host-machine/compute-node/compute-node.md)
+  * [CPU 세대 호환](host-machine/compute-node-cpu-generation/compute-node-cpu-generation.md)
   * [네트워크 노드](host-machine/network-node/network-node.md)
   * [노드 접속 계정과 SSH 포트](host-machine/node-access/node-access.md)
 
