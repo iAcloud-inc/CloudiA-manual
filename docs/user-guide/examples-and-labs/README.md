@@ -33,3 +33,4 @@
 - [콘솔로 부팅 문제 진단하기](./24-troubleshoot-boot-with-console.md)
 - [ISO로 설치한 Rocky 인스턴스를 이미지로 만들기 전 준비하기](./25-prepare-rocky-instance-for-golden-image.md)
 - [원격 데스크톱(RDP)으로 Windows 인스턴스 접속하기](./26-access-windows-instance-with-rdp.md)
+- [Windows 인스턴스의 Administrator 계정 이름 바꾸기](./27-rename-windows-administrator-account.md)

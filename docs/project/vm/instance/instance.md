@@ -319,7 +319,7 @@ Windows 이미지로 만들 때 이미지보다 크게 입력하면 `C: 드라�
 >
 > 추가 계정이 필요하면 인스턴스에 접속한 뒤 게스트 OS에서 직접 `useradd`로 만듭니다. 이렇게 만든 추가 계정은 CloudiA가 관리하지 않지만, 위와 같은 설정 변경이나 재부팅에도 삭제되지 않고 유지되며, 생성·삭제·권한 관리는 사용자가 직접 수행합니다.
 >
-> Windows 계열 게스트는 `OS 이미지`든 `ISO 파일`이든 cloud-init이 붙지 않습니다. `OS 이미지`로 만든 Windows 인스턴스는 이미지에 미리 설정된 계정으로 로그인하고, `ISO 파일`로 설치하는 Windows 인스턴스는 설치 과정에서 계정을 직접 만듭니다.
+> Windows 계열 게스트는 `OS 이미지`든 `ISO 파일`이든 cloud-init이 붙지 않습니다. `OS 이미지`로 만든 Windows 인스턴스는 이미지에 미리 설정된 계정으로 로그인하고, `ISO 파일`로 설치하는 Windows 인스턴스는 설치 과정에서 계정을 직접 만듭니다. 관리자 계정 `Administrator`의 이름을 바꾸려면 [Windows 인스턴스의 Administrator 계정 이름 바꾸기](../../../user-guide/examples-and-labs/27-rename-windows-administrator-account.md)를 참고합니다.
 
 ### 6. 선택 설정 검토
 

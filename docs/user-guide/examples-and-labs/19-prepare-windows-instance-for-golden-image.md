@@ -175,12 +175,14 @@ Windows 인스턴스를 복제 가능한 상태로 준비했다면, 다음 문�
 | `OS 타입` | 설치에 쓴 ISO의 OS (예: `Windows Server 2022`) | 원본 인스턴스의 OS 타입을 따릅니다. 이 이미지로 만든 인스턴스는 Windows용 장치 구성으로 만들어집니다. |
 | `cloud-init`, `qemu-guest-agent` | `미확인` | 이 판별은 Linux 이미지에서만 합니다. |
 
+<a id="first-boot"></a>
 ### 새 인스턴스의 첫 부팅에서 할 일
 이 이미지로 만든 인스턴스를 처음 실행하면 그래픽 콘솔에 Windows 첫 설정 화면이 나타납니다. Windows Server는 지역·언어·키보드 → 라이선스 → `Administrator` 비밀번호 순서입니다. Windows 11은 `Administrator` 대신 새 계정을 만드는 화면이 나오며, 네트워크 연결을 요구하면 [Windows 11 네트워크 연결 요구 사항 우회](./04-create-windows-instance-from-iso-and-open-console.md#step-3)를 따릅니다. 컴퓨터 이름은 새로 정해집니다. EMS(직렬 콘솔) 설정은 `Sysprep` 뒤에도 남아 있습니다.
 
 | 할 일 | 방법 |
 |---|---|
 | 관리자 계정 설정 | 첫 설정 화면에서 정합니다(Windows Server는 `Administrator` 비밀번호, Windows 11은 새 계정). 인스턴스를 만들 때 `사용자 이름`·`비밀번호`를 입력했더라도 Windows에는 적용되지 않습니다. |
+| 관리자 계정 이름 변경(선택) | `Sysprep`이 관리자 계정 이름을 `Administrator`로 되돌리므로, 이름을 바꾸려면 인스턴스마다 첫 설정 뒤에 바꿉니다. 방법은 [Windows 인스턴스의 Administrator 계정 이름 바꾸기](./27-rename-windows-administrator-account.md)를 참고합니다. |
 | IP 주소 직접 입력 | 새 인스턴스는 IP가 비어 있습니다(`169.254`로 시작하는 자동 주소). `Sysprep`이 고정 IP를 지우므로 **인스턴스마다** 배정 IP, 서브넷의 게이트웨이와 DNS를 직접 입력합니다. 방법은 [IP 주소 직접 입력](./04-create-windows-instance-from-iso-and-open-console.md#step-6)을 참고합니다. EMS를 켜 두었다면 직렬 콘솔의 `SAC>`에서도 입력할 수 있습니다([직렬 콘솔(EMS) 사용 설정](./04-create-windows-instance-from-iso-and-open-console.md#step-7) 참고). |
 | `C:` 드라이브 확장 | 디스크 크기를 이미지보다 크게 지정해도 `C:` 드라이브는 자동으로 늘어나지 않습니다. [인스턴스 부팅 디스크 증설하기 — 5단계](./23-grow-boot-disk.md#step-5)의 Windows 수동 확장(`diskmgmt.msc`의 `볼륨 확장`)을 따릅니다. |
 
