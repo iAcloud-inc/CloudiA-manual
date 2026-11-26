@@ -27,6 +27,7 @@ CLI 는 서버가 알리는 기능 목록도 읽어, 옛 서버에서는 새 방
 | 프로젝트 ISO | `project-iso create`, `list`, `get` | 1.8.0 | 쓸 수 없습니다. 서버에 API 가 없어 `permission denied`(종료 코드 4)나 `target not found` 로 끝납니다. 권한 문제가 아닙니다 |
 | 노드 풀 ID 로 바로 조회 | `k8s node-pool get <ID>`(`--cluster` 없이) | 1.8.0 | `--cluster` 를 붙이라고 안내합니다 |
 | 노드 풀 계정 승계 | `k8s node-pool create` | 1.8.0 | 노드 계정을 보내지 않으므로 서버가 `launch template cloudInit must not be null` 로 거절합니다. 1.8.0 부터 노드는 클러스터 기본 노드 계정을 씁니다 |
+| 클러스터 노드 계정 조회·변경 | `k8s cluster get-user-account`, `set-user-account` | 1.8.0 | 쓸 수 없습니다. 서버에 API 가 없어 `permission denied`(종료 코드 4)나 `target not found` 로 끝납니다. 권한 문제가 아닙니다 |
 | 서버 API 로 만드는 명령 대부분 | `launch-template`, `schedule`, `nacl`, `affinity-group`, `auto-scaling-group`, `instance clone`, `block copy`, `l7-load-balancer delete`, `l7-target-group create` 등 | 1.8.0 | 명령이 나타나지 않습니다. 1.7.0 서버에서는 이런 명령 대부분이, 1.6 서버에서는 전부 없고 기본 명령만 남습니다 |
 | CLI 다운로드와 `cloudiactl update` | `update`, `update --check` | 1.8.0 | `does not serve cloudiactl downloads` 로 끝납니다 |
 
