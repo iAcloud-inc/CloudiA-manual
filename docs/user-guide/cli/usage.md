@@ -234,6 +234,28 @@ cloudiactl l7-target-group remove-member api-l7-tg --instance web-1 --confirm-ta
 - 규칙·리다이렉트·고정 응답·SNI 인증서는 `--from-file`(JSON 또는 YAML)로 줍니다. 전달 대상은 `targetGroupId` 대신 `targetGroup`(ID 또는 이름)으로 적어도 됩니다.
 - 인증서는 인증서 체인과 개인 키를 담은 `.pem` 파일입니다. 파일의 `fileKey` 와 `--certificate <fileKey>=<파일>` 로 잇습니다. 이미 있는 인증서(id 만 있고 fileKey 가 없음)는 PEM 을 그대로 둡니다. CLI 는 파일 내용을 출력하지 않습니다.
 
+## 이벤트·이벤트 트리거
+
+```bash
+cloudiactl event list --since 1h                          # 최근 1시간, 최신순
+cloudiactl event list --since 24h --level ERROR
+cloudiactl event list --from 2026-11-25T00:00:00Z --to 2026-11-26T00:00:00Z
+cloudiactl event list --since 7d --filter event-name=삭제
+cloudiactl event list --filter username=alice --limit 20
+
+cloudiactl event-trigger list
+cloudiactl event-trigger get cpu-alert                    # 조건(conditions)·알림 채널(channels)까지 한 번에
+```
+
+- `event list` 는 웹 콘솔의 프로젝트 이벤트 목록과 같은 이벤트를 최신순으로 보여 줍니다. 다른 사용자가 만든 이벤트는 나오지 않고, 내 이벤트·스케줄러 이벤트·프로젝트의 시스템 이벤트가 나옵니다.
+- 이벤트는 많이 쌓이므로 서버에서 `--limit`(기본 100) 건만 읽습니다. 더 있으면 `truncated` 가 `true` 입니다. 전부 받으려면 `--all` 을 붙입니다.
+  - 그래서 `--query` 는 읽어 온 이벤트에만 걸립니다. 기간(`--since`, `--from`·`--to`)·등급(`--level`)·`--filter` 로 서버에서 먼저 좁힙니다.
+- `--since` 는 지금부터 거슬러 올라간 기간입니다(`30m`, `2h`, `7d`). `--from`·`--to` 는 RFC3339 시각이고 `--to` 시각은 포함하지 않습니다. `--since` 와 `--from` 은 함께 쓸 수 없습니다.
+- `--level` 은 `INFO`, `WARN`, `ERROR`, `CRITICAL` 가운데 하나입니다.
+- `--filter` 는 하나만 줍니다. `text=` 는 메시지·사용자·이벤트 이름 전체에서, `username=` 과 `event-name=` 은 그 항목에서만 찾습니다. 값에 `,` 나 `|` 를 넣으면 그중 하나라도 맞는 이벤트를 찾습니다.
+- 이벤트에는 `get` 이 없습니다. 목록이 이벤트 ID 를 주지 않기 때문입니다.
+- 이벤트 트리거를 만들고 고치고 켜고 끄고 지우는 일은 웹 콘솔에서 합니다. CLI 는 조회만 합니다.
+
 ## 종료 코드
 
 스크립트에서는 종료 코드로 결과를 판단합니다.
