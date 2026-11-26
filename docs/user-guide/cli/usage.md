@@ -99,7 +99,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 ## 목록을 통째로 바꾸는 동작
 
-서버가 항목 하나만 바꾸는 API 를 주지 않는 리소스는, CLI 가 지금 목록을 읽어 한 항목만 고친 뒤 목록 전체를 보냅니다. 내부 DNS 레코드(`dns-zone add-record|remove-record`), 포트 포워딩 규칙(`port-forwarding add-rule|remove-rule`), L4 리스너(`l4-load-balancer add-listener|remove-listener`), L4·L7 대상 그룹 멤버(`add-member|remove-member`)가 이렇게 동작합니다. 서버 버전에 따라 `block attach|detach` 와 `security-group add-rule|remove-rule` 도 같습니다([서버 버전 호환](./compatibility.md)). 리스너 전체를 함께 보내는 `l7-load-balancer update|replace-listeners|change-type` 도 같은 보호를 거칩니다.
+서버가 항목 하나만 바꾸는 API 를 주지 않는 리소스는, CLI 가 지금 목록을 읽어 한 항목만 고친 뒤 목록 전체를 보냅니다. 내부 DNS 레코드(`dns-zone add-record|remove-record`), NACL 규칙 추가(`nacl add-rule`), 포트 포워딩 규칙(`port-forwarding add-rule|remove-rule`), L4 리스너(`l4-load-balancer add-listener|remove-listener`), L4·L7 대상 그룹 멤버(`add-member|remove-member`)가 이렇게 동작합니다. 서버 버전에 따라 `block attach|detach` 와 `security-group add-rule|remove-rule` 도 같습니다([서버 버전 호환](./compatibility.md)). 리스너 전체를 함께 보내는 `l7-load-balancer update|replace-listeners|change-type` 도 같은 보호를 거칩니다.
 
 - 보내기 직전에 목록을 다시 읽어, 처음 읽은 뒤 누군가 목록을 바꿨으면 아무것도 보내지 않고 종료 코드 10 으로 멈춥니다(`the list changed after it was read; nothing was sent`). 목록을 다시 보고, 하려던 변경이 여전히 맞으면 같은 명령을 다시 실행합니다.
 - 다시 읽은 뒤 보내기 전 사이에 끼어든 변경은 막지 못하고 덮어씁니다. 같은 목록을 바꾸는 명령을 동시에 여러 개 실행하지 마세요.
@@ -161,6 +161,9 @@ cloudiactl project-iso create --file ./rocky-9.iso --wait   # ISO 업로드
 
 ```bash
 cloudiactl dns-zone list                                               # 내부 DNS 존(이름은 domainName)
+cloudiactl dns-zone create --vpc app-vpc --domain-name app.internal   # --type public 이면 VPC 밖에서도 질의할 수 있다
+cloudiactl dns-zone update app.internal --description "app zone"
+cloudiactl dns-zone delete app.internal --confirm-target 61=app.internal
 cloudiactl dns-zone records app.internal
 cloudiactl dns-zone add-record app.internal --name www --type A --value 10.0.1.11
 cloudiactl dns-zone remove-record app.internal --name www --type A --confirm-target 61=app.internal
@@ -176,11 +179,30 @@ cloudiactl l4-target-group add-member web-tg --instance web-1 --port 80
 cloudiactl l4-target-group remove-member web-tg --instance web-1 --confirm-target 105=web-tg
 ```
 
-- DNS 존은 웹 콘솔에서 만들고 지웁니다. CLI 는 레코드를 다룹니다. 레코드 종류는 `A`, `CNAME`, `TXT`, `SRV` 이고, 값이 여럿이면 `--value` 를 반복합니다. `--ttl` 은 60~172800 초(기본 300)입니다.
+- `dns-zone create` 의 `--domain-name` 은 소문자·숫자·하이픈·점으로 쓰고 80자를 넘지 않습니다. 끝에 점을 붙이지 않습니다. `cloudia.internal`, `localhost`, `local`, `*.arpa` 는 예약돼 쓸 수 없습니다. `--type` 은 `private`(기본, VPC 안에서만 질의)과 `public`(VPC 마스커레이딩 IP 로 VPC 밖에서도 질의)입니다. `dns-zone update` 는 준 옵션(`--description`, `--type`)만 바꿉니다.
+- `dns-zone delete` 는 SOA·NS 말고 레코드가 남아 있으면 거절됩니다. `remove-record` 로 먼저 비웁니다. 관리형 VPC 의 시스템 존(`cloudia.internal`)은 지울 수 없습니다.
+- 레코드 종류는 `A`, `CNAME`, `TXT`, `SRV` 이고, 값이 여럿이면 `--value` 를 반복합니다. `--ttl` 은 60~172800 초(기본 300)입니다.
 - `dns-zone recover` 는 존의 DNS 서버를 다시 만들고 점검합니다. 그동안 VPC 안의 이름 풀이가 멈추므로 대상 확인을 받습니다. `dns-zone get` 의 `dnsServerState` 가 `ACTIVE` 가 아닐 때 씁니다.
 - 포트 포워딩 규칙의 `--protocol` 은 `TCP`, `UDP`, `ALL` 이고 포트는 하나 또는 범위로 씁니다. 대상은 `--instance` 나 VPC 안의 `--ip` 로 줍니다. `--internal-port` 를 비우면 외부 포트와 같습니다.
 - `port-forwarding create --external-ip` 에 프로젝트에 아직 없는 주소를 주면 그 주소를 프로젝트에 할당합니다.
 - 레코드·규칙·멤버를 더하고 빼는 명령은 목록을 통째로 바꿉니다(위 "목록을 통째로 바꾸는 동작"). 빼는 명령의 대상 확인은 존·포트 포워딩·대상 그룹의 ID 와 이름입니다.
+
+## 네트워크: NACL 규칙
+
+```bash
+cloudiactl nacl list --vpc app-vpc
+cloudiactl nacl rules web-nacl                                         # 두 방향 규칙을 번호 순으로
+cloudiactl nacl add-rule web-nacl --direction inbound --action allow --protocol tcp --port 22 --cidr 203.0.113.7/32
+cloudiactl nacl add-rule web-nacl --direction inbound --action deny --protocol all --cidr 198.51.100.0/24 --rule-number 1
+cloudiactl nacl remove-rule web-nacl --direction inbound --action allow --protocol tcp --port 22 --cidr 203.0.113.7/32 --confirm-target 82=web-nacl
+```
+
+- NACL 은 서브넷 단위 필터입니다. 규칙은 번호(`ruleNumber`) 순으로 보고 **처음 맞는 규칙이 결정합니다**. 어느 규칙에도 맞지 않으면 버립니다.
+- 상태를 기억하지 않습니다. 들어오는 요청을 허용해도 응답이 나가려면 아웃바운드 규칙이 허용해야 합니다.
+- VPC 의 기본 NACL(`<VPC>-default-nacl`)은 두 방향 모두 1번 규칙으로 모든 트래픽을 허용합니다. 새로 만든 NACL 은 규칙이 없어 붙인 서브넷의 VPC 밖 트래픽을 모두 막습니다.
+- `--protocol` 은 `all`, `tcp`, `udp`, `tcp-ephemeral`, `udp-ephemeral`(32768-65535), `icmp` 입니다. `tcp`·`udp` 는 `--port` 가 필요합니다(`22`, `8000-8080`, 전체는 `ALL`).
+- `add-rule` 은 새 규칙이 `--rule-number` 번이 되도록 넣고 그 자리부터 뒤 규칙 번호를 하나씩 밉니다. 주지 않으면 맨 뒤에 붙습니다. `remove-rule` 은 번호를 다시 매기지 않아 빈 번호가 남는데, 다음 `add-rule` 이 지금 순서대로 1부터 다시 매깁니다. 맨 뒤에 붙인 규칙은 지금 허용된 트래픽을 막지 않습니다. `deny` 를 다른 규칙 앞에 넣으면 지금 흐르는 트래픽이 끊길 수 있어 경고를 냅니다. 같은 규칙이 이미 있으면 보내지 않고 `UNCHANGED` 로 끝납니다.
+- `add-rule` 은 목록을 통째로 바꿉니다(위 "목록을 통째로 바꾸는 동작"). `remove-rule` 은 그 규칙 하나만 지워 다른 사람이 같은 때 바꾼 규칙을 건드리지 않습니다. 대상 확인은 NACL 의 ID 와 이름입니다.
 
 ## L7 로드 밸런서
 
