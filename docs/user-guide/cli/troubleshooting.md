@@ -23,6 +23,7 @@
 | `CA certificate fingerprint does not match` | 받은 CA 인증서가 창이 본 것과 다르다(중간에서 바뀌었거나 다른 서버) | 설치하지 말고 관리자에게 알린다 |
 | `cloudiactl update` 가 `cannot write to …` | 설치된 파일의 폴더에 쓸 권한이 없음 | `cloudiactl install` 로 사용자 폴더에 다시 설치하고 그 파일을 씁니다 |
 | `cloudiactl update` 가 `does not serve cloudiactl downloads` | 이 Cloud:iA 에 CLI 다운로드가 없음 | 관리자에게 문의합니다 |
+| `cloudiactl update` 가 `refusing to update: TLS certificate verification is disabled` | `--insecure`, `CLOUDIA_TLS_INSECURE` 또는 프로필 `tls-insecure` 로 인증서 검증을 끈 상태 | 관리자에게 CA 인증서를 받아 `--ca-bundle <파일>` 로 실행합니다. 시험 환경에서만 `--allow-insecure` 를 붙입니다 |
 
 ## 요청과 응답 보기
 
