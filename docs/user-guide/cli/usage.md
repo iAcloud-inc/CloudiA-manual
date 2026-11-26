@@ -89,7 +89,7 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 |---|---|
 | 항상 확인 | `delete`, `detach-file-system`, `restore`, `upgrade`, `remove-listener`, `remove-member`, `remove-record`, `remove-rule`, `change-type`, `live-migrate`, `migrate`, `reapply`, `recover`, `redeploy`, `renew-credential`, `replace`, `replace-listeners`, `resize`, `uninstall-gpu-operator` |
 | 기본으로 확인 | `stop`, `reboot`, `detach`, `disassociate`, `reconfigure`, `scale`, `set-gpu-time-slicing`, `set-gpu-mig`, `enable`, `suspend`, `resume`, `enable-backup`, `disable-backup` |
-| 확인 없음 | `create`, `update`, `start`, `attach`, `attach-file-system`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator`, `clone`, `copy`, `create-image`, `create-instance`, `disable` |
+| 확인 없음 | `create`, `update`, `start`, `attach`, `attach-file-system`, `associate`, `add-listener`, `add-member`, `add-record`, `add-rule`, `kubeconfig`, `install-gpu-operator`, `set-user-account`, `clone`, `copy`, `create-image`, `create-instance`, `disable` |
 
 - `vpc update` 는 `--cidr` 를 줄 때만 기본으로 확인합니다. 대역을 바꾸면 NACL 규칙을 다시 쓰고 VPC DNS 서버 주소가 바뀔 수 있습니다.
 
@@ -115,6 +115,16 @@ cloudiactl k8s file-system attach shared --cluster my-cluster      # NFS 파일 
 cloudiactl k8s file-system detach shared --cluster my-cluster --confirm-target 61=shared
 cloudiactl k8s cluster kubeconfig my-cluster --output-file ~/.kube/my-cluster.yaml
 ```
+
+클러스터의 사용자 계정(웹 콘솔 클러스터 상세 > 유지 관리 탭)은 앞으로 만드는 모든 노드의 접속 수단입니다. 워커 추가·워커 그룹뿐 아니라 업그레이드·복구·노드 교체로 새로 뜨는 컨트롤 플레인·워커 노드도 이 계정을 씁니다. 이미 있는 노드에는 반영되지 않고, 사용자 이름은 바꿀 수 없습니다.
+
+```bash
+cloudiactl k8s cluster get-user-account my-cluster                                   # 사용자 이름·비밀번호 설정 여부·SSH 키
+cloudiactl k8s cluster set-user-account my-cluster --ssh-key ops-key --ssh-key backup-key   # SSH 키를 이 목록으로 바꿈
+printf '%s' "$NODE_PASSWORD" | cloudiactl k8s cluster set-user-account my-cluster --password-stdin
+```
+
+준 플래그만 바뀝니다. 비밀번호는 셸 기록에 남지 않도록 `--password-stdin` 으로만 받습니다. `--remove-password`·`--clear-ssh-keys` 로 지울 수 있지만 비밀번호나 SSH 키 중 하나는 남아 있어야 합니다.
 
 GPU Operator 는 클러스터마다 하나라 클러스터의 동작으로 다룹니다.
 
