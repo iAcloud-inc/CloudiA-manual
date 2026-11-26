@@ -1,6 +1,6 @@
 # 호스트 헤더와 경로 조건으로 L7 요청 라우팅하기
 
-이 문서는 어플리케이션 로드 밸런서의 HTTPS 리스너에서 `호스트 헤더`와 `경로` 조건을 함께 사용해 요청을 서로 다른 타겟 그룹으로 전달하는 실습입니다. 하나의 규칙 안에서 `호스트 헤더`와 `경로`를 함께 설정하면 두 조건이 모두 일치할 때만 규칙이 적용됩니다. 같은 조건 안에 여러 값을 추가하면 여러 값 중 하나만 일치해도 조건이 일치한 것으로 처리됩니다.
+이 문서는 애플리케이션 로드 밸런서의 HTTPS 리스너에서 `호스트 헤더`와 `경로` 조건을 함께 사용해 요청을 서로 다른 타겟 그룹으로 전달하는 실습입니다. 하나의 규칙 안에서 `호스트 헤더`와 `경로`를 함께 설정하면 두 조건이 모두 일치할 때만 규칙이 적용됩니다. 같은 조건 안에 여러 값을 추가하면 여러 값 중 하나만 일치해도 조건이 일치한 것으로 처리됩니다.
 
 후반부에서는 같은 환경으로 두 종류의 세션 고정성도 확인합니다. 리스너 작업의 `세션 고정성`은 첫 요청에서 선택된 타겟 그룹을 고정하므로 페이지 색상이 유지되는지 확인합니다. 타겟 그룹 정책의 `세션 고정성`은 선택된 타겟 그룹 안의 타겟 인스턴스를 고정하므로 페이지의 `Instance` 값이 유지되는지 확인합니다.
 
@@ -10,8 +10,8 @@
 - [VPC](../../project/network/vpc/vpc.md)와 [서브넷](../../project/network/subnet/subnet.md) 준비
 - 정적 페이지를 제공할 [인스턴스](../../project/vm/instance/instance.md) 6대 준비
 - 타겟 인스턴스의 [보안그룹](../../project/security/security-group/security-group.md)에서 `8080/tcp` 인바운드 허용
-- `BLUE`, `GREEN`, `CANARY` 용도의 [어플리케이션 타겟 그룹](../../project/network/l7-target-group/l7-target-group.md) 3개 준비
-- 외부 타입 [어플리케이션 로드 밸런서](../../project/network/l7-load-balancer/l7-load-balancer.md) 준비. 인증서 생성에 로드 밸런서 외부 IP가 필요하므로, 처음에는 리스너 프로토콜이 `HTTP`인지 `HTTPS`인지와 관계없이 외부 타입 로드 밸런서와 외부 IP가 준비되어 있으면 됩니다.
+- `BLUE`, `GREEN`, `CANARY` 용도의 [애플리케이션 타겟 그룹](../../project/network/l7-target-group/l7-target-group.md) 3개 준비
+- 외부 타입 [애플리케이션 로드 밸런서](../../project/network/l7-load-balancer/l7-load-balancer.md) 준비. 인증서 생성에 로드 밸런서 외부 IP가 필요하므로, 처음에는 리스너 프로토콜이 `HTTP`인지 `HTTPS`인지와 관계없이 외부 타입 로드 밸런서와 외부 IP가 준비되어 있으면 됩니다.
 - 인증서 SAN과 도메인 매핑에 사용할 로드 밸런서 `외부 IP 주소` 확인. 외부 IP 준비가 필요한 경우 [외부 IP](../../project/network/external-ip/external-ip.md) 매뉴얼을 참고합니다.
 - 로드 밸런서 외부 IP 확인 후 HTTPS 검증용 PEM 인증서 생성. 인증서에는 `test.iacloud.kr`, `second.test.iacloud.kr` 도메인과 로드 밸런서 외부 IP가 포함되어 있어야 함
 - 인증서 생성 후 `HTTPS / 443` 리스너를 추가하거나 기존 HTTPS 리스너에 인증서를 등록할 수 있어야 함
@@ -145,7 +145,7 @@ curl -i http://127.0.0.1:8080/apiv3/test.html
 | `GREEN` | `/`, `/apiv2/test.html` | `/apiv1/test.html`, `/apiv3/test.html` |
 | `CANARY` | `/`, `/apiv3/test.html` | `/apiv1/test.html`, `/apiv2/test.html` |
 
-이 준비가 끝나면 역할별 인스턴스를 각 어플리케이션 타겟 그룹에 등록합니다. 타겟 그룹의 `프로토콜`은 `HTTP`, `포트 번호`는 `8080`을 사용합니다. `상태 검사 설정`에서 `활성화 여부`를 `활성화`로 설정한 뒤 `상태 검사 경로`를 `/`로 입력합니다.
+이 준비가 끝나면 역할별 인스턴스를 각 애플리케이션 타겟 그룹에 등록합니다. 타겟 그룹의 `프로토콜`은 `HTTP`, `포트 번호`는 `8080`을 사용합니다. `상태 검사 설정`에서 `활성화 여부`를 `활성화`로 설정한 뒤 `상태 검사 경로`를 `/`로 입력합니다.
 
 ### 인증서 생성
 HTTPS 리스너와 호스트 헤더 조건을 검증하려면 `test.iacloud.kr`, `second.test.iacloud.kr` 도메인을 포함한 인증서가 필요합니다. 인증서 SAN에 로드 밸런서 외부 IP를 포함하려면 먼저 외부 타입 로드 밸런서가 생성되어 있어야 합니다. 이 단계에서는 HTTPS 리스너가 아직 없어도 됩니다.
@@ -192,7 +192,7 @@ cat test.key test.crt > test.iacloud.kr.pem
 openssl x509 -in test.crt -noout -text | grep -A2 "Subject Alternative Name"
 ```
 
-생성한 `test.iacloud.kr.pem` 파일은 이후 HTTPS 리스너 등록에 사용할 인증서 파일입니다. 인증서 파일 형식과 등록 기준은 [어플리케이션 로드 밸런서의 HTTPS 인증서](../../project/network/l7-load-balancer/l7-load-balancer.md#https-인증서)를 참고합니다.
+생성한 `test.iacloud.kr.pem` 파일은 이후 HTTPS 리스너 등록에 사용할 인증서 파일입니다. 인증서 파일 형식과 등록 기준은 [애플리케이션 로드 밸런서의 HTTPS 인증서](../../project/network/l7-load-balancer/l7-load-balancer.md#https-인증서)를 참고합니다.
 
 도메인 기반 검증을 위해 테스트를 수행할 클라이언트에서 두 도메인이 로드 밸런서 외부 IP로 해석되도록 설정합니다.
 
@@ -220,7 +220,7 @@ getent hosts test.iacloud.kr second.test.iacloud.kr
 1. `네트워크 > 타겟 그룹`에서 `BLUE`, `GREEN`, `CANARY` 타겟 그룹이 준비되어 있는지 확인합니다.
 2. 각 타겟 그룹의 프로토콜과 포트가 `HTTP / 8080`인지 확인합니다.
 3. 각 타겟 그룹에 역할별 인스턴스가 등록되어 있는지 확인합니다.
-4. `네트워크 > 로드 밸런서`에서 대상 외부 타입 어플리케이션 로드 밸런서 상세로 이동합니다.
+4. `네트워크 > 로드 밸런서`에서 대상 외부 타입 애플리케이션 로드 밸런서 상세로 이동합니다.
 5. 로드 밸런서의 `외부 IP 주소`를 확인합니다.
 6. 클라이언트에서 사용할 도메인이 로드 밸런서 외부 IP로 해석되는지 확인합니다.
 7. `HTTPS / 443` 리스너가 이미 있으면 재사용할 수 있고, 없으면 다음 단계에서 추가합니다.
@@ -252,7 +252,7 @@ getent hosts test.iacloud.kr second.test.iacloud.kr
 2. `HTTPS / 443` 리스너가 없으면 `추가`를 클릭합니다. `새 리스너 추가` 창이 열립니다.
 3. `리스너 정보` 단계에서 `프로토콜`은 `HTTPS`, `포트 번호`는 `443`으로 입력하고 `다음`을 클릭합니다.
 4. `기본 작업` 단계에서 이 실습의 미일치 요청 확인을 위해 `고정 응답 반환`을 선택하고, 아래 입력 예시대로 입력한 뒤 `다음`을 클릭합니다.
-5. `HTTPS 인증서` 단계에서 `기본 인증서 파일`에 인증서 생성 단계에서 만든 `test.iacloud.kr.pem` 파일을 선택하고, 옆의 `추가`를 클릭해 목록에 넣습니다. 자세한 기준은 [어플리케이션 로드 밸런서의 HTTPS 인증서](../../project/network/l7-load-balancer/l7-load-balancer.md#https-인증서)를 참고합니다.
+5. `HTTPS 인증서` 단계에서 `기본 인증서 파일`에 인증서 생성 단계에서 만든 `test.iacloud.kr.pem` 파일을 선택하고, 옆의 `추가`를 클릭해 목록에 넣습니다. 자세한 기준은 [애플리케이션 로드 밸런서의 HTTPS 인증서](../../project/network/l7-load-balancer/l7-load-balancer.md#https-인증서)를 참고합니다.
 6. 창 하단의 `추가`를 클릭합니다.
 7. `리스너 편집` 화면 하단의 `저장`을 클릭합니다.
 8. `HTTPS / 443` 리스너가 이미 있으면 2~6번 대신 `리스너 편집` 화면에서 그 리스너를 선택하고 `편집`을 클릭해, 인증서와 기본 작업이 아래 입력 예시와 같은지 확인합니다. 값을 바꿨다면 창의 `저장`을 클릭한 뒤 화면 하단의 `저장`을 클릭합니다.
@@ -374,7 +374,7 @@ curl -k -i https://<LB_EXTERNAL_IP>/unknown
 4. 작업을 `타겟 그룹으로 전달`로 변경합니다.
 5. 전달 대상에 `example-blue-tg`, `example-green-tg`, `example-canary-tg`를 추가하고 각 `가중치`를 `100`으로 입력합니다.
 6. 같은 작업 화면에서 `세션 고정성=활성화`, `쿠키 유효 시간=120초`로 설정합니다.
-7. 설정 기준은 [어플리케이션 로드 밸런서의 기본 작업](../../project/network/l7-load-balancer/l7-load-balancer.md#기본-작업)을 참고합니다.
+7. 설정 기준은 [애플리케이션 로드 밸런서의 기본 작업](../../project/network/l7-load-balancer/l7-load-balancer.md#기본-작업)을 참고합니다.
 8. 브라우저에서 `https://test.iacloud.kr/`를 열고 새로고침으로 여러 번 반복 요청합니다.
 9. 응답 화면의 색상이 계속 같은 타겟 그룹을 가리키는지 확인합니다.
 
@@ -406,7 +406,7 @@ curl -k -i https://<LB_EXTERNAL_IP>/unknown
 1. `네트워크 > 타겟 그룹` 목록에서 `example-green-tg` 행을 선택합니다.
 2. 상단의 `편집` 버튼을 클릭합니다.
 3. `타겟 그룹 정책`에서 `세션 고정성=활성화`, `쿠키 유효 시간=120초`로 설정합니다.
-4. 설정 기준은 [어플리케이션 타겟 그룹의 세션 고정성](../../project/network/l7-target-group/l7-target-group.md#세션-고정성)을 참고합니다.
+4. 설정 기준은 [애플리케이션 타겟 그룹의 세션 고정성](../../project/network/l7-target-group/l7-target-group.md#세션-고정성)을 참고합니다.
 5. `편집`을 클릭해 저장하고 `example-green-tg`의 타겟 `GREEN-1`, `GREEN-2`가 정상 상태인지 확인합니다.
 6. 브라우저에서 `https://second.test.iacloud.kr/apiv2/test.html`를 열고 새로고침으로 여러 번 반복 요청합니다.
 7. 응답 화면의 `Instance` 값이 유지되는지 확인합니다.
