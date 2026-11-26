@@ -92,6 +92,35 @@ cloudiactl version
 - 설치된 파일의 폴더에 쓸 권한이 없으면(예: `sudo` 로 `/usr/local/bin` 에 둔 경우) 바꾸지 않고 `cloudiactl install` 로 사용자 폴더에 다시 설치하라고 안내합니다.
 - Windows 는 업데이트 뒤 같은 폴더에 `cloudiactl.exe.old` 가 남았다가 다음 실행 때 지워집니다.
 
+## 서명 확인
+
+정식 릴리스 CLI 는 웹 콘솔이 내주는 체크섬 목록(`SHA256SUMS`)의 서명을 확인한 뒤에만 파일을 바꿉니다. `cloudiactl update` 는 이미 설치된 실행 파일 안의 공개키로 확인하므로, 웹 콘솔이나 그 뒤의 레지스트리가 변조돼도 이를 알아챕니다. 설치 명령도 서명을 확인하지만 설치 명령 자체를 웹 콘솔에서 받으므로, 콘솔 웹 서버까지 변조된 경우는 막지 못합니다. 그런 환경은 아래 "공개키 지문 확인"으로 보완합니다.
+
+- 서명은 정식 릴리스 빌드에만 붙습니다. 개발 빌드에는 서명도, 공개키도 없습니다. 개발 빌드 CLI 는 `cloudiactl update` 때 `warning: this cloudiactl build has no signing key` 를 내고 체크섬만 확인합니다.
+- 정식 릴리스 CLI 로 서명이 없는 웹 콘솔(개발 환경이나 서명 도입 전 Cloud:iA)에서 업데이트하면 `refusing to update: … serves no signature this cloudiactl trusts` 로 멈춥니다. 그 콘솔을 믿을 수 있을 때만 `cloudiactl update --allow-unsigned` 로 진행합니다. 설치 명령은 `CLOUDIA_ALLOW_UNSIGNED=1` 을 앞에 붙입니다.
+- 서명이 있는데 맞지 않으면 `--allow-unsigned` 로도 진행하지 않습니다. 관리자에게 알립니다.
+- 설치 명령(Linux·macOS)은 `openssl` 로 서명을 확인합니다. `openssl` 이 없으면 설치하지 않습니다. Windows 는 .NET Framework 4.7 이상(Windows Server 2019·Windows 10 1803 이후 기본)이 필요합니다.
+
+### 공개키 지문 확인
+
+처음 설치할 때는 설치 명령 자체를 웹 콘솔에서 받습니다. 콘솔을 믿기 어려운 환경이면 설치한 CLI 의 서명 공개키 지문을 콘솔 밖에서 받은 값과 맞춰 봅니다. 정식 지문은 릴리스 노트에 실리며, 관리자에게 받을 수도 있습니다.
+
+```bash
+cloudiactl version -o json   # signingKeys: 내장 공개키의 SHA-256 지문(쉼표로 구분). 개발 빌드는 빈 값
+```
+
+CLI 없이 웹 콘솔의 파일만으로 확인하려면 다음처럼 합니다. `SHA256SUMS.pub` 의 지문이 릴리스 노트의 값과 같아야 하고, 마지막 명령이 `Verified OK` 를 내야 합니다.
+
+```bash
+URL=https://<웹 콘솔 주소>/downloads/cli
+curl -fsSLO $URL/SHA256SUMS -O $URL/SHA256SUMS.sig -O $URL/SHA256SUMS.pub
+openssl pkey -pubin -in SHA256SUMS.pub -outform DER | openssl dgst -sha256      # 지문
+cut -d' ' -f2 SHA256SUMS.sig | openssl base64 -d -A > SHA256SUMS.der
+openssl dgst -sha256 -verify SHA256SUMS.pub -signature SHA256SUMS.der SHA256SUMS
+```
+
+`SHA256SUMS.sig` 의 첫 칸은 서명한 키의 ID(지문 앞 16자)입니다. 서명을 확인한 뒤에는 받은 실행 파일의 SHA-256 이 `SHA256SUMS` 의 값과 같은지 봅니다.
+
 ## 셸 자동 완성
 
 `cloudiactl install` 이 지금 쓰는 셸을 보고 Tab 자동 완성 파일도 함께 설치합니다. zsh 는 `~/.zshrc` 에 두 줄을 붙여 자동 완성을 켭니다. bash·fish 는 셸 설정 파일을 고치지 않습니다. 하위 명령과 옵션이 완성됩니다(예: `cloudiactl inst` Tab Tab → `install`·`instance`·`instance-snapshot`·`instance-type`(서버에 따라 `instance-cdrom` 도), `cloudiactl instance` Tab Tab → `create`·`list`·`start` …).

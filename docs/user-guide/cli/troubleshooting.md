@@ -24,6 +24,9 @@
 | `cloudiactl update` 가 `cannot write to …` | 설치된 파일의 폴더에 쓸 권한이 없음 | `cloudiactl install` 로 사용자 폴더에 다시 설치하고 그 파일을 씁니다 |
 | `cloudiactl update` 가 `does not serve cloudiactl downloads` | 이 Cloud:iA 에 CLI 다운로드가 없음 | 관리자에게 문의합니다 |
 | `cloudiactl update` 가 `refusing to update: TLS certificate verification is disabled` | `--insecure`, `CLOUDIA_TLS_INSECURE` 또는 프로필 `tls-insecure` 로 인증서 검증을 끈 상태 | 관리자에게 CA 인증서를 받아 `--ca-bundle <파일>` 로 실행합니다. 시험 환경에서만 `--allow-insecure` 를 붙입니다 |
+| `cloudiactl update` 가 `refusing to update: … serves no signature this cloudiactl trusts` | 정식 릴리스 CLI 가 서명 없는 웹 콘솔(개발 환경, 서명 도입 전 Cloud:iA)을 만남 | 그 콘솔을 믿을 수 있으면 `--allow-unsigned` 를 붙입니다. 설치 명령은 `CLOUDIA_ALLOW_UNSIGNED=1` |
+| `cloudiactl update` 가 `signature verification failed for SHA256SUMS` | 웹 콘솔의 체크섬 목록이 서명과 맞지 않음(변조 가능성) | 진행하지 말고 관리자에게 알립니다. `--allow-unsigned` 로도 넘어가지 않습니다 |
+| 설치 명령이 `openssl is required to verify the download signature` | PC 에 `openssl` 이 없음 | `openssl` 을 설치하고 다시 실행합니다 |
 
 ## 요청과 응답 보기
 
