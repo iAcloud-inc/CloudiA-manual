@@ -106,6 +106,7 @@ Cloud:iA는 조직이 자체 데이터센터 내에 프라이빗 클라우드 �
   - [보안그룹](docs/project/security/security-group/security-group.md)
 - **스토리지**
   - [이미지](docs/project/storage/image/image.md)
+  - [ISO](docs/project/storage/iso/iso.md)
   - [블록](docs/project/storage/block/block.md)
   - [파일 시스템](docs/project/storage/file-system/file-system.md)
   - [오브젝트 스토리지](docs/project/storage/object-storage/object-storage.md)

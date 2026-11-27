@@ -37,6 +37,7 @@
 
 * [스토리지](storage/README.md)
   * [이미지](storage/image/image.md)
+  * [ISO](storage/iso/iso.md)
   * [블록](storage/block/block.md)
   * [파일 시스템](storage/file-system/file-system.md)
   * [오브젝트 스토리지](storage/object-storage/object-storage.md)
