@@ -12,7 +12,7 @@ cloudiactl instance get web-1
 cloudiactl vpc create --name app-vpc --cidr 10.10.0.0/16
 ```
 
-쓸 수 있는 리소스와 동작은 `cloudiactl --help`, `cloudiactl <리소스> --help` 로 확인합니다. 명령마다 예시가 함께 나옵니다.
+쓸 수 있는 리소스는 `cloudiactl --help` 로 확인합니다. `cloudiactl <리소스> --help` 는 그 리소스의 동작을 한 화면에 보여 줍니다. 동작마다 옵션 이름(`*` 는 필수), 대상 확인이 필요한지(`confirm`), `--wait` 를 쓸 수 있는지, 예시 한 줄이 나옵니다. 옵션의 자세한 설명은 `cloudiactl <리소스> <동작> --help` 로 봅니다.
 
 ## 프로젝트 지정
 
@@ -95,7 +95,12 @@ cloudiactl instance delete web-1 --confirm-target 1234=web-1
 
 - 서버 기능에 따라 생기는 그 밖의 변경 동작(예: 되돌리기)도 항상 확인합니다.
 - 대상이 여럿이면 `--confirm-target` 을 대상마다 반복합니다.
-- `--dry-run=client` 를 붙이면 보낼 요청만 보여 주고 실행하지 않습니다. 이때도 `--confirm-target` 이 필요합니다.
+- `--dry-run=client` 를 붙이면 보낼 요청만 보여 주고 실행하지 않습니다. `--confirm-target` 없이 실행하면 서버가 찾은 대상의 ID·이름·상태와 확인 값 `confirmTarget`(`<ID>=<이름>`)을 함께 보여 줍니다. 그 대상이 맞는지 본 뒤 그 값으로 실행합니다. `--confirm-target` 을 함께 주면 dry-run 에서도 대조하고, 틀리면 종료 코드 2 로 끝납니다.
+
+    ```bash
+    cloudiactl instance delete web-1 --dry-run        # confirmTarget: "1234=web-1"
+    cloudiactl instance delete web-1 --confirm-target 1234=web-1
+    ```
 
 ## 목록을 통째로 바꾸는 동작
 
